@@ -745,3 +745,4 @@ if __name__ == "__main__":
     build_master_guide()
     convert_to_pdf()
     print("All tasks completed successfully!")
+

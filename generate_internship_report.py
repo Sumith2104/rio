@@ -305,7 +305,7 @@ def build_internship_report():
 
     # 1.2 Assigned module and problem statement
     add_subheading(doc, "1.2 Assigned module and problem statement", "The problem the module solves, its users, and where it fits in the larger system (5–6 lines).")
-    add_body_p(doc, "My assigned module is RAG + OKF (Retrieval-Augmented Generation & Ontological Knowledge Framework) within the PACD-RAG smart campus platform. It was created to solve the widespread problem of engineering students failing advanced examinations due to undetected foundational prerequisite gaps. The module serves undergraduate STEM students (N=300+) and faculty academic advisors across 1,400+ student cohorts. Architecturally, my module serves as the central diagnostic intelligence core of the Smart Campus platform, bridging student assessment score ingestion with recursive prerequisite graph traversal and hybrid vector retrieval to generate personalized, slide-cited 5-day remedial recovery plans.")
+    add_body_p(doc, "My assigned module is RAG + OKF (Retrieval-Augmented Generation & Open Knowledge Format) within the PACD-RAG smart campus platform. It was created to solve the widespread problem of engineering students failing advanced examinations due to undetected foundational prerequisite gaps. The module serves undergraduate STEM students (N=300+) and faculty academic advisors across 1,400+ student cohorts. Architecturally, my module serves as the central diagnostic intelligence core of the Smart Campus platform, bridging student assessment score ingestion with recursive prerequisite graph traversal and hybrid vector retrieval to generate personalized, slide-cited 5-day remedial recovery plans.")
 
     # 1.3 Technology stack
     p_13 = doc.add_paragraph()
@@ -326,7 +326,7 @@ def build_internship_report():
 
     t1_data = [
         ("Presentation Layer", "HTML5, CSS3, Vanilla ES6+", "High-contrast glassmorphism interface displaying student diagnostics and faculty telemetry.", "3 → 5"),
-        ("Ontology & Graph Layer", "NetworkX & Kahn's DAG Algorithm", "Formalized 68-concept AI/ML curriculum ontology, prerequisite directed edges, and Bloom's taxonomy mapping.", "2 → 5"),
+        ("Open Knowledge Format & Graph Layer", "NetworkX & Kahn's DAG Algorithm", "Formalized 68-concept AI/ML curriculum Open Knowledge Format graph, prerequisite directed edges, and Bloom's taxonomy mapping.", "2 → 5"),
         ("Vector & Lexical Search", "Okapi BM25 & ChromaDB", "Sparse formula keyword matching fused with dense cosine embeddings via Reciprocal Rank Fusion (k=60).", "2 → 5"),
         ("Remedial Synthesis Layer", "Cross-Encoder & Gemini Pro API", "Re-ranking of lecture slides and deterministic (temp=0.1) grounded generation of 5-day recovery plans (<450ms).", "2 → 5")
     ]
@@ -391,7 +391,7 @@ def build_internship_report():
 
     t3_data = [
         ("Git & GitHub", "Version control, code reviews, and remote synchronization", "Maintained clean 'main' branch at https://github.com/Sumith2104/rio.git with secret scanning compliance."),
-        ("NetworkX (DAG)", "Ontological knowledge graph modeling and upstream deficit search", "Engineered 68-concept acyclic dependency graph mapping AI/ML prerequisites to syllabus units."),
+        ("NetworkX (DAG)", "Open Knowledge Format (OKF) graph modeling and upstream deficit search", "Engineered 68-concept acyclic dependency graph mapping AI/ML prerequisites to syllabus units."),
         ("ChromaDB & BM25", "Hybrid vector and lexical retrieval for lecture chunks", "Vectorized 79 lecture chunks across Units 1–4 with cosine distance and Okapi BM25 scoring."),
         ("FastAPI & Uvicorn", "High-performance asynchronous backend microservice framework", "Delivered non-blocking API responses with sub-450ms diagnostic retrieval latency."),
         ("VS Code & Postman", "IDE authoring, interactive debugging, and API endpoint verification", "Executed comprehensive automated regression suites covering 42 testcases.")
@@ -429,7 +429,7 @@ def build_internship_report():
     style_table_header(t4.rows[0], ["Feedback point", "Action, I took", "Status (done / in progress)"], w_t4)
 
     t4_data = [
-        ("Expand curriculum ontology to cover all 4 STEM units with formal acyclicity.", "Authored populate_top_level_okf.py and verified 68 concept nodes and 112 directed edges with Kahn's topological sort.", "Done"),
+        ("Expand curriculum OKF graph to cover all 4 STEM units with formal acyclicity.", "Authored populate_top_level_okf.py and verified 68 concept nodes and 112 directed edges with Kahn's topological sort.", "Done"),
         ("Ensure lecture materials cite exact slide numbers and mathematical formulas.", "Ingested 68 lecture chunks into ChromaDB with explicit Unit/Slide metadata (e.g., Unit-03-Slide-32).", "Done"),
         ("Add batch CSV marks ingestion for section-wise instructor workflows.", "Developed /api/faculty/batch-ingest-marks pipeline with real-time UI execution telemetry.", "Done"),
         ("Ensure zero-emoji visual standards and academic report alignment.", "Rebuilt clean glassmorphism UI and generated publication-grade report adhering strictly to university templates.", "Done")
@@ -485,7 +485,7 @@ def build_internship_report():
 
     # 5.4 Capstone showcase plan
     add_subheading(doc, "5.4 Capstone showcase plan", "The three key points you will present, and the demo or evidence you will show.")
-    add_body_p(doc, "1. Predictive Advance Warning (tau = 0.42): Demonstrate how our 4-tier risk ensemble identifies at-risk students 4.2 weeks prior to final examinations with live telemetry.\n2. Root-Cause DAG Traversal: Showcase the 68-concept OKF Ontological Graph tracing poor Backpropagation performance to upstream Matrix Calculus and Chain Rule deficits.\n3. Scaffolded 5-Day Remedial Demo: Live demonstration of an automated 5-day recovery plan generated with exact slide citations (e.g., Unit-03-Slide-32) and LaTeX equations.")
+    add_body_p(doc, "1. Predictive Advance Warning (tau = 0.42): Demonstrate how our 4-tier risk ensemble identifies at-risk students 4.2 weeks prior to final examinations with live telemetry.\n2. Root-Cause DAG Traversal: Showcase the 68-concept OKF (Open Knowledge Format) Graph tracing poor Backpropagation performance to upstream Matrix Calculus and Chain Rule deficits.\n3. Scaffolded 5-Day Remedial Demo: Live demonstration of an automated 5-day recovery plan generated with exact slide citations (e.g., Unit-03-Slide-32) and LaTeX equations.")
 
     add_evidence(doc, "Evidence: reflective write-up (Week 13), showcase photo or video, mock-interview evaluation sheet and resume or portfolio proof (Week 15).")
 
