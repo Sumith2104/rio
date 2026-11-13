@@ -50,9 +50,10 @@ class FluxbaseClient:
             base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             config_path = os.path.join(base_dir, "config", "fluxbase_config.json")
 
-        self.api_key = api_key
-        self.project_id = project_id
-        self.base_url = self.DEFAULT_BASE_URL
+        # Load environment variables if available
+        self.api_key = api_key or os.environ.get("FLUXBASE_API_KEY")
+        self.project_id = project_id or os.environ.get("FLUXBASE_PROJECT_ID")
+        self.base_url = os.environ.get("FLUXBASE_BASE_URL", self.DEFAULT_BASE_URL)
 
         if os.path.exists(config_path):
             try:
