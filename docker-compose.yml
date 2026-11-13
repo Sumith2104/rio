@@ -1,14 +1,41 @@
 # =============================================================================
-# DOCKER COMPOSE CONFIGURATION: LOCAL DATABASES & VECTOR STORE
+# DOCKER COMPOSE CONFIGURATION: PACD-RAG SMART CAMPUS PLATFORM
 # AI-Powered Agentic Smart Campus Intelligence & Student Success Platform
 # Author: Sumith U (SRN: R24EA807) | REVA University
 # =============================================================================
 # Services:
-#   1. chroma: ChromaDB vector database for embeddings (Syllabus, Notes, Question Bank)
-#   2. mysql: Relational database for student telemetry, course blueprints & logs
+#   1. app: PACD-RAG Web Dashboards, REST APIs, ML Models & OKF Diagnostic Engine
+#   2. chroma: ChromaDB vector database for embeddings (Syllabus, Notes, Slides)
+#   3. mysql: Local relational store for student telemetry & fallback records
 # =============================================================================
 
 services:
+  # PACD-RAG Unified Application Server (FastAPI + Uvicorn + Glassmorphic UI)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rio_pacd_rag_app
+    ports:
+      - "8000:8000"
+      - "8002:8002"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PORT=8000
+      - SECONDARY_PORT=8002
+    env_file:
+      - .env
+    depends_on:
+      chroma:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
   # ChromaDB Vector Database for AI-Powered Embeddings (Part 5 RAG & Cognitive Diagnosis)
   chroma:
     image: chromadb/chroma:latest
@@ -54,4 +81,3 @@ volumes:
     driver: local
   mysql_data:
     driver: local
-

@@ -1,0 +1,17 @@
+.git
+.github
+.gitignore
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.env
+scratch/
+archive/
+archive_old_scripts/
+catboost_info/
+node_modules/
+*.docx
+*.pdf
+*.log
+.pytest_cache/
