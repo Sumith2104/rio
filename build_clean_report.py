@@ -56,6 +56,15 @@ def set_table_borders(table, color="000000", sz="4"):
         tblBorders.append(border)
     tblPr.append(tblBorders)
 
+def clear_table_borders(table):
+    tblPr = table._tbl.tblPr
+    tblBorders = OxmlElement('w:tblBorders')
+    for border_name in ['top', 'left', 'bottom', 'right', 'insideH', 'insideV']:
+        border = OxmlElement(f'w:{border_name}')
+        border.set(qn('w:val'), 'none')
+        tblBorders.append(border)
+    tblPr.append(tblBorders)
+
 def style_header_row(row, titles, col_widths=None, bg_color="F2F2F2"):
     trPr = row._tr.get_or_add_trPr()
     trPr.append(OxmlElement('w:cantSplit'))
@@ -260,36 +269,62 @@ def build_complete_document():
     # =========================================================================
     # COVER / TITLE BLOCK (Top of Page 1)
     # =========================================================================
-    p_u = doc.add_paragraph()
-    p_u.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p_u.paragraph_format.space_before = Pt(0)
-    p_u.paragraph_format.space_after = Pt(1)
-    r_u = p_u.add_run("REVA UNIVERSITY")
+    t_hdr = doc.add_table(rows=1, cols=3)
+    t_hdr.alignment = WD_TABLE_ALIGNMENT.CENTER
+    t_hdr.autofit = False
+    clear_table_borders(t_hdr)
+    col_w = [Inches(1.15), Inches(4.70), Inches(1.15)]
+    for idx, cell in enumerate(t_hdr.rows[0].cells):
+        cell.width = col_w[idx]
+        set_cell_margins(cell, top=0, bottom=20, left=20, right=20)
+        cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+
+    # Left cell: REVA University logo
+    p_logo1 = t_hdr.rows[0].cells[0].paragraphs[0]
+    p_logo1.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_logo1.paragraph_format.space_before = Pt(0)
+    p_logo1.paragraph_format.space_after = Pt(0)
+    reva_logo_path = r"C:\Users\sumit\Downloads\rio\assets\reva_logo.png"
+    if os.path.exists(reva_logo_path):
+        p_logo1.add_run().add_picture(reva_logo_path, width=Inches(1.05))
+
+    # Center cell: University & School text
+    p_center = t_hdr.rows[0].cells[1].paragraphs[0]
+    p_center.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_center.paragraph_format.space_before = Pt(0)
+    p_center.paragraph_format.space_after = Pt(1)
+    p_center.paragraph_format.line_spacing = 1.15
+    r_u = p_center.add_run("REVA UNIVERSITY\n")
     r_u.bold = True
     r_u.font.name = 'Calibri'
-    r_u.font.size = Pt(16)
+    r_u.font.size = Pt(15)
     r_u.font.color.rgb = RGBColor(0x00, 0x00, 0x00)
 
-    p_d = doc.add_paragraph()
-    p_d.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p_d.paragraph_format.space_before = Pt(0)
-    p_d.paragraph_format.space_after = Pt(4)
-    r_d = p_d.add_run("SCHOOL OF COMPUTING AND INFORMATION TECHNOLOGY • DEPARTMENT OF AIML\nBENGALURU, KARNATAKA • 560064")
+    r_d = p_center.add_run("SCHOOL OF COMPUTING AND INFORMATION TECHNOLOGY\nDEPARTMENT OF AIML  •  BENGALURU – 560064\n")
+    r_d.bold = True
     r_d.font.name = 'Calibri'
-    r_d.font.size = Pt(9.5)
-    r_d.font.color.rgb = RGBColor(0x47, 0x55, 0x69)
+    r_d.font.size = Pt(8.5)
+    r_d.font.color.rgb = RGBColor(0x33, 0x41, 0x55)
 
-    add_p_border(p_d, border_type='bottom', color='CBD5E1', sz='4', space='4')
-
-    p_rev = doc.add_paragraph()
-    p_rev.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p_rev.paragraph_format.space_before = Pt(4)
-    p_rev.paragraph_format.space_after = Pt(2)
-    r_rev = p_rev.add_run("Major Project Report — Phase-1 Review")
+    r_rev = p_center.add_run("Major Project Report – Phase-1 Review")
     r_rev.bold = True
     r_rev.font.name = 'Calibri'
-    r_rev.font.size = Pt(13)
-    r_rev.font.color.rgb = RGBColor(0x00, 0x00, 0x00)
+    r_rev.font.size = Pt(12)
+    r_rev.font.color.rgb = RGBColor(0x0F, 0x17, 0x2A)
+
+    # Right cell: UN SDG 4 Quality Education logo
+    p_logo2 = t_hdr.rows[0].cells[2].paragraphs[0]
+    p_logo2.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_logo2.paragraph_format.space_before = Pt(0)
+    p_logo2.paragraph_format.space_after = Pt(0)
+    sdg_logo_path = r"C:\Users\sumit\Downloads\rio\assets\sdg4_logo.png"
+    if os.path.exists(sdg_logo_path):
+        p_logo2.add_run().add_picture(sdg_logo_path, width=Inches(1.05))
+
+    p_d = doc.add_paragraph()
+    p_d.paragraph_format.space_before = Pt(2)
+    p_d.paragraph_format.space_after = Pt(4)
+    add_p_border(p_d, border_type='bottom', color='CBD5E1', sz='4', space='2')
 
     p_t = doc.add_paragraph()
     p_t.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -320,7 +355,7 @@ def build_complete_document():
     r_t0.font.name = 'Calibri'
     r_t0.font.size = Pt(11)
 
-    t0 = doc.add_table(rows=6, cols=2)
+    t0 = doc.add_table(rows=7, cols=2)
     t0.alignment = WD_TABLE_ALIGNMENT.CENTER
     t0.autofit = False
     set_table_borders(t0)
@@ -332,6 +367,7 @@ def build_complete_document():
         ("SRN / Roll number", "R24EA807, R23EA116"),
         ("Program and Section", "B.Tech in Artificial Intelligence & Machine Learning (AIML), Section A"),
         ("Project title", "PACD-RAG: Prerequisite-Aware Contextual Diagnostic & Retrieval-Augmented Generation with Multi-Model Predictive Risk Setup"),
+        ("UN SDG Alignment", "SDG 4: Quality Education (Target 4.4 & 4.7 – Adaptive Diagnostic Remediation)"),
         ("Faculty guide", "Dr Sailaja Thota, Associate Professor, Department of AIML, REVA University")
     ]
     for r_idx, (field, val) in enumerate(t0_data):
@@ -1035,4 +1071,60 @@ def build_complete_document():
 
 if __name__ == "__main__":
     build_complete_document()
+    t_hdr = doc.add_table(rows=1, cols=3)
+    t_hdr.alignment = WD_TABLE_ALIGNMENT.CENTER
+    t_hdr.autofit = False
+    clear_table_borders(t_hdr)
+    col_w = [Inches(1.15), Inches(4.70), Inches(1.15)]
+    for idx, cell in enumerate(t_hdr.rows[0].cells):
+        cell.width = col_w[idx]
+        set_cell_margins(cell, top=0, bottom=20, left=20, right=20)
+        cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+
+    # Left cell: REVA University logo
+    p_logo1 = t_hdr.rows[0].cells[0].paragraphs[0]
+    p_logo1.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_logo1.paragraph_format.space_before = Pt(0)
+    p_logo1.paragraph_format.space_after = Pt(0)
+    reva_logo_path = r"C:\Users\sumit\Downloads\rio\assets\reva_logo.png"
+    if os.path.exists(reva_logo_path):
+        p_logo1.add_run().add_picture(reva_logo_path, width=Inches(1.05))
+
+    # Center cell: University & School text
+    p_center = t_hdr.rows[0].cells[1].paragraphs[0]
+    p_center.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_center.paragraph_format.space_before = Pt(0)
+    p_center.paragraph_format.space_after = Pt(1)
+    p_center.paragraph_format.line_spacing = 1.15
+    r_u = p_center.add_run("REVA UNIVERSITY\n")
+    r_u.bold = True
+    r_u.font.name = 'Calibri'
+    r_u.font.size = Pt(15)
+    r_u.font.color.rgb = RGBColor(0x00, 0x00, 0x00)
+
+    r_d = p_center.add_run("SCHOOL OF COMPUTING AND INFORMATION TECHNOLOGY\nDEPARTMENT OF AIML  •  BENGALURU – 560064\n")
+    r_d.bold = True
+    r_d.font.name = 'Calibri'
+    r_d.font.size = Pt(8.5)
+    r_d.font.color.rgb = RGBColor(0x33, 0x41, 0x55)
+
+    r_rev = p_center.add_run("Major Project Report – Phase-1 Review")
+    r_rev.bold = True
+    r_rev.font.name = 'Calibri'
+    r_rev.font.size = Pt(12)
+    r_rev.font.color.rgb = RGBColor(0x0F, 0x17, 0x2A)
+
+    # Right cell: UN SDG 4 Quality Education logo
+    p_logo2 = t_hdr.rows[0].cells[2].paragraphs[0]
+    p_logo2.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_logo2.paragraph_format.space_before = Pt(0)
+    p_logo2.paragraph_format.space_after = Pt(0)
+    sdg_logo_path = r"C:\Users\sumit\Downloads\rio\assets\sdg4_logo.png"
+    if os.path.exists(sdg_logo_path):
+        p_logo2.add_run().add_picture(sdg_logo_path, width=Inches(1.05))
+
+    p_d = doc.add_paragraph()
+    p_d.paragraph_format.space_before = Pt(2)
+    p_d.paragraph_format.space_after = Pt(4)
+    add_p_border(p_d, border_type='bottom', color='CBD5E1', sz='4', space='2')
 
