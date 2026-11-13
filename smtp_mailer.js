@@ -29,7 +29,11 @@ function parseArgs() {
         att: '68.0%',
         threshold: '75.0%',
         course: 'AIML-401 Deep Learning',
-        otp: ''
+        otp: '',
+        advice: '',
+        weakTopics: '',
+        targets: '',
+        projectedPass: '76.5%'
     };
 
     for (let i = 0; i < args.length; i++) {
@@ -46,12 +50,16 @@ function parseArgs() {
         else if (args[i] === '--threshold' && args[i + 1]) parsed.threshold = args[++i];
         else if (args[i] === '--course' && args[i + 1]) parsed.course = args[++i];
         else if (args[i] === '--otp' && args[i + 1]) parsed.otp = args[++i];
+        else if (args[i] === '--advice' && args[i + 1]) parsed.advice = args[++i];
+        else if (args[i] === '--weakTopics' && args[i + 1]) parsed.weakTopics = args[++i];
+        else if (args[i] === '--targets' && args[i + 1]) parsed.targets = args[++i];
+        else if (args[i] === '--projectedPass' && args[i + 1]) parsed.projectedPass = args[++i];
     }
     return parsed;
 }
 
 function buildHtmlTemplate(params) {
-    const { type, to, name, entityId, title, unit, uploadedBy, dueDate, marks, att, threshold, course, otp } = params;
+    const { type, to, name, entityId, title, unit, uploadedBy, dueDate, marks, att, threshold, course, otp, advice, weakTopics, targets, projectedPass } = params;
 
     let badgeText = "CAMPUS NOTIFICATION";
     let badgeColor = "#2563eb";
@@ -115,6 +123,64 @@ function buildHtmlTemplate(params) {
                 <strong>Action Required:</strong> You must attend the next <strong>6 consecutive lectures</strong> without absence to recover your eligibility for the end-semester examinations.
               </div>
             ` : ''}
+          </div>
+        `;
+    } else if (type === 'dice' || type === 'dice_plan') {
+        badgeText = "ACTIONABLE DiCE RECOURSE PLAN";
+        badgeColor = "#7c3aed";
+        subjectHeader = "Actionable DiCE Prescriptive Targets & Diagnosed Weak Topics";
+
+        let weakItems = [];
+        if (weakTopics) {
+            if (weakTopics.includes('||')) {
+                weakItems = weakTopics.split('||').map(s => s.trim()).filter(Boolean);
+            } else if (weakTopics.includes(',')) {
+                weakItems = weakTopics.split(',').map(s => s.trim()).filter(Boolean);
+            } else {
+                weakItems = [weakTopics.trim()];
+            }
+        }
+        if (weakItems.length === 0) {
+            weakItems = [
+                "Multivariable Calculus: Partial Derivatives (Q1 Score: 4.0/10 - DEFICIT)",
+                "Multivariate Chain Rule & Graph Propagation (Q2 Score: 2.5/10 - DEFICIT)",
+                "Reverse-Mode Autodiff & Backpropagation (Q3 Score: 2.5/10 - DEFICIT)"
+            ];
+        }
+
+        bodyContent = `
+          <p style="font-size: 14px; line-height: 1.6; color: #334155;">
+            Your course instructor has formulated an <strong>Actionable Counterfactual Recourse Plan (DiCE Solver)</strong> for <strong>${course}</strong>.
+            This plan provides the mathematically grounded minimal parameter shifts to transition your academic standing from <strong>At-Risk</strong> to <strong>SAFE / LOW RISK (Projected Pass: ${projectedPass || '76.5%'})</strong>.
+          </p>
+
+          <div style="background: #faf5ff; border: 1px solid #e9d5ff; border-left: 4px solid #7c3aed; padding: 16px; border-radius: 8px; margin: 18px 0;">
+            <div style="font-size: 11px; text-transform: uppercase; color: #6b21a8; font-weight: 700; letter-spacing: 0.5px;">Prescribed DiCE Actionable Advice</div>
+            <div style="font-size: 13.5px; color: #3b0764; margin-top: 6px; line-height: 1.5; font-weight: 500;">
+              ${advice || 'Attend next 6 consecutive lectures without absence and complete the 5-day remedial drills on Chain Rule & Backpropagation to score >= 18/30 on IA-2 makeup exam.'}
+            </div>
+            ${targets ? `
+              <div style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed #d8b4fe; font-size: 12px; color: #581c87;">
+                <strong>Parameter Shift Targets:</strong> ${targets}
+              </div>
+            ` : ''}
+          </div>
+
+          <div style="background: #fef2f2; border: 1px solid #fecaca; border-left: 4px solid #dc2626; padding: 14px 16px; border-radius: 8px; margin: 18px 0;">
+            <div style="font-size: 11px; text-transform: uppercase; color: #991b1b; font-weight: 700; letter-spacing: 0.5px;">Diagnosed Weak Topics &amp; Prerequisite Deficits (&lt; 50%)</div>
+            <ul style="margin: 8px 0 0; padding-left: 20px; font-size: 13px; color: #7f1d1d; line-height: 1.6;">
+              ${weakItems.map(w => `<li><strong>${w}</strong></li>`).join('')}
+            </ul>
+            <div style="font-size: 11.5px; color: #991b1b; margin-top: 8px; padding-top: 6px; border-top: 1px dashed #fca5a5;">
+              <strong>Root-Cause Note:</strong> Upstream Chain Rule &amp; Matrix Calculus gaps block mastery of Backpropagation. Review foundational slides before attempting exam.
+            </div>
+          </div>
+
+          <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-left: 4px solid #16a34a; padding: 14px 16px; border-radius: 8px; margin: 18px 0;">
+            <div style="font-size: 11px; text-transform: uppercase; color: #166534; font-weight: 700; letter-spacing: 0.5px;">Scaffolded 5-Day Remedial Action Plan Ready</div>
+            <div style="font-size: 13px; color: #14532d; margin-top: 4px; line-height: 1.5;">
+              Verified faculty lecture notes and slide citations (e.g., <em>Unit 1 &amp; 2 Differential Optimization</em>) have been linked into your Student Portal with daily self-paced recovery milestones.
+            </div>
           </div>
         `;
     } else {
@@ -256,6 +322,8 @@ async function main() {
             subject = `📝 [REVA Campus] New Assignment: ${params.title || 'Homework Assignment'}`;
         } else if (params.type === 'attendance') {
             subject = `⚠️ [REVA Campus] Attendance Notice: ${params.att} (Threshold: 75.0%)`;
+        } else if (params.type === 'dice' || params.type === 'dice_plan') {
+            subject = `🎯 [REVA DiCE Recourse] Prescriptive Advice & Weak Topics: ${params.course}`;
         } else if (params.type === 'otp') {
             subject = `🔐 [REVA Campus] Security Code: ${params.otp}`;
         }

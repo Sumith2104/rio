@@ -470,6 +470,18 @@ async function loadCohortRiskAnalysis() {
     const cfContainer = document.getElementById("counterfactuals-container");
     if (cfContainer && data.counterfactual_prescriptions) {
       cfContainer.innerHTML = data.counterfactual_prescriptions.map(cf => {
+        const weakTopicsHtml = cf.weak_topics_str ? `
+          <div style="margin: 6px 0 5px; padding: 6px 9px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; font-size: 11px;">
+            <strong style="color: #991b1b;">Diagnosed Weak Topics:</strong> <span style="color: #b91c1c; font-weight: 600;">${cf.weak_topics_str}</span>
+          </div>
+        ` : '';
+
+        const adviceHtml = cf.advice ? `
+          <div style="margin: 4px 0 7px; font-size: 11px; color: #475569; line-height: 1.4; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 9px;">
+            <strong style="color: #0f172a;">DiCE Actionable Advice:</strong> ${cf.advice}
+          </div>
+        ` : '';
+
         return `
           <div style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(228, 228, 231, 0.8); border-radius: 8px; padding: 10px 12px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
@@ -479,6 +491,10 @@ async function loadCohortRiskAnalysis() {
               </div>
               <span class="badge-tag" style="background: #16a34a; color: #ffffff; border-color: #16a34a; font-weight: 700;">Target: ${cf.projected_pass_prob}%</span>
             </div>
+
+            ${weakTopicsHtml}
+            ${adviceHtml}
+
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 6px; margin: 8px 0;">
               ${cf.prescribed_targets.map(t => `
                 <div style="background: #f4f4f5; border-radius: 6px; padding: 6px 8px; font-size: 11px;">
@@ -487,9 +503,9 @@ async function loadCohortRiskAnalysis() {
                 </div>
               `).join("")}
             </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; flex-wrap: wrap; gap: 6px;">
               <span style="font-size: 11px; color: #71717a;">Trajectory outcome: <strong>${cf.projected_risk_tier}</strong></span>
-              <button class="btn-black" style="font-size: 10.5px; padding: 4px 10px;" onclick="dispatchStudentAttendanceAlert('${cf.student_id}', 51.0)"><svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Send DiCE Plan via SMTP</button>
+              <button class="btn-black" style="font-size: 10.5px; padding: 5px 11px;" onclick="dispatchStudentDiCEAlert('${cf.student_id}')"><svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Send DiCE Plan via SMTP</button>
             </div>
           </div>
         `;
@@ -809,6 +825,61 @@ async function loadFacultyUploadedMaterials() {
 // =============================================================================
 // INSTITUTIONAL NOTIFICATION DISPATCHERS (Nodemailer SMTP Protocol)
 // =============================================================================
+
+async function dispatchStudentDiCEAlert(studentId = 'R24EA895') {
+  const evt = window.event;
+  const btn = evt ? evt.target.closest('button') : null;
+  const originalHtml = btn ? btn.innerHTML : '';
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = 'Sending DiCE Plan...';
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/api/faculty/notify/dice-plan`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        student_srn: studentId,
+        course_id: "AIML-401 Deep Learning"
+      })
+    });
+    const data = await res.json();
+    if (res.ok && data.status === "success") {
+      const recipient = (data.notification && data.notification.recipient) ? data.notification.recipient.email : 'student inbox';
+      const weakStr = (data.weak_topics || []).map(t => `• ${t}`).join('\n');
+      const advice = data.advice || '';
+      const targets = data.targets || '';
+      const passProb = data.projected_pass_prob || 76.5;
+
+      alert(`Actionable DiCE Plan Dispatched Successfully via Nodemailer SMTP!\n\n` +
+            `Target Candidate: ${studentId}\n` +
+            `Recipient Email: ${recipient}\n\n` +
+            `PRESCRIBED ADVICE:\n${advice}\n\n` +
+            `DIAGNOSED WEAK TOPICS (< 50%):\n${weakStr}\n\n` +
+            `PARAMETER TARGETS:\n${targets}\n` +
+            `Projected Trajectory: SAFE / LOW RISK (${passProb}% Pass Prob)\n` +
+            `Protocol: SMTP (Brevo Relay)`);
+
+      if (btn) {
+        btn.innerHTML = '<svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> DiCE Plan Dispatched';
+        btn.style.background = '#16a34a';
+        btn.style.borderColor = '#16a34a';
+      }
+    } else {
+      alert(`Notice: ${data.detail || data.message || 'Could not dispatch DiCE plan.'}`);
+      if (btn) btn.innerHTML = originalHtml;
+    }
+  } catch (err) {
+    console.error("DiCE alert dispatch error:", err);
+    alert(`Error dispatching DiCE alert: ${err.message}`);
+    if (btn) btn.innerHTML = originalHtml;
+  } finally {
+    if (btn && !btn.innerHTML.includes('DiCE Plan Dispatched')) {
+      btn.disabled = false;
+    }
+  }
+}
 
 async function dispatchStudentAttendanceAlert(studentId = 'R24EA807', attRate = 68.0) {
   const evt = window.event;

@@ -167,6 +167,16 @@ class SubmitDrillRequest(BaseModel):
     correct_option_index: int = Field(..., example=1)
 
 
+_student_notifications_store = {}
+
+class DiCEPlanDispatchRequest(BaseModel):
+    student_srn: str = "R24EA895"
+    course_id: Optional[str] = "AIML-401 Deep Learning"
+    advice: Optional[str] = None
+    weak_topics: Optional[List[str]] = None
+    targets: Optional[str] = None
+    projected_pass_prob: Optional[float] = None
+
 class NotificationDispatchRequest(BaseModel):
     notification_type: str = Field("doc_upload", example="doc_upload")
     student_srn: str = Field("STU-807", example="STU-807")
@@ -1851,6 +1861,91 @@ def faculty_notify_assignment(payload: NotificationDispatchRequest):
     )
     return {"status": "success", "notification": res}
 
+@faculty_router.post("/notify/dice-plan")
+def faculty_notify_dice_plan(payload: DiCEPlanDispatchRequest):
+    """Dispatch DiCE Counterfactual Prescriptive Advice & Weak Topics via Nodemailer SMTP."""
+    srn = payload.student_srn or "R24EA895"
+    course = payload.course_id or "AIML-401 Deep Learning"
+    
+    # 1. Resolve weak topics from database if not explicitly provided
+    weak_topics = payload.weak_topics
+    if not weak_topics:
+        try:
+            sql = f"SELECT topic_title FROM ia_question_scores WHERE student_srn = '{srn}' AND is_weak = true LIMIT 6;"
+            q_res = flux_db.execute_query(sql)
+            rows = q_res.get("rows", [])
+            if rows:
+                weak_topics = list(dict.fromkeys([r["topic_title"] for r in rows if r.get("topic_title")]))
+        except Exception as e:
+            logger.warning(f"Could not load weak topics from DB: {e}")
+    
+    if not weak_topics:
+        if srn == "R24EA818":
+            weak_topics = ["Multivariate Chain Rule & Graph Propagation", "Reverse-Mode Autodiff & Backpropagation"]
+        elif srn == "R24EA842":
+            weak_topics = ["Reverse-Mode Autodiff & Backpropagation"]
+        else:
+            weak_topics = [
+                "Multivariable Calculus: Partial Derivatives",
+                "Multivariate Chain Rule & Graph Propagation",
+                "Reverse-Mode Autodiff & Backpropagation"
+            ]
+
+    # 2. Resolve advice & targets
+    advice = payload.advice
+    targets = payload.targets
+    proj_pass = payload.projected_pass_prob or 76.5
+    
+    if not advice:
+        if srn == "R24EA818":
+            advice = "Attend next 4 consecutive lectures to restore 75% attendance. Resubmit Assignment 2 and complete Backpropagation remedial exercises to score >= 19/30 on IA-2."
+            targets = "Attendance >= 75.0% (+11.0%), IA-2 >= 19.0/30 (+4.5 marks), Assignment 2 >= 7.5/10 (+3.5 marks)"
+            proj_pass = 78.2
+        elif srn == "R24EA842":
+            advice = "Review Backpropagation computational graphs and complete targeted problem sets to lift IA-2 score above 20/30."
+            targets = "Attendance >= 75.0% (+3.0%), IA-2 >= 20.0/30 (+4.0 marks)"
+            proj_pass = 82.0
+        else:
+            advice = "Attend next 6 consecutive lectures to reach 75% attendance. Complete the 5-day remedial drills on Chain Rule & Backpropagation to score >= 18/30 on IA-2 makeup exam."
+            targets = "Attendance >= 75.0% (+24.0%), IA-2 >= 18.0/30 (+7.0 marks), Assignment 2 >= 7.0/10 (+3.5 marks)"
+            proj_pass = 76.5
+
+    # 3. Dispatch via SMTP
+    res = notification_service.notify_dice_recourse(
+        target_srn=srn,
+        advice=advice,
+        weak_topics=weak_topics,
+        targets_str=targets,
+        projected_pass_prob=proj_pass,
+        course=course
+    )
+
+    # 4. Record into in-memory recent notifications feed
+    new_notif = {
+        "id": f"NOTIF-DICE-{int(time.time())}",
+        "type": "dice_plan",
+        "title": f"DiCE Prescriptive Recourse Plan ({course})",
+        "course": course,
+        "advice": advice,
+        "weak_topics": weak_topics,
+        "targets": targets,
+        "projected_pass_prob": f"{proj_pass}%",
+        "time": "Just now",
+        "sent_to": res.get("recipient", {}).get("email", "student inbox"),
+        "status": "Delivered via SMTP"
+    }
+    _student_notifications_store.setdefault(srn, []).insert(0, new_notif)
+
+    return {
+        "status": "success",
+        "student_srn": srn,
+        "advice": advice,
+        "weak_topics": weak_topics,
+        "targets": targets,
+        "projected_pass_prob": proj_pass,
+        "notification": res
+    }
+
 @faculty_router.post("/notify/attendance")
 def faculty_notify_attendance(payload: NotificationDispatchRequest):
     """Dispatch Nodemailer SMTP attendance alert to student's DB email."""
@@ -1894,11 +1989,12 @@ def general_dispatch_notification(payload: NotificationDispatchRequest):
 def get_student_recent_notifications(srn: str):
     """Retrieve recent notifications dispatched to student."""
     contact = notification_service.get_student_contact(srn)
+    dynamic_notifs = _student_notifications_store.get(srn, [])
     return {
         "status": "success",
         "student": contact,
         "active_email": contact["email"],
-        "notifications": [
+        "notifications": dynamic_notifs + [
             {
                 "id": "NOTIF-001",
                 "type": "doc_upload",
@@ -2076,6 +2172,13 @@ def get_cohort_risk_analysis(course_id: str):
             "student_name": "Sneha Patel",
             "current_status": "HIGH RISK (84.2%)",
             "current_pass_prob": 15.8,
+            "weak_topics": [
+                "Multivariable Calculus: Partial Derivatives",
+                "Multivariate Chain Rule & Graph Propagation",
+                "Reverse-Mode Autodiff & Backpropagation"
+            ],
+            "weak_topics_str": "Partial Derivatives, Chain Rule, Backpropagation",
+            "advice": "Attend next 6 consecutive lectures to reach 75% attendance. Complete the 5-day remedial drills on Chain Rule & Backpropagation to score ≥ 18/30 on IA-2 makeup exam.",
             "prescribed_targets": [
                 {"parameter": "Attendance Rate", "current": "51.0%", "target": "≥ 75.0%", "delta": "+24.0%"},
                 {"parameter": "IA-2 Makeup Score", "current": "11.0 / 30", "target": "≥ 18.0 / 30", "delta": "+7.0 marks"},
@@ -2089,6 +2192,12 @@ def get_cohort_risk_analysis(course_id: str):
             "student_name": "Rohan Verma",
             "current_status": "HIGH RISK (82.0%)",
             "current_pass_prob": 18.0,
+            "weak_topics": [
+                "Multivariate Chain Rule & Graph Propagation",
+                "Reverse-Mode Autodiff & Backpropagation"
+            ],
+            "weak_topics_str": "Multivariate Chain Rule, Backpropagation Algorithm",
+            "advice": "Attend next 4 consecutive lectures to restore 75% attendance. Resubmit Assignment 2 and complete Backpropagation remedial exercises to score ≥ 19/30 on IA-2.",
             "prescribed_targets": [
                 {"parameter": "Attendance Rate", "current": "64.0%", "target": "≥ 75.0%", "delta": "+11.0%"},
                 {"parameter": "IA-2 Makeup Score", "current": "14.5 / 30", "target": "≥ 19.0 / 30", "delta": "+4.5 marks"},

@@ -200,5 +200,42 @@ class NotificationService:
         return res
 
 
+    def notify_dice_recourse(
+        self,
+        target_srn: str = "R24EA895",
+        advice: str = "",
+        weak_topics: Optional[List[str]] = None,
+        targets_str: str = "",
+        projected_pass_prob: float = 76.5,
+        course: str = "AIML-401 Deep Learning"
+    ) -> Dict[str, Any]:
+        """Send DiCE counterfactual prescriptive advice and diagnosed weak topics to student."""
+        contact = self.get_student_contact(target_srn)
+        weak_list = weak_topics or [
+            "Multivariable Calculus: Partial Derivatives",
+            "Multivariate Chain Rule & Graph Propagation",
+            "Reverse-Mode Autodiff & Backpropagation"
+        ]
+        weak_joined = "||".join(weak_list)
+        args = [
+            "--type", "dice_plan",
+            "--to", contact["email"],
+            "--name", contact["name"],
+            "--entityId", contact["entityId"],
+            "--course", course,
+            "--advice", advice or "Attend next 6 consecutive lectures without absence and complete the 5-day remedial drills on Chain Rule & Backpropagation to score >= 18/30 on IA-2.",
+            "--weakTopics", weak_joined,
+            "--targets", targets_str or "Attendance >= 75.0% (+24%), IA-2 >= 18.0/30 (+7.0 marks), Assignment 2 >= 7.0/10 (+3.5 marks)",
+            "--projectedPass", f"{projected_pass_prob}%"
+        ]
+        res = self.dispatch_email(args)
+        res["recipient"] = contact
+        res["advice"] = advice
+        res["weak_topics"] = weak_list
+        res["targets"] = targets_str
+        res["projected_pass_prob"] = projected_pass_prob
+        return res
+
+
 # Global singleton instance
 notification_service = NotificationService()
