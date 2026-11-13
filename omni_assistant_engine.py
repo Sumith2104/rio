@@ -580,6 +580,28 @@ class OmniSmartAssistant:
         """Uses Flux AI to evaluate user intent and determine the optimal agentic tool."""
         q_low = user_query.lower()
 
+        # 0. Academic Privacy & Third-Party Record Isolation Guardrail (FERPA / REVA Policy)
+        third_party_terms = ['friend', 'classmate', 'peer', 'another student', 'someone else', 'other student', 'shree hari', 'shreehari', 'rohan', 'priya', 'aarav', 'sneha']
+        target_name = None
+        for t in third_party_terms:
+            if t in q_low:
+                target_name = t.title()
+                break
+        if not target_name:
+            srn_matches = re.findall(r"\b[rR]\d{2}[a-zA-Z]{2}\d{3}\b", user_query)
+            for s in srn_matches:
+                if s.upper() != student_srn.upper():
+                    target_name = s.upper()
+                    break
+
+        if target_name and any(w in q_low for w in ["attendance", "marks", "score", "risk", "pass", "fail", "profile", "result", "standing"]):
+            return {
+                "thought": f"Third-party academic privacy boundary guardrail triggered for {target_name}",
+                "action": "privacy_boundary_block",
+                "topic": target_name,
+                "include_code": False
+            }
+
         # Fast, deterministic intent extraction for academic efficiency
         # 1. Attendance & Hall Ticket Check
         if any(w in q_low for w in ["attendance", "attendance record", "attendance percentage", "attendance status", "how many classes", "classes attended", "classes held", "classes missed", "bunk", "absent", "present", "cutoff", "shortage", "hall ticket", "admit card", "eligible for exam", "eligibility", "exam clearance"]):
@@ -699,9 +721,28 @@ class OmniSmartAssistant:
         meta: Dict[str, Any] = {"agent_thought": plan.get("thought", ""), "include_code": include_code, "student_name": ctx_360["student_name"]}
 
         # -------------------------------------------------------------
+        # ACTION: ACADEMIC PRIVACY & FERPA RECORD ISOLATION GUARD
+        # -------------------------------------------------------------
+        if action == "privacy_boundary_block":
+            msg_type = "PRIVACY_SECURITY_ALERT"
+            target_name = plan.get("topic") or "your classmate/friend"
+            name = ctx_360["student_name"]
+            reply = (
+                f"### 🔒 Academic Privacy Notice: Student Record Isolation\n"
+                f"*REVA University School of Computing & IT • Academic Data Confidentiality Policy (FERPA)*\n\n"
+                f"You are currently authenticated as **{name}** (`{student_srn}`).\n\n"
+                f"• **Confidentiality Boundary:** In strict accordance with university academic privacy regulations, "
+                f"individual attendance logs, internal assessment marks, and predictive risk scores are strictly "
+                f"confidential and isolated to each student's personal account.\n"
+                f"• **Third-Party Record Protection:** I cannot disclose **{target_name}'s** attendance, scores, or academic standing to peer accounts.\n"
+                f"• **How to Access:** Please advise **{target_name}** to log into their own Student Portal account or ask OmniAssistant "
+                f"from their authenticated terminal to view their official clearance."
+            )
+
+        # -------------------------------------------------------------
         # ACTION: VERIFIED STUDENT ATTENDANCE & EXAM ELIGIBILITY
         # -------------------------------------------------------------
-        if action == "student_attendance":
+        elif action == "student_attendance":
             msg_type = "ATTENDANCE_DIAGNOSTIC"
             name = ctx_360["student_name"]
             att = ctx_360["attendance_rate"]
