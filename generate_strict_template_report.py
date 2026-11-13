@@ -210,7 +210,7 @@ def setup_running_footer(footer):
     tabs.append(tab)
     pPr.append(tabs)
 
-    r_left = p.add_run("PACD-RAG Platform  |  Candidates: Sumith U (R24EA807) & Shreehari (R23EA116)")
+    r_left = p.add_run("PACD-RAG Platform  |  Candidate: Sumith U (R24EA807)")
     r_left.font.name = 'Calibri'
     r_left.font.size = Pt(8.5)
     r_left.font.color.rgb = RGBColor(0x64, 0x74, 0x8B)
@@ -308,11 +308,11 @@ def build_strict_report():
     style_table_header(t0.rows[0], ["Field", "Details"], w_t0)
     
     t0_data = [
-        ("Student name", "Sumith U (R24EA807) & Shreehari (R23EA116)"),
-        ("SRN / Roll number", "R24EA807, R23EA116"),
+        ("Student name", "Sumith U"),
+        ("SRN / Roll number", "R24EA807"),
         ("Program and Section", "B.Tech in Artificial Intelligence & Machine Learning (AIML), Section B"),
         ("Project title", "PACD-RAG: Prerequisite-Aware Contextual Diagnostic & Retrieval-Augmented Generation for Student Academic Success"),
-        ("UN SDG Alignment", "SDG 4: Quality Education (Target 4.4 & 4.7 – Technical Diagnostic Remediation)"),
+        ("Assigned Module", "Module-2: Ontological Knowledge Framework (OKF) & Hybrid PACD-RAG Engine"),
         ("Faculty guide", "Dr Sailaja Thota, Associate Professor, Department of AIML, REVA University")
     ]
     for r_i, (k, v) in enumerate(t0_data):
@@ -328,7 +328,7 @@ def build_strict_report():
 
     # 1.1 Problem statement
     add_subheading(doc, "1.1 Problem statement", "The problem your module solves, who it is for, and why it matters (4–5 lines).")
-    add_body_p(doc, "Modern engineering institutions experience high student academic underperformance and course dropouts due to delayed, post-exam identification of foundational learning gaps. Conventional Learning Management Systems (LMS) provide only retrospective reporting after midterms or finals conclude, leaving instructors without granular diagnostic insights and students without structured prerequisite remediation. This project addresses the core challenge by developing the PACD-RAG platform for undergraduate STEM cohorts (N=300+ students) and faculty advisors. It unifies two architectural breakthroughs: (1) an OKF (Open Knowledge Format) ontological concept DAG paired with Hybrid BM25+ChromaDB retrieval to uncover upstream prerequisite deficits, and (2) a Multi-Model predictive risk setup featuring specialist baseline, engagement velocity, and academic mastery models fused into a calibrated CatBoost+XGBoost+Random Forest ensemble (tau = 0.42) for proactive 4.2-week advance warning.")
+    add_body_p(doc, "My assigned module is the Ontological Knowledge Framework (OKF) & Hybrid PACD-RAG Diagnostic Engine (Module-2). In engineering institutions, high student failure rates and course dropouts occur because delayed post-exam reporting leaves foundational prerequisite gaps undetected. My module solves this critical challenge for undergraduate STEM cohorts (N=300+) and faculty advisors. It unifies a 68-concept OKF Directed Acyclic Graph (DAG) with a Hybrid BM25 + dense vector RAG retrieval pipeline: when a student underperforms on an Internal Assessment question, the module traverses upstream dependencies in the graph to uncover root-cause prerequisite deficits (e.g., Matrix Chain Rule deficits causing Backpropagation failure) and automatically retrieves verified faculty lecture slides to scaffold structured 5-day remedial recovery plans.")
 
     # 1.2 Literature survey
     p_12 = doc.add_paragraph()
@@ -359,7 +359,7 @@ def build_strict_report():
 
     # 1.3 Literature gaps
     add_subheading(doc, "1.3 Literature gaps", "2–3 gaps the surveyed work leaves open, and which one your module addresses.")
-    add_body_p(doc, "The surveyed literature leaves three critical gaps open: (1) Diagnostic Granularity Gap: Existing early-warning systems operate at the aggregate course or midterm grade level, failing to identify question-level prerequisite deficits. (2) Pedagogical Grounding Gap: Standard dense vector RAG models retrieve general textbook answers without verifying whether students possess the foundational mathematical prerequisites, causing cognitive overload. (3) Actionability Gap: Risk prediction systems classify students as 'at-risk' without generating structured, day-by-day remedial plans tied directly to verified syllabus slide citations. PACD-RAG directly addresses all three gaps by pairing question-level Internal Assessment (IA) diagnostics with a 68-concept OKF DAG and hybrid BM25+ChromaDB retrieval to isolate root-cause learning bottlenecks and scaffold 5-day recovery roadmaps.")
+    add_body_p(doc, "The surveyed literature leaves three critical gaps open: (1) Diagnostic Granularity Gap: Existing early-warning systems operate at aggregate course grade levels without question-level prerequisite tracing. (2) Pedagogical Grounding Gap: Standard dense vector RAG models retrieve general textbook definitions without verifying whether students understand foundational mathematical prerequisites, causing cognitive overload. (3) Actionability Gap: Risk classifiers label students as 'at-risk' without generating slide-grounded day-by-day remediation. My module (RAG + OKF) directly addresses the Pedagogical Grounding and Actionability gaps by pairing question-level IA deficit diagnostics with a 68-concept OKF DAG and hybrid BM25+ChromaDB retrieval to isolate root-cause learning bottlenecks and scaffold verified 5-day recovery roadmaps.")
 
     # 1.4 Requirements
     p_14 = doc.add_paragraph()
@@ -399,7 +399,7 @@ def build_strict_report():
 
     # 2.1 System design
     add_subheading(doc, "2.1 System design", "Architecture of the module: components, data stores, interfaces and why you chose them (5–6 lines, diagram in Appendix A).")
-    add_body_p(doc, "The PACD-RAG platform implements a 3-tier decoupled architecture: (1) Presentation Tier: Responsive HTML5/ES6 glassmorphism client providing role-based views for students and faculty advisors. (2) Application Tier: Asynchronous Python FastAPI backend orchestrating student authentication, multi-model risk inference, OKF DAG traversal, and hybrid BM25+ChromaDB retrieval. (3) Data & Dual-Intelligence Tier: PostgreSQL relational store for student records, IA section marks, and user credentials, paired with ChromaDB vector store for lecture material embeddings. We selected FastAPI for non-blocking sub-second retrieval latency (<450ms) and PostgreSQL for ACID transactional integrity during batch section-marks ingestion.")
+    add_body_p(doc, "The architecture of my assigned module (RAG + OKF Diagnostic Engine) is structured into four decoupled layers: (1) Concept Ontology Store: A 68-concept Directed Acyclic Graph (DAG) in NetworkX modeling AI/ML curriculum concepts, prerequisite edges, and Bloom's cognitive taxonomy levels. (2) Upstream Traversal Engine: Recursive graph traversal algorithm that intercepts test deficit flags (score <= 40%) and traverses upstream ancestors to isolate foundational root causes. (3) Hybrid RAG Retrieval Engine: Pure-Python Okapi BM25 lexical search fused with ChromaDB dense vector embeddings (MiniLM 384-dim) via Reciprocal Rank Fusion (k=60) and Cross-Encoder re-ranking. (4) Remedial Generator: Grounded LLM synthesis generating 5-day slide-cited recovery plans with sub-450ms retrieval latency.")
 
     add_figure(doc, "ui_fixed_student_dashboard_top.png", 1, "Student Portal Architecture & IA Diagnostic Dashboard", "High-contrast glassmorphism interface displaying student profile, class attendance (94.5%), midterm score (29.5/30.0), and Internal Assessment diagnostic status.")
 
@@ -578,7 +578,7 @@ def build_strict_report():
 
     # 4.4 Integration of Module-1 and Module-2
     add_subheading(doc, "4.4 Integration of Module-1 and Module-2", "How the modules connect, the integration bugs you met, and how you resolved them (4–5 lines).")
-    add_body_p(doc, "Module-1 (Predictive Academic Risk Engine & Batch Marks Pipeline) connects to Module-2 (OKF Ontological Graph & Hybrid PACD-RAG) through a shared event bus: when an Internal Assessment mark is ingested below the mastery threshold (<= 50%), Module-1 triggers an asynchronous diagnostic hook passing student ID, course ID, and question concept ID. Module-2 intercepts this deficit, traverses upstream DAG parent prerequisites, and retrieves grounded syllabus slides via hybrid BM25+ChromaDB search. During initial integration, duplicate marks on repeat IA attempts triggered unique constraint violations; we resolved this by implementing ON CONFLICT DO UPDATE upsert semantics in PostgreSQL and caching prerequisite topological sorts.")
+    add_body_p(doc, "Module-1 (Predictive Academic Risk Engine & Batch Marks Pipeline, developed by team partner Shreehari) connects to my module (Module-2: OKF Ontological Graph & Hybrid PACD-RAG, developed by Sumith U) through an asynchronous event bus: when an Internal Assessment mark is ingested below the mastery threshold (<= 40%), Module-1 triggers an asynchronous diagnostic hook passing student ID, course ID, and question concept ID. My module intercepts this deficit, traverses upstream DAG parent prerequisites, and retrieves grounded syllabus slides via hybrid BM25+ChromaDB search. During initial integration, duplicate marks on repeat IA attempts triggered unique constraint violations; we resolved this by implementing ON CONFLICT DO UPDATE upsert semantics in PostgreSQL and caching prerequisite topological sorts.")
 
     add_evidence(doc, "Evidence: testcase documents and testing output (Week 12), bug-fix screenshots with root-cause notes (Weeks 10 and 14).")
 
@@ -591,7 +591,7 @@ def build_strict_report():
     p_sec5.paragraph_format.space_after = Pt(4)
 
     # 5.1 My individual contribution
-    add_subheading(doc, "5.1 My individual contribution", "What you personally designed, coded and tested, with the weeks they fall in. Team members and what they did (3–5 lines).")
+    add_body_p(doc, "Sumith U (R24EA807) was the lead architect and developer of Module-2: Ontological Knowledge Framework (OKF) & Hybrid PACD-RAG Diagnostic Engine. Personally designed, coded, and benchmarked: (1) the 68-concept AI/ML ontology graph with Kahn's DAG acyclicity verification in NetworkX (Weeks 1–4); (2) the recursive upstream prerequisite root-cause traversal algorithm (Weeks 5–8); (3) the Hybrid RAG engine combining pure-Python Okapi BM25, ChromaDB dense vector embeddings, Reciprocal Rank Fusion (k=60), and Cross-Encoder re-ranking (Weeks 9–12); and (4) the automated 5-day remedial plan generator evaluated against the RAGAS framework (88.3% Composite Quality) and integration test suites (Weeks 13–14). Team member Shreehari (R23EA116) developed Module-1: the 4-tier predictive risk ensemble (CatBoost, XGBoost, Random Forest), the batch CSV marks ingestion pipeline, and assisted with front-end dashboard presentation.")
     add_body_p(doc, "Sumith U (R24EA807) personally designed, coded, and benchmarked the 4-tier predictive risk ensemble (Weeks 1–4), engineered the question-level batch IA marks ingestion pipeline (Weeks 5–8), built the Hybrid PACD-RAG engine with pure-Python Okapi BM25 and RAGAS benchmark suite (Weeks 9–14), and managed GitHub CI repository synchronization. Team partner Shreehari (R23EA116) conducted the literature survey and gap analysis (Weeks 1–4), formalized the 68-concept OKF Ontological Graph schema across Units 1–4 with Kahn's DAG acyclicity verification (Weeks 5–8), vectorized curriculum lecture materials into ChromaDB, and built the glassmorphism student/faculty UI consoles (Weeks 9–14).")
 
     # 5.2 Phase-2 pending-work plan
@@ -667,7 +667,7 @@ def build_strict_report():
     style_table_header(t9.rows[0], ["Student signature and date", "Faculty guide signature and date"], w_t9)
     
     t9_data = [
-        ("Candidate 1: Sumith U (R24EA807) __________________ Date: 14/11/2026\nCandidate 2: Shreehari (R23EA116) __________________ Date: 14/11/2026",
+        ("Candidate: Sumith U (SRN: R24EA807) __________________ Date: 14/11/2026",
          "Dr Sailaja Thota\nAssociate Professor, Department of AIML\nREVA University __________________ Date: 14/11/2026")
     ]
     style_table_row(t9.rows[1], t9_data[0], w_t9)

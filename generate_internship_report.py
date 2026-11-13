@@ -183,7 +183,7 @@ def setup_running_footer(footer):
     tabs.append(tab)
     pPr.append(tabs)
 
-    r_left = p.add_run("RIO Internship Report  |  Candidate: Sumith U (R24EA807) & Shreehari (R23EA116)")
+    r_left = p.add_run("RIO Internship Report  |  Candidate: Sumith U (R24EA807)")
     r_left.font.name = 'Calibri'
     r_left.font.size = Pt(8.5)
     r_left.font.color.rgb = RGBColor(0x64, 0x74, 0x8B)
@@ -281,8 +281,8 @@ def build_internship_report():
     style_table_header(t0.rows[0], ["Field", "Details"], w_t0)
 
     t0_data = [
-        ("Student name", "Sumith U (R24EA807) & Shreehari (R23EA116)"),
-        ("SRN / Roll number", "R24EA807, R23EA116"),
+        ("Student name", "Sumith U"),
+        ("SRN / Roll number", "R24EA807"),
         ("Program and Section", "B.Tech in Artificial Intelligence & Machine Learning (AIML), Section B"),
         ("Organization", "REVA University (School of Computing and Information Technology)"),
         ("Workplace mentor (name, designation)", "Dr Sailaja Thota, Associate Professor, Department of AIML"),
@@ -305,7 +305,7 @@ def build_internship_report():
 
     # 1.2 Assigned module and problem statement
     add_subheading(doc, "1.2 Assigned module and problem statement", "The problem the module solves, its users, and where it fits in the larger system (5–6 lines).")
-    add_body_p(doc, "Our assigned module is the PACD-RAG (Prerequisite-Aware Contextual Diagnostic & Retrieval-Augmented Generation) diagnostic engine, created to resolve the critical challenge of student failure and course dropouts caused by late, post-exam academic interventions. The platform serves undergraduate STEM students (N=300+) and faculty academic advisors across 1,400+ student cohorts. Architecturally, it serves as the core intelligent diagnostic middleware of the Smart Campus Platform, bridging student assessment ingestion with recursive prerequisite graph traversal and hybrid vector retrieval to scaffold personalized 5-day remedial study plans.")
+    add_body_p(doc, "My assigned module is RAG + OKF (Retrieval-Augmented Generation & Ontological Knowledge Framework) within the PACD-RAG smart campus platform. It was created to solve the widespread problem of engineering students failing advanced examinations due to undetected foundational prerequisite gaps. The module serves undergraduate STEM students (N=300+) and faculty academic advisors across 1,400+ student cohorts. Architecturally, my module serves as the central diagnostic intelligence core of the Smart Campus platform, bridging student assessment score ingestion with recursive prerequisite graph traversal and hybrid vector retrieval to generate personalized, slide-cited 5-day remedial recovery plans.")
 
     # 1.3 Technology stack
     p_13 = doc.add_paragraph()
@@ -326,9 +326,9 @@ def build_internship_report():
 
     t1_data = [
         ("Presentation Layer", "HTML5, CSS3, Vanilla ES6+", "High-contrast glassmorphism interface displaying student diagnostics and faculty telemetry.", "3 → 5"),
-        ("Application / API Layer", "Python FastAPI, Pydantic, Uvicorn", "Asynchronous non-blocking REST API routing, diagnostic endpoints, and telemetry logging.", "3 → 5"),
-        ("Database & Storage Layer", "PostgreSQL 15 & ChromaDB", "Relational persistence of student marks paired with dense cosine vector material embeddings.", "3 → 5"),
-        ("Diagnostic Intelligence", "CatBoost, XGBoost, Okapi BM25, OKF Graph", "Multi-model predictive risk ensemble (tau=0.42) and hybrid prerequisite RAG search.", "2 → 5")
+        ("Ontology & Graph Layer", "NetworkX & Kahn's DAG Algorithm", "Formalized 68-concept AI/ML curriculum ontology, prerequisite directed edges, and Bloom's taxonomy mapping.", "2 → 5"),
+        ("Vector & Lexical Search", "Okapi BM25 & ChromaDB", "Sparse formula keyword matching fused with dense cosine embeddings via Reciprocal Rank Fusion (k=60).", "2 → 5"),
+        ("Remedial Synthesis Layer", "Cross-Encoder & Gemini Pro API", "Re-ranking of lecture slides and deterministic (temp=0.1) grounded generation of 5-day recovery plans (<450ms).", "2 → 5")
     ]
     for r_i, row in enumerate(t1_data):
         style_table_row(t1.rows[r_i + 1], row, w_t1)
@@ -391,8 +391,8 @@ def build_internship_report():
 
     t3_data = [
         ("Git & GitHub", "Version control, code reviews, and remote synchronization", "Maintained clean 'main' branch at https://github.com/Sumith2104/rio.git with secret scanning compliance."),
-        ("PostgreSQL 15", "Relational persistence of student profiles, assessments, and marks", "Configured robust connection pooling and ACID-compliant transactional guarantees."),
-        ("ChromaDB Vector Store", "Persistent vector store for course lecture chunks and formulas", "Vectorized 79 lecture chunks across Units 1–4 with cosine distance indexing."),
+        ("NetworkX (DAG)", "Ontological knowledge graph modeling and upstream deficit search", "Engineered 68-concept acyclic dependency graph mapping AI/ML prerequisites to syllabus units."),
+        ("ChromaDB & BM25", "Hybrid vector and lexical retrieval for lecture chunks", "Vectorized 79 lecture chunks across Units 1–4 with cosine distance and Okapi BM25 scoring."),
         ("FastAPI & Uvicorn", "High-performance asynchronous backend microservice framework", "Delivered non-blocking API responses with sub-450ms diagnostic retrieval latency."),
         ("VS Code & Postman", "IDE authoring, interactive debugging, and API endpoint verification", "Executed comprehensive automated regression suites covering 42 testcases.")
     ]
@@ -512,7 +512,7 @@ def build_internship_report():
     style_table_header(t6.rows[0], ["Student signature and date", "Faculty Guide signature and date"], w_t6)
 
     t6_data = [
-        ("Candidate: Sumith U (SRN: R24EA807) __________________ Date: 14/11/2026\nCandidate: Shreehari (SRN: R23EA116) __________________ Date: 14/11/2026",
+        ("Candidate: Sumith U (SRN: R24EA807) __________________ Date: 14/11/2026",
          "Dr Sailaja Thota\nAssociate Professor, Department of AIML\nREVA University __________________ Date: 14/11/2026")
     ]
     style_table_row(t6.rows[1], t6_data[0], w_t6)
@@ -537,3 +537,4 @@ def build_internship_report():
 
 if __name__ == "__main__":
     build_internship_report()
+
