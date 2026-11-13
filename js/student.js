@@ -1049,9 +1049,42 @@ async function handleSendOmniMessage(e) {
 
 function formatOmniResponseToHtml(markdownText, responseType, attachment) {
   if (!markdownText) return "";
-  let html = markdownText
-    .replace(/^### (.*$)/gim, '<div style="font-weight: 700; color: #09090b; font-size: 13.5px; margin-top: 6px; margin-bottom: 4px;">$1</div>')
-    .replace(/^## (.*$)/gim, '<div style="font-weight: 700; color: #09090b; font-size: 14px; margin-top: 6px; margin-bottom: 4px;">$1</div>')
+
+  // 1. Process Markdown Tables if present
+  let processed = markdownText;
+  if (processed.includes("|") && processed.includes("---")) {
+    processed = processed.replace(/(?:^\|[^\n]+\|\r?\n(?:\|(?:\s*:?---*:?\s*)+\|\r?\n)(?:\|[^\n]+\|\r?\n?)+)/gm, function(match) {
+      const lines = match.trim().split(/\r?\n/).filter(function(l) { return l.trim().length > 0; });
+      if (lines.length < 2) return match;
+      const headers = lines[0].split("|").slice(1, -1).map(function(h) { return h.trim(); });
+      const rows = lines.slice(2).map(function(r) { return r.split("|").slice(1, -1).map(function(c) { return c.trim(); }); });
+
+      let tbl = '<div style="overflow-x: auto; margin: 10px 0;"><table style="width: 100%; border-collapse: collapse; font-size: 12px; border: 1px solid #e4e4e7; border-radius: 6px; overflow: hidden; background: #ffffff;">';
+      tbl += '<thead><tr style="background: #f4f4f5; border-bottom: 2px solid #d4d4d8;">';
+      for (let i = 0; i < headers.length; i++) {
+        tbl += '<th style="padding: 7px 10px; font-weight: 700; color: #09090b; text-align: left; border-right: 1px solid #e4e4e7;">' + headers[i] + '</th>';
+      }
+      tbl += '</tr></thead><tbody>';
+      for (let r = 0; r < rows.length; r++) {
+        const bg = (r % 2 === 0) ? '#ffffff' : '#fafafa';
+        tbl += '<tr style="background: ' + bg + '; border-bottom: 1px solid #e4e4e7;">';
+        for (let c = 0; c < rows[r].length; c++) {
+          tbl += '<td style="padding: 6px 10px; color: #18181b; border-right: 1px solid #e4e4e7;">' + rows[r][c] + '</td>';
+        }
+        tbl += '</tr>';
+      }
+      tbl += '</tbody></table></div>';
+      return tbl;
+    });
+  }
+
+  // 2. Format headers (### bold italic), horizontal rules, links, code, and typography
+  let html = processed
+    .replace(/^#### (.*$)/gim, '<div style="font-weight: 700; font-style: italic; color: #18181b; font-size: 12.5px; margin-top: 6px; margin-bottom: 3px;">$1</div>')
+    .replace(/^### (.*$)/gim, '<div style="font-weight: 700; font-style: italic; color: #09090b; font-size: 14px; margin-top: 8px; margin-bottom: 4px; letter-spacing: -0.01em;">$1</div>')
+    .replace(/^## (.*$)/gim, '<div style="font-weight: 700; font-style: italic; color: #09090b; font-size: 15px; margin-top: 10px; margin-bottom: 5px;">$1</div>')
+    .replace(/^# (.*$)/gim, '<div style="font-weight: 700; font-style: italic; color: #09090b; font-size: 16px; margin-top: 12px; margin-bottom: 6px;">$1</div>')
+    .replace(/^---$/gim, '<hr style="border: 0; border-top: 1px solid #e4e4e7; margin: 10px 0;">')
     .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" download class="btn-black" style="font-size: 12px; padding: 7px 16px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin: 8px 0; border-radius: 8px; font-weight: 600; color: #ffffff;">$1</a>')
     .replace(/^> "(.*?)"/gim, '<div style="background: #f4f4f5; border-left: 3px solid #000000; padding: 8px 12px; margin: 6px 0; border-radius: 4px; font-style: italic; color: #18181b;">&ldquo;$1&rdquo;</div>')
     .replace(/^> \*(.*?)\*/gim, '<div style="background: #f4f4f5; border-left: 3px solid #000000; padding: 8px 12px; margin: 6px 0; border-radius: 4px; font-style: italic; color: #18181b;">&ldquo;$1&rdquo;</div>')
