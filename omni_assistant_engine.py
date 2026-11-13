@@ -388,6 +388,13 @@ class OmniSmartAssistant:
         if any(w in q_low for w in ["weak", "why am i weak", "weak topic", "weak in", "my marks", "my ia marks", "ia score", "explain my marks", "lost marks", "marks breakdown", "deficit", "failed in", "low marks", "ia marks"]):
             return {"thought": "Explain student weak IA assessment topics and prerequisite DAG root causes", "action": "explain_weak_topics", "topic": "", "include_code": False}
 
+        # High-priority academic intents
+        if any(w in q_low for w in ["study plan", "plan for", "2 days", "2days", "3 days", "5 days", "schedule for", "revision plan"]):
+            return {"thought": "Synthesize a comprehensive, day-by-day deep learning study plan", "action": "study_plan", "topic": "Deep Learning Study Plan", "include_code": False}
+
+        if any(w in q_low for w in ["100/100", "score 100", "full marks", "how can i score", "how to score", "get 100", "ace exam"]):
+            return {"thought": "Deliver strategic blueprint on how to score 100/100 in deep learning", "action": "score_100_strategy", "topic": "100/100 Score Blueprint", "include_code": False}
+
         if any(w in q_low for w in ["notes", "pdf", "revision", "study guide", "slides", "propogation", "propagation", "lecture note"]):
             topic = self._clean_topic_name("", user_query)
             inc_code = not any(w in q_low for w in ["without code", "no code", "theory only", "without code sample"])
@@ -516,6 +523,95 @@ class OmniSmartAssistant:
                 }
 
         # -------------------------------------------------------------
+        # ACTION: ACCELERATED STUDY PLAN
+        # -------------------------------------------------------------
+        elif action == "study_plan":
+            msg_type = "STUDY_PLAN"
+            reply = (
+                "### 🎯 Accelerated 2-Day Deep Learning Intensive Study Plan (AIML-401)\n"
+                f"*Curriculum Scaffolding for Candidate: **{student_srn}** • 48-Hour Exam Mastery Blueprint*\n\n"
+                "---\n\n"
+                "#### 📅 **DAY 1: Foundational Mathematics & Feedforward Architectures**\n"
+                "*Focus: Units 1 & 2 (Differential Optimization & Multi-Layer Perceptrons)*\n\n"
+                "• **Morning Block (09:00 - 12:30): Multivariable Calculus & Computational Graphs**\n"
+                "  - **Core Concept:** Master partial derivatives dJ/dW and Jacobian matrix dimensions.\n"
+                "  - **Chain Rule Derivation:** Understand reverse-mode automatic differentiation. Decompose composite error flow:\n"
+                "    $$\\frac{\\partial \\mathcal{L}}{\\partial z_i} = \\sum_j \\frac{\\partial \\mathcal{L}}{\\partial a_j} \\cdot \\frac{\\partial a_j}{\\partial z_i}$$\n"
+                "  - **Slide Citation:** *Unit 1 Differential Optimization, Slides 14–28*.\n"
+                "  - **Self-Check:** Solve 2 manual backpropagation derivations on paper without looking at solutions.\n\n"
+                "• **Afternoon Block (14:00 - 17:30): Activation Functions & Loss Landscapes**\n"
+                "  - **Nonlinearities:** Compare ReLU, LeakyReLU, Sigmoid, and Tanh. Understand the **Vanishing Gradient Problem** ($|z| > 4$).\n"
+                "  - **Loss Formulations:** Binary Cross-Entropy vs. Categorical Cross-Entropy:\n"
+                "    $$\\mathcal{L}_{CE} = -\\sum_{c=1}^C y_c \\log(\\hat{y}_c)$$\n"
+                "  - **Slide Citation:** *Unit 2 Deep Feedforward Networks, Slides 32–45*.\n\n"
+                "• **Evening Block (18:30 - 21:00): Gradient Descent Optimization Dynamics**\n"
+                "  - Batch SGD vs. Stochastic Gradient Descent vs. Mini-Batch SGD.\n"
+                "  - Adaptive Optimizers: Momentum ($\\beta=0.9$), RMSprop, and Adam update mechanics:\n"
+                "    $$m_t = \\beta_1 m_{t-1} + (1-\\beta_1) g_t, \\quad v_t = \\beta_2 v_{t-1} + (1-\\beta_2) g_t^2$$\n"
+                "  - **Daily Milestone Drill:** Attempt the 5 isomorphic MCQs in your Student Portal Wrong Question Notebook.\n\n"
+                "---\n\n"
+                "#### 📅 **DAY 2: Modern Deep Architectures & High-Yield Exam Problem Solving**\n"
+                "*Focus: Units 3 & 4 (CNNs, Sequence Models & Exam Derivations)*\n\n"
+                "• **Morning Block (09:00 - 12:30): Convolutional Neural Networks (CNNs)**\n"
+                "  - **Dimension Tracking:** Memorize the spatial output dimension formula:\n"
+                "    $$O = \\left\\lfloor \\frac{W - K + 2P}{S} \\right\\rfloor + 1$$\n"
+                "  - **Feature Maps & Receptive Fields:** Strides, padding (Valid vs. Same), Max Pooling vs. Average Pooling.\n"
+                "  - **Slide Citation:** *Unit 3 Convolutional Neural Networks, Slides 8–24*.\n"
+                "  - **High-Yield Exam Trap:** Total trainable parameters for a Conv2D layer: $(K \\times K \\times C_{in} + 1) \\times C_{out}$.\n\n"
+                "• **Afternoon Block (14:00 - 17:30): Sequence Modeling (RNNs, LSTMs & Transformers)**\n"
+                "  - **Recurrent Architectures:** Hidden state update $h_t = \\tanh(W_{hh} h_{t-1} + W_{xh} x_t + b)$.\n"
+                "  - **LSTM Gating:** Forget gate $f_t$, Input gate $i_t$, Candidate $\\tilde{C}_t$, and Output gate $o_t$.\n"
+                "  - **Attention Mechanism:** Scaled Dot-Product Attention:\n"
+                "    $$\\text{Attention}(Q, K, V) = \\text{softmax}\\left(\\frac{Q K^T}{\\sqrt{d_k}}\\right) V$$\n"
+                "  - **Slide Citation:** *Unit 4 Sequence Modeling & Transformers, Slides 12–30*.\n\n"
+                "• **Evening Block (18:30 - 21:30): Full Mock Paper & Weak Topic Repair**\n"
+                "  - Review IA-1 and IA-2 question blueprints in the Faculty Console.\n"
+                "  - Re-derive Backpropagation across a 3-layer MLP by hand.\n"
+                "  - Verify that all tensor dimensions align.\n\n"
+                "---\n"
+                "Would you like me to generate a printable PDF study guide for this plan, or retrieve instructor notes for a specific topic?"
+            )
+
+        # -------------------------------------------------------------
+        # ACTION: EXAM STRATEGY 100/100
+        # -------------------------------------------------------------
+        elif action == "score_100_strategy":
+            msg_type = "EXAM_STRATEGY"
+            reply = (
+                "### 🏆 Blueprint Strategy: How to Score 100/100 in AIML-401 Deep Learning\n"
+                "*Official Pedagogical Scoring Guide • REVA University School of Computing & IT*\n\n"
+                "Scoring a perfect **100/100** requires flawless execution across **Internal Assessments (IA-1 & IA-2: 30 Marks each)**, "
+                "**Continuous Evaluation (Assignments: 20 Marks)**, and the **Semester End Examination (SEE: 100 Marks)**.\n\n"
+                "---\n\n"
+                "#### 1. 📐 Mathematical Derivations — The 10/10 Marking Rubric\n"
+                "In deep learning theory papers, derivations account for over 60% of total marks. To get full marks from university examiners, follow this 4-step derivation protocol:\n"
+                "1. **Define Architecture & Notation First (2 Marks):** Always state layer dimensions explicitly: $X \\in \\mathbb{R}^{n_x \\times m}, W \\in \\mathbb{R}^{n_l \\times n_{l-1}}$.\n"
+                "2. **State Forward Equations Explicitly (2 Marks):** $Z^{[l]} = W^{[l]} A^{[l-1]} + b^{[l]}, A^{[l]} = g(Z^{[l]})$.\n"
+                "3. **Chain Rule Expansion with Tensor Indices (4 Marks):** Write out intermediate differentials:\n"
+                "   $$dZ^{[l]} = dA^{[l]} \\odot g'(Z^{[l]}), \\quad dW^{[l]} = \\frac{1}{m} dZ^{[l]} (A^{[l-1]})^T, \\quad db^{[l]} = \\frac{1}{m} \\sum_{i=1}^m dZ^{[l](i)}$$\n"
+                "4. **Dimension Verification Box (2 Marks):** At the end of every derivation, draw a dimension check table confirming that shape(dW) matches shape(W). Evaluators award full marks instantly when dimension sanity checks are present.\n\n"
+                "---\n\n"
+                "#### 2. ⚠️ Eliminate the Top 4 'Zero-Mark' Traps\n"
+                "• **Confusing Matrix Multiplication with Element-Wise Ops:** In backpropagation, $dZ = dA \\odot g'(Z)$ uses Hadamard element-wise product ($\\odot$), whereas $dW = dZ \\cdot A^T$ uses standard matrix dot product. Mixing these costs 3–5 marks per question.\n"
+                "• **Forgetting the Bias Term in CNN Parameters:** Total parameters for Conv2D is $(K_h \\times K_w \\times C_{in} + 1) \\times C_{out}$. Forgetting the $+1$ bias drops full marks on dimension calculation problems.\n"
+                "• **Vanishing Gradient Explanation:** When discussing Sigmoid $\\sigma'(z) = \\sigma(z)(1-\\sigma(z))$, state maximum derivative is $0.25$ at $z=0$. Emphasize that multiplying numbers $\\le 0.25$ across $L$ layers causes gradients to decay exponentially ($0.25^L \\rightarrow 0$).\n"
+                "• **Softmax Derivative Derivation:** Always distinguish the two cases: $i = j$ ($\\frac{\\partial \\hat{y}_i}{\\partial z_j} = \\hat{y}_i(1-\\hat{y}_j)$) and $i \\neq j$ ($\\frac{\\partial \\hat{y}_i}{\\partial z_j} = -\\hat{y}_i \\hat{y}_j$).\n\n"
+                "---\n\n"
+                "#### 3. 🎯 Section-Wise Target Score Roadmap\n"
+                "| Assessment Component | Maximum Marks | Target for 100% | Critical High-Yield Focus Areas |\n"
+                "| :--- | :--- | :--- | :--- |\n"
+                "| **IA-1 Midterm** | 30.0 Max | **30.0 / 30** | Differential optimization, partial derivatives, multivariate chain rule, computational graph tracing. |\n"
+                "| **IA-2 Midterm** | 30.0 Max | **30.0 / 30** | CNN feature map dimensions, pooling strides, LSTM gates, Adam optimizer update equations. |\n"
+                "| **Formative Assignments** | 20.0 Max | **20.0 / 20** | Verified NumPy implementations, handwritten derivations with clean computational graphs, on-time submissions. |\n"
+                "| **Semester End Exam (SEE)** | 100.0 Max | **100 / 100** | Full syllabus mastery across Units 1–4, Bloom's level 4 (Analysis & Synthesis) derivations. |\n\n"
+                "---\n\n"
+                "#### 4. 🚀 Immediate Action Steps on Your Student Portal\n"
+                "1. **Review Your IA Diagnostics:** Navigate to your **IA-1 Question Blueprint** tab to ensure all Q1, Q2, Q3 topics show `MASTERED`.\n"
+                "2. **Clear Flagged Prerequisite Gaps:** If any question shows `< 50% DEFICIT`, click **Explain Weak Topic & Gap** to view the DAG root-cause breakdown.\n"
+                "3. **Daily Isomorphic Drills:** Complete 15 minutes of adaptive micro-drills in your **Wrong Question Notebook**.\n\n"
+                "Would you like me to generate a complete mock exam paper with full marking rubrics for practice?"
+            )
+
         # ACTION 1: NOTES ORCHESTRATION (Check DB -> Retrieve or Generate)
         # -------------------------------------------------------------
         elif action == "notes_action":

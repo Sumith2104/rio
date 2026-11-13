@@ -1102,6 +1102,30 @@ function getLocalOmniFallback(userText) {
   if (q === "hi" || q === "hello" || q.startsWith("hi ") || q.startsWith("hello ")) {
     return 'Hello! Great to see you. How are your studies for AIML-401 going today? Feel free to ask about deep learning concepts, request a downloadable PDF revision guide, or check your exam pass chances.';
   }
+  if (q.includes("study plan") || q.includes("plan for") || q.includes("2 days") || q.includes("2days") || q.includes("schedule")) {
+    return formatOmniResponseToHtml(
+      "### 🎯 Accelerated 2-Day Deep Learning Study Plan (AIML-401)\n\n" +
+      "**Day 1: Foundations & Feedforward Architectures**\n" +
+      "• Morning: Multivariable Calculus (Partial Derivatives & Chain Rule)\n" +
+      "• Afternoon: Activation functions (ReLU, Sigmoid, Tanh) & Cross-Entropy Loss\n" +
+      "• Evening: Optimization Dynamics (SGD, Momentum, Adam)\n\n" +
+      "**Day 2: Modern Deep Architectures & Exam Derivations**\n" +
+      "• Morning: Convolutional Neural Networks (Spatial dimensions & Feature maps)\n" +
+      "• Afternoon: Sequence models (LSTMs & Transformers)\n" +
+      "• Evening: 3-Layer MLP Backpropagation derivation & Wrong Question Notebook drills.",
+      "STUDY_PLAN"
+    );
+  }
+  if (q.includes("100/100") || q.includes("full marks") || q.includes("how can i score") || q.includes("how to score") || q.includes("score 100")) {
+    return formatOmniResponseToHtml(
+      "### 🏆 Blueprint Strategy: How to Score 100/100 in AIML-401 Deep Learning\n\n" +
+      "1. **Mathematical Derivations (60%):** State layer dimensions first, write explicit forward equations, expand with tensor chain rule, and provide a dimension check box.\n" +
+      "2. **Eliminate 0-Mark Traps:** Never mix Hadamard element-wise product with matrix multiplication; include bias (+1) in CNN parameter calculations.\n" +
+      "3. **IA-1 & IA-2:** Target 30/30 by reviewing question blueprints in your Student Portal.\n" +
+      "4. **Continuous Remediation:** Complete adaptive micro-drills in your Wrong Question Notebook.",
+      "EXAM_STRATEGY"
+    );
+  }
   if (q.includes("note") || q.includes("pdf") || q.includes("forward") || q.includes("prop") || q.includes("backprop")) {
     return formatOmniResponseToHtml(
       "### Academic Tutor: Notes & Study Guides\n\nI am synthesizing your study guide for **Forward Propagation & Deep Learning Foundations**. Your publication-grade notes and PDF are compiling.",

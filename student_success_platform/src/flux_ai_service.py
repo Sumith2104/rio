@@ -102,7 +102,7 @@ class FluxAIService:
                 self.chat_url,
                 json=payload,
                 headers=self.headers,
-                timeout=7
+                timeout=25
             )
 
             if response.status_code != 200:
@@ -166,13 +166,59 @@ class FluxAIService:
                     "marking_rubric": ["3 Marks: Derivation", "3 Marks: Architecture & Dimensions", "2 Marks: Pitfall Analysis"]
                 })
 
+        u_low = user_msg.lower()
+
+        # 1. Study Plan / Revision Roadmap (e.g. 2 days, 5 days, study plan)
+        if any(w in u_low for w in ["study plan", "plan for", "2 days", "2days", "3 days", "revision plan", "prepare for", "schedule"]):
+            return (
+                "### Accelerated Deep Learning Intensive Study Plan (AIML-401)\n\n"
+                "Here is your structured, high-yield study plan designed to master core concepts rapidly:\n\n"
+                "#### Day 1: Foundations & Feedforward Architectures\n"
+                "- **Morning (Calculus & Graph Theory):** Review multivariable partial derivatives $\\frac{\\partial J}{\\partial W}$ and the multivariate chain rule. Understand computational graph forward-backward flow.\n"
+                "- **Afternoon (Activations & Loss Landscapes):** Compare ReLU, LeakyReLU, Sigmoid, and Tanh. Understand vanishing gradients and binary/categorical cross-entropy loss formulations.\n"
+                "- **Evening (Optimization Dynamics):** Master Batch SGD vs. Mini-batch SGD, Momentum ($\\beta=0.9$), RMSprop, and Adam update equations.\n\n"
+                "#### Day 2: Deep Architectures & High-Yield Exam Problem Solving\n"
+                "- **Morning (Convolutional Networks):** Practice output volume dimension formulas $O = \\lfloor \\frac{W - K + 2P}{S} \\rfloor + 1$, receptive fields, and parameter counts.\n"
+                "- **Afternoon (Sequence Models & Attention):** Review LSTM gating mechanics ($f_t, i_t, \\tilde{C}_t, o_t$) and Scaled Dot-Product Attention $\\text{softmax}(\\frac{QK^T}{\\sqrt{d_k}})V$.\n"
+                "- **Evening (Mock Derivations):** Re-derive Backpropagation across a 3-layer MLP by hand and complete micro-drills in your Wrong Question Notebook."
+            )
+
+        # 2. Scoring 100/100 / Full Marks / Exam Strategy
+        if any(w in u_low for w in ["100/100", "100", "full marks", "score 100", "how can i score", "how to score", "get full"]):
+            return (
+                "### Blueprint Strategy: How to Score 100/100 in AIML-401 Deep Learning\n\n"
+                "Scoring full marks requires precision across internal assessments and final derivations:\n\n"
+                "1. **Flawless Derivation Protocol (60% of marks):**\n"
+                "   - State architecture and layer dimensions first: $X \\in \\mathbb{R}^{n_x \\times m}, W^{[l]} \\in \\mathbb{R}^{n_l \\times n_{l-1}}$.\n"
+                "   - Write explicit forward relations before differentials: $Z^{[l]} = W^{[l]} A^{[l-1]} + b^{[l]}$.\n"
+                "   - Use exact chain rule expansions with tensor notation: $dZ^{[l]} = dA^{[l]} \\odot g'(Z^{[l]})$.\n"
+                "   - Always include a **Dimension Sanity Check** at the end of every derivation.\n\n"
+                "2. **Eliminate Critical Pitfalls:**\n"
+                "   - Never confuse Hadamard element-wise product ($\\odot$) with matrix dot products.\n"
+                "   - Always account for bias parameters in CNN layer parameter counts: $(K_h \\times K_w \\times C_{in} + 1) \\times C_{out}$.\n"
+                "   - On softmax questions, explicitly evaluate both cases: $i = j$ and $i \\neq j$.\n\n"
+                "3. **Internal Assessment Mastery:** Target 30/30 on IA-1 & IA-2 by practicing verified blueprint question banks in the Student Portal."
+            )
+
+        # 3. Specific Concept Explanations
+        if any(w in u_low for w in ["backpropagation", "backprop", "chain rule", "gradient descent"]):
+            return (
+                "### Reverse-Mode Automatic Differentiation & Backpropagation\n\n"
+                "Backpropagation calculates the gradient of the scalar cost function $J$ with respect to every weight $W^{[l]}$ and bias $b^{[l]}$ by applying the multivariable chain rule recursively backwards:\n\n"
+                "1. **Output Error Gradient:** $dZ^{[L]} = A^{[L]} - Y$ (for Softmax with Cross-Entropy).\n"
+                "2. **Layer Weight Gradient:** $dW^{[l]} = \\frac{1}{m} dZ^{[l]} (A^{[l-1]})^T$.\n"
+                "3. **Layer Bias Gradient:** $db^{[l]} = \\frac{1}{m} \\sum_{i=1}^m dZ^{[l](i)}$.\n"
+                "4. **Upstream Propagated Error:** $dZ^{[l-1]} = ((W^{[l]})^T dZ^{[l]}) \\odot g'^{[l-1]}(Z^{[l-1]})$.\n\n"
+                "**Key Takeaway:** The transpose $(W^{[l]})^T$ ensures dimensions match the previous layer activations $A^{[l-1]}$."
+            )
+
+        # 4. General Pedagogical Response
         return (
-            "Based on the retrieved course materials and curriculum prerequisite analysis:\n\n"
-            "1. Foundational Prerequisite: Mastering earlier concepts (such as Partial Derivatives and Chain Rule) "
-            "is essential before attempting complex multi-stage transformations.\n"
-            "2. Conceptual Connection: In deep architectures, gradients propagate recursively backwards. "
-            "Understanding the calculus chain rule allows you to decompose the overall error gradient into layer-wise steps.\n"
-            "3. Action Step: Complete the recommended micro-drills in your Wrong Question Notebook before proceeding to the full training loop."
+            f"### Academic Copilot Guidance for AIML-401\n\n"
+            f"Regarding your query on **{user_msg}**:\n\n"
+            f"1. **Core Concept:** Grounded in your course syllabus, this topic connects foundational calculus with deep computational architectures.\n"
+            f"2. **Key Equation / Derivation:** Review the layer-wise matrix formulations and intermediate tensor dimensions.\n"
+            f"3. **Recommended Action:** Review the corresponding lecture slides in your Student Portal and attempt the targeted micro-drills."
         )
 
     # =========================================================================
