@@ -1,0 +1,10 @@
+
+        Module 1: Calculus and Optimization Foundations
+        Partial Derivatives, Matrix Differentiation, Gradient Vector, Hessian Matrix
+        
+        Module 2: Neural Networks & Backpropagation
+        Multilayer Perceptron, Forward Propagation, Chain Rule, Error Backpropagation, Weight Updates
+        
+        Module 3: Deep Optimization
+        Stochastic Gradient Descent, Momentum, Adam Optimizer, Vanishing Gradient Problem
+        

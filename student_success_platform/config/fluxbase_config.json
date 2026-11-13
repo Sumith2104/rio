@@ -1,0 +1,9 @@
+{
+  "provider": "fluxbase",
+  "base_url": "https://fluxbasedb.me",
+  "project_id": "1e6db5b86dd04e11",
+  "api_key": "fl_956003a4381d01ec22cdff62698f297b14e00097e538e4c7",
+  "database_type": "AWS PostgreSQL Serverless",
+  "description": "Cloud relational database configuration for Student and Faculty record persistence"
+}
+

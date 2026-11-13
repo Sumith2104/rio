@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REVA Smart Campus Intelligence & Student Success Platform (PACD-RAG)</title>
+  
+  <!-- Modern Clean Typography: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Minimalist Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Chart.js for High-Clarity Visualizations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- ==========================================
+       Top Navigation Bar (Minimalist Frosted)
+       ========================================== -->
+  <nav class="top-nav">
+    <div class="nav-container">
+      
+      <!-- Brand & Project Identity -->
+      <div class="brand-section">
+        <div class="brand-logo-badge">RU</div>
+        <div class="brand-titles">
+          <h1>
+            REVA Smart Campus Intelligence
+            <span class="author-pill">Author: Sumith U | SRN: R24EA807</span>
+          </h1>
+          <div class="brand-subtitle">
+            <span>PACD-RAG: Cognitive Prerequisite Diagnosis & Multi-Agent Student Success</span>
+            <span>&bull;</span>
+            <span>B.Tech CSE (AI & ML) 7th Sem</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Segmented View Switcher -->
+      <div class="role-switcher">
+        <button class="role-btn active" data-role="faculty">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Faculty Console
+        </button>
+        <button class="role-btn" data-role="student">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          Student SRL & RAG
+        </button>
+        <button class="role-btn" data-role="admin">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Campus Benchmark & Papers
+        </button>
+      </div>
+
+      <!-- Nav Utility Actions -->
+      <div class="nav-actions">
+        <button class="btn-utility" onclick="openBenchmarkModal()" title="View Step 2 4-Algorithm ML Benchmark">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          ML Benchmark (τ = 0.42)
+        </button>
+        <button class="btn-utility" id="ferpa-toggle" title="Toggle FERPA Anonymization for Student Privacy">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          FERPA Shield
+        </button>
+        <div class="auth-user-badge" id="nav-auth-badge" onclick="openLoginModal()" style="display: flex; align-items: center; gap: 6px; padding: 4px 10px; background: var(--bg-surface-subtle); border: 1px solid var(--border-light); border-radius: var(--radius-full); cursor: pointer;" title="Click to Switch User / Login">
+          <span class="user-role-dot" id="nav-user-dot" style="width: 8px; height: 8px; border-radius: 50%; background: #10b981;"></span>
+          <span id="nav-user-label" style="font-size: 11.5px; font-weight: 600; color: var(--text-primary);">Sumith U (Student)</span>
+          <span style="font-size: 10px; color: var(--text-muted);">&#x25BC;</span>
+        </div>
+        <div class="system-pulse" title="Inference Engine & Database Status">
+          <span class="pulse-dot"></span>
+          <span>FastAPI 8002 & Fluxbase DB</span>
+        </div>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- ==========================================
+       Main Application Container
+       ========================================== -->
+  <main class="app-container">
+
+    <!-- Minimal Executive Metric Strip -->
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-label">Monitored Cohort</span>
+          <div class="kpi-icon-box">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          </div>
+        </div>
+        <div class="kpi-value" id="kpi-total">1,420</div>
+        <div class="kpi-footer">
+          <span>Active B.Tech Cohort</span>
+          <span class="kpi-trend">&bull; 4 Departments</span>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-label">At-Risk Predictions</span>
+          <div class="kpi-icon-box">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+        </div>
+        <div class="kpi-value" id="kpi-risk">68 (4.8%)</div>
+        <div class="kpi-footer">
+          <span>Dropout / Failure Risk</span>
+          <span class="kpi-trend">&darr; 1.4% vs W4</span>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-label">Proactive Lead-Time</span>
+          <div class="kpi-icon-box">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+        </div>
+        <div class="kpi-value" id="kpi-leadtime">4.2 Weeks</div>
+        <div class="kpi-footer">
+          <span>Prior to Midterms</span>
+          <span class="kpi-trend">&check; Calibrated &tau; = 0.42</span>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-label">Remediation Efficacy</span>
+          <div class="kpi-icon-box">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+        </div>
+        <div class="kpi-value" id="kpi-interventions">42 Active / 86 Done</div>
+        <div class="kpi-footer">
+          <span>91.8% Resolution Ratio</span>
+          <span class="kpi-trend">&uarr; High Efficacy</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW 1: FACULTY / MENTOR CONSOLE
+         ========================================== -->
+    <section id="view-faculty" class="dashboard-view active">
+      
+      <!-- Faculty Role & Allocation Privilege Selector -->
+      <div class="glass-panel" style="padding: 1.1rem 1.4rem; margin-bottom: 1.25rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+          <div style="display: flex; align-items: center; gap: 0.85rem; flex-wrap: wrap;">
+            <span style="font-size: 12px; font-weight: 700; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.03em;">
+              Acting Faculty Mentor:
+            </span>
+            <select id="faculty-account-select" class="select-filter" onchange="onFacultyAccountChange()" style="min-width: 320px;">
+              <option value="FAC_AIML_01">FAC_AIML_01: Dr. Ramesh Kumar (ML Lead &bull; Mentee: R24EA807, AIML-401)</option>
+              <option value="FAC_AIML_02">FAC_AIML_02: Prof. Ananya Sharma (NLP Lead &bull; Mentee: R24EA842, AIML-402)</option>
+              <option value="FAC_AIML_03">FAC_AIML_03: Dr. Rajesh V (Senior Advisor &bull; Authorized All Courses)</option>
+            </select>
+          </div>
+          <div id="faculty-alloc-summary" style="font-size: 12px; color: var(--text-secondary); background: var(--bg-surface-subtle); padding: 5px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <strong>Allocated Mentees:</strong> R24EA807 (Sumith U) &bull; <strong>Course Instructor:</strong> AIML-401
+          </div>
+        </div>
+        <p style="font-size: 11.5px; color: var(--text-muted); margin-top: 0.5rem;">
+          <strong>Institutional Security Guard:</strong> Only the allocated mentor or subject teacher has write access to update student marks or attendance. Unauthorized teachers receive an immediate HTTP 403 Forbidden.
+        </p>
+      </div>
+
+      <!-- Cohort Analytics Trajectory & Matrix -->
+      <div class="charts-grid-2col">
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Conv-LSTM Week-Wise Early Detection Trajectory
+            </div>
+            <span class="chart-badge">Chen et al. (2022)</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="trajectoryChart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+              SAL & EC Dual-Factor Matrix
+            </div>
+            <span class="chart-badge">Qin et al. (2023)</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="salEcChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Student Cohort Roster & Continuous Assessment Entry -->
+      <div class="roster-card">
+        <div class="table-toolbar">
+          <div class="search-input-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="student-search" class="search-input" placeholder="Search student name, SRN, or risk factor...">
+          </div>
+          
+          <div class="filter-group">
+            <select id="risk-filter" class="select-filter">
+              <option value="all">All Risk Tiers</option>
+              <option value="high">Critical Risk</option>
+              <option value="medium">Medium Warning</option>
+              <option value="low">On Track (Safe)</option>
+            </select>
+
+            <select id="dept-filter" class="select-filter">
+              <option value="all">All Departments</option>
+              <option value="AI & ML">B.Tech AI & ML</option>
+              <option value="CSE">B.Tech CSE</option>
+              <option value="Data Science">B.Tech Data Science</option>
+              <option value="ECE">B.Tech ECE</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="student-table">
+            <thead>
+              <tr>
+                <th>Student Identity</th>
+                <th>Department</th>
+                <th>CGPA</th>
+                <th>Predicted Risk</th>
+                <th>Primary Risk Factor (TreeSHAP)</th>
+                <th>Intervention Status</th>
+                <th>Evaluation Actions</th>
+              </tr>
+            </thead>
+            <tbody id="student-table-body">
+              <!-- Dynamically populated by app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Multi-Format Resource Ingestion Hub -->
+      <div class="glass-panel">
+        <div class="section-header">
+          <div class="section-title-group">
+            <h3>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Course Knowledge Ingestion (ChromaDB Vector Store)
+            </h3>
+            <p class="section-desc">
+              Upload syllabus PDFs, lecture slides, and notes to automatically index semantic concept chunks for subject-locked PACD-RAG.
+            </p>
+          </div>
+        </div>
+
+        <div id="resource-dropzone" style="border: 2px dashed var(--border-medium); border-radius: var(--radius-md); padding: 1.75rem; text-align: center; cursor: pointer; transition: all var(--transition-fast); background: var(--bg-surface-subtle);">
+          <input type="file" id="resource-file-input" style="display: none;" accept=".pdf,.pptx,.ppt,.docx,.doc,.txt">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--text-secondary); margin-bottom: 0.4rem;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+          <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.15rem;">
+            Click to upload or drag & drop course materials
+          </div>
+          <div style="font-size: 11.5px; color: var(--text-muted);">
+            Supports PDF, PowerPoint (PPTX), and Word (DOCX) up to 50MB.
+          </div>
+        </div>
+
+        <div style="margin-top: 1.25rem;">
+          <h4 style="font-size: 11.5px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 0.5rem;">
+            Active Vector DB Collections:
+          </h4>
+          <div id="uploaded-resources-list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Automated Batch IA Ingestion & Class Weak Topics Diagnostic -->
+      <div class="glass-panel" style="margin-top: 1.25rem;">
+        <div class="section-header">
+          <div class="section-title-group">
+            <h3>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+              Automated Batch IA Marks Ingestion Pipeline & Class Weak Topics
+            </h3>
+            <p class="section-desc">
+              Zero-touch event pipeline: Ingests IA marks, recalculates risk predictions (τ = 0.42), detects topics with &lt; 50% score, retrieves syllabus outcomes via ChromaDB RAG, and generates remedial study plans.
+            </p>
+          </div>
+          <button class="btn-accent" onclick="runAutomatedBatchPipeline()" id="btn-run-batch-pipeline">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Trigger Batch IA Ingestion
+          </button>
+        </div>
+
+        <div style="margin-top: 0.75rem;">
+          <h4 style="font-size: 11.5px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 0.5rem;">
+            Cohort Weakness Diagnostic (AIML-401 Internal Assessments):
+          </h4>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Syllabus Unit & Assessment Topic</th>
+                  <th>Struggling Students</th>
+                  <th>Failure Rate</th>
+                  <th>Average Score</th>
+                  <th>Intervention Priority</th>
+                  <th>Remedial Status</th>
+                </tr>
+              </thead>
+              <tbody id="cohort-weak-topics-body">
+                <tr>
+                  <td><strong>Reverse-Mode Autodiff & Backpropagation</strong> (DL_BACKPROP)</td>
+                  <td>2 of 3 students</td>
+                  <td><span class="badge badge-risk">66.7% Struggling</span></td>
+                  <td>3.5 / 10 (35.0%)</td>
+                  <td><span class="badge badge-risk">HIGH PRIORITY</span></td>
+                  <td>5-Day RAG Remedial Study Plans Issued</td>
+                </tr>
+                <tr>
+                  <td><strong>Multivariate Chain Rule & Gradients</strong> (MATH_CHAIN_RULE)</td>
+                  <td>2 of 3 students</td>
+                  <td><span class="badge badge-risk">66.7% Struggling</span></td>
+                  <td>3.0 / 10 (30.0%)</td>
+                  <td><span class="badge badge-risk">HIGH PRIORITY</span></td>
+                  <td>Prerequisite DAG Review Activated</td>
+                </tr>
+                <tr>
+                  <td><strong>Deep Neural Network Training Loops</strong> (DL_NN_TRAIN)</td>
+                  <td>0 of 3 students</td>
+                  <td><span class="badge badge-safe">0.0% Struggling</span></td>
+                  <td>8.5 / 10 (85.0%)</td>
+                  <td><span class="badge badge-safe">ON TRACK</span></td>
+                  <td>Mastery Verified</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==========================================
+         VIEW 2: STUDENT SRL & RAG DASHBOARD
+         ========================================== -->
+    <section id="view-student" class="dashboard-view">
+      
+      <!-- Student Switcher Bar -->
+      <div class="student-switcher-bar">
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+          <span style="font-size: 12px; font-weight: 700; color: var(--text-primary); text-transform: uppercase;">
+            Student Profile:
+          </span>
+          <select id="srl-student-select" class="select-filter" style="min-width: 300px;"></select>
+        </div>
+        <div style="font-size: 11.5px; color: var(--text-muted);">
+          Self-Regulated Learning with DiCE Counterfactual Guidance & PACD-RAG Assistant
+        </div>
+      </div>
+
+      <!-- Student Profile & Health Ribbon -->
+      <div class="student-profile-strip">
+        <div class="srl-user-identity">
+          <img src="" id="srl-avatar-img" alt="Student" class="srl-avatar">
+          <div class="srl-user-info">
+            <h3 id="srl-name">Sumith U</h3>
+            <p id="srl-srn">R24EA807 | B.Tech AIML (Sem 7-B)</p>
+          </div>
+        </div>
+
+        <div class="srl-stats-row">
+          <div class="srl-stat-unit">
+            <div class="srl-stat-label">CGPA</div>
+            <div class="srl-stat-num" id="srl-cgpa">9.42</div>
+          </div>
+          <div class="srl-stat-unit">
+            <div class="srl-stat-label">Attendance</div>
+            <div class="srl-stat-num" id="srl-attendance">98%</div>
+          </div>
+          <div class="srl-stat-unit">
+            <div class="srl-stat-label">Study Time</div>
+            <div class="srl-stat-num" id="srl-vle-hours">14.5h / wk</div>
+          </div>
+        </div>
+
+        <div class="srl-health-box">
+          <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Health Score</div>
+          <div class="meter-score" id="srl-health-score">96/100</div>
+          <span id="srl-warning-text" style="font-size: 11px; font-weight: 600; color: #059669;">Exemplary Standing</span>
+          <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">
+            Dropout Prob: <strong id="srl-dropout-prob">4%</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Syllabus RAG: Weak IA Assessment Topics & AI Remedial Plan -->
+      <div class="glass-panel" id="student-weak-topics-card" style="margin-bottom: 1.25rem;">
+        <div class="section-header">
+          <div class="section-title-group">
+            <h3>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              My Weak IA Topics & Syllabus-Grounded Remedial Plan (PACD-RAG)
+            </h3>
+            <p class="section-desc">
+              Topics scoring &lt; 50% in Internal Assessments automatically trigger ChromaDB Syllabus vector retrieval and synthesize an individualized 5-Day Remedial Action Plan with AWS Bedrock AI.
+            </p>
+          </div>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn-utility" onclick="refreshStudentWeakTopicsPlan(true)" title="Re-synthesize study plan with AWS Bedrock AI">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+              Re-generate with AI
+            </button>
+          </div>
+        </div>
+
+        <div id="student-weak-topics-content">
+          <!-- Dynamically populated by app.js: loadWeakTopicsAndStudyPlan -->
+          <div style="padding: 1rem; background: var(--bg-surface-subtle); border-radius: var(--radius-md); border: 1px solid var(--border-light); text-align: center; color: var(--text-muted); font-size: 12px;">
+            Loading personalized assessment diagnostics and remedial plan from database...
+          </div>
+        </div>
+      </div>
+
+      <!-- Continuous Internal Evaluation (CIE) & Attendance Ledger -->
+      <div class="glass-panel" style="margin-bottom: 1.25rem;">
+        <div class="section-header">
+          <div class="section-title-group">
+            <h3>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              My Continuous Evaluation (CIE) Marks & Attendance
+            </h3>
+            <p class="section-desc">
+              Synchronized directly with Fluxbase AWS PostgreSQL. Attendance shortage alert triggered if attendance drops below 75%.
+            </p>
+          </div>
+          <button class="btn-utility" onclick="refreshStudentAcademicRecords()" title="Sync with Cloud Database">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            Sync Records
+          </button>
+        </div>
+
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Subject & Code</th>
+                <th>Course Instructor</th>
+                <th>IA-1 (/30)</th>
+                <th>IA-2 (/30)</th>
+                <th>Assignment (/10)</th>
+                <th>Internal Total (/70)</th>
+                <th>Exam (/100)</th>
+                <th>Grade</th>
+                <th>Attendance %</th>
+                <th>Eligibility Status</th>
+              </tr>
+            </thead>
+            <tbody id="student-academic-records-body">
+              <!-- Dynamically populated from /api/student/{srn}/academic-records -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Subject-Locked PACD-RAG Intelligent Tutor -->
+      <div class="rag-chat-card">
+        <div class="rag-header-strip">
+          <div class="section-title-group">
+            <h3>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              PACD-RAG Intelligent Subject Doubt Assistant
+            </h3>
+            <p class="section-desc">
+              Retrieves strictly from approved course syllabus, lecture slides, and prerequisite DAG ancestors to prevent AI hallucination.
+            </p>
+          </div>
+          
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-size: 11.5px; font-weight: 600; color: var(--text-secondary);">Subject Scope:</span>
+            <select id="rag-subject-select" class="select-filter">
+              <option value="AIML-401">AIML-401: Machine Learning & Deep Learning Intelligence Systems</option>
+              <option value="AIML-402">AIML-402: Natural Language Processing & Large Language Models</option>
+              <option value="AIML-403">AIML-403: Optimization & Graph Neural Networks</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Prompt suggestion chips -->
+        <div class="rag-prompt-chips">
+          <span style="font-size: 11px; font-weight: 600; color: var(--text-muted);">Quick Inquiries:</span>
+          <button class="rag-chip" onclick="setRagChip('Explain backpropagation chain rule')">
+            Explain backpropagation chain rule
+          </button>
+          <button class="rag-chip" onclick="setRagChip('Why does RNN gradient vanish or explode in BPTT?')">
+            Why does RNN gradient vanish or explode in BPTT?
+          </button>
+          <button class="rag-chip" onclick="setRagChip('What are the foundational prerequisites for CNN convolution?')">
+            Prerequisites for CNN convolution
+          </button>
+          <button class="rag-chip" onclick="setRagChip('How does TreeSHAP compute exact polynomial Shapley values?')">
+            TreeSHAP polynomial Shapley values
+          </button>
+        </div>
+
+        <div class="rag-input-wrapper">
+          <input type="text" id="rag-query-input" class="rag-input" placeholder="Ask a doubt about course concepts, equations, or prerequisite foundations...">
+          <button id="rag-submit-btn" class="btn-accent" onclick="submitSubjectRagQuery()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Ask PACD-RAG
+          </button>
+        </div>
+
+        <!-- RAG Response Box (Initially hidden) -->
+        <div id="rag-response-panel" class="rag-response-box" style="display: none;">
+          
+          <!-- Prerequisite Ancestor DAG Flow -->
+          <div id="rag-prereq-dag-container" class="rag-prereq-dag-wrapper" style="display: none;">
+            <div style="font-size: 11px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 0.35rem;">
+              PACD-RAG Prerequisite Ancestral Pathway (DAG Closure):
+            </div>
+            <div id="rag-prereq-dag-path" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.25rem;"></div>
+          </div>
+
+          <!-- Pedagogical Reasoning Text -->
+          <div id="rag-ai-text" class="rag-ai-text">
+            <!-- Populated by submitSubjectRagQuery -->
+          </div>
+
+          <!-- Verified Syllabus Chunks Citations -->
+          <div>
+            <div style="font-size: 11px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 0.5rem;">
+              Verified Syllabus & Lecture References (ChromaDB Vector Store):
+            </div>
+            <div id="rag-chunks-list">
+              <!-- Populated by submitSubjectRagQuery -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SRL Diagnostics & Prescriptions 2-Column Grid -->
+      <div class="srl-grid-2col">
+        
+        <!-- Left Column: What-If Simulator & Radar Chart -->
+        <div>
+          <!-- What-If Simulator -->
+          <div class="simulator-panel">
+            <div class="simulator-header">
+              <h4 style="font-size: 13px; font-weight: 700; color: var(--text-primary);">
+                DiCE Counterfactual "What-If" Simulator
+              </h4>
+              <span style="font-size: 11px; font-weight: 500; color: var(--text-muted);">Real-Time ML</span>
+            </div>
+            
+            <div class="sim-slider-row">
+              <div class="sim-slider-label">
+                <span>Adjust Weekly VLE Self-Study Hours:</span>
+                <span class="sim-slider-val" id="sim-slider-val">14.5 hrs/week</span>
+              </div>
+              <input type="range" id="sim-vle-slider" class="sim-range" min="1" max="20" step="0.5" value="14.5">
+            </div>
+
+            <div class="sim-result-box">
+              <div>
+                <div style="font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Simulated Failure Risk</div>
+                <div class="sim-metric-val" id="sim-res-risk" style="color: #059669;">4%</div>
+              </div>
+              <div style="width: 1px; height: 30px; background: var(--border-light);"></div>
+              <div>
+                <div style="font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Projected CGPA</div>
+                <div class="sim-metric-val" id="sim-res-cgpa">9.42</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6-Axis Radar Chart -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">
+                6-Axis Competency & SRL Balance (Radar Profile)
+              </div>
+              <span class="chart-badge">SRL Analytics</span>
+            </div>
+            <div class="chart-container" style="height: 230px;">
+              <canvas id="studentRadarChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: SHAP Waterfall, Prescriptions & Micro-Drills -->
+        <div>
+          
+          <!-- Study Consistency Bar -->
+          <div class="chart-card" style="margin-bottom: 1rem;">
+            <div class="chart-header">
+              <div class="chart-title">
+                Weekly Self-Regulated Study Consistency
+              </div>
+              <span class="chart-badge">Consistency Trend</span>
+            </div>
+            <div class="chart-container" style="height: 160px;">
+              <canvas id="srlHabitChart"></canvas>
+            </div>
+          </div>
+
+          <!-- TreeSHAP Local Feature Attributions -->
+          <div class="glass-panel" style="margin-bottom: 1rem;">
+            <h4 style="font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem;">
+              Explainable AI (TreeSHAP Local Attributions)
+            </h4>
+            <p style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 0.75rem;">
+              Mathematical Shapley breakdown showing positive protective drivers (green) and risk drivers (red).
+            </p>
+            <div id="srl-shap-container">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- DiCE Actionable Prescriptions -->
+          <div class="glass-panel" style="margin-bottom: 1rem;">
+            <h4 style="font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem;">
+              Personalized Prescriptive Recommendations (DiCE)
+            </h4>
+            <div id="srl-cf-container" style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Adaptive Concept Drills -->
+          <div class="glass-panel">
+            <h4 style="font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem;">
+              PACD-RAG Concept Mastery Drills (Spaced Repetition)
+            </h4>
+            <p style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 0.75rem;">
+              Isomorphic questions targeting verified prerequisite gaps with Ebbinghaus spaced intervals.
+            </p>
+            <div id="wrong-questions-drill">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ==========================================
+         VIEW 3: CAMPUS BENCHMARK & RESEARCH
+         ========================================== -->
+    <section id="view-admin" class="dashboard-view">
+      
+      <!-- Section Header -->
+      <div class="section-header">
+        <div class="section-title-group">
+          <h2>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Campus Model Benchmark & Literature Synthesis
+          </h2>
+          <p class="section-desc">
+            Empirical validation on 885 holdout students across 4 ML models and 22 peer-reviewed IEEE, Springer, and Elsevier citations.
+          </p>
+        </div>
+      </div>
+
+      <!-- Top Grid: Dept Risk + Benchmark Table -->
+      <div class="admin-grid">
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">
+              Department Risk Distribution
+            </div>
+            <span class="chart-badge">REVA University</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="deptRiskChart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">
+              Prebuilt ML Architecture Benchmark (Holdout Set)
+            </div>
+            <span class="chart-badge">Tested on 885 Students</span>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Algorithm</th>
+                  <th>Accuracy</th>
+                  <th>Recall</th>
+                  <th>ROC-AUC</th>
+                  <th>XAI Engine</th>
+                </tr>
+              </thead>
+              <tbody id="benchmark-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pipeline Track -->
+      <div class="glass-panel" style="margin-bottom: 1.25rem;">
+        <h4 style="font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 0.85rem;">
+          PACD-RAG End-to-End Production Pipeline Flow
+        </h4>
+        <div class="pipeline-track">
+          <div class="pipe-step">
+            <div class="pipe-icon-node">01</div>
+            <span class="pipe-title">Multi-Modal Ingestion</span>
+            <span class="pipe-sub">LMS Logs + IA + PDF Slides</span>
+          </div>
+          <div style="flex-grow: 1; height: 1px; background: var(--border-light); margin: 0 0.5rem; align-self: center;"></div>
+          <div class="pipe-step">
+            <div class="pipe-icon-node">02</div>
+            <span class="pipe-title">Anti-Leakage Split</span>
+            <span class="pipe-sub">Strict Temporal Cutoff</span>
+          </div>
+          <div style="flex-grow: 1; height: 1px; background: var(--border-light); margin: 0 0.5rem; align-self: center;"></div>
+          <div class="pipe-step">
+            <div class="pipe-icon-node">03</div>
+            <span class="pipe-title">ML Ensemble</span>
+            <span class="pipe-sub">Logistic / CatBoost (τ=0.42)</span>
+          </div>
+          <div style="flex-grow: 1; height: 1px; background: var(--border-light); margin: 0 0.5rem; align-self: center;"></div>
+          <div class="pipe-step">
+            <div class="pipe-icon-node">04</div>
+            <span class="pipe-title">PACD-RAG Diagnosis</span>
+            <span class="pipe-sub">DAG Ancestral Closure</span>
+          </div>
+          <div style="flex-grow: 1; height: 1px; background: var(--border-light); margin: 0 0.5rem; align-self: center;"></div>
+          <div class="pipe-step">
+            <div class="pipe-icon-node">05</div>
+            <span class="pipe-title">Agentic Intervention</span>
+            <span class="pipe-sub">Mentor Alerts & SRL Coaching</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Literature Catalog -->
+      <div class="glass-panel">
+        <div class="section-header">
+          <div class="section-title-group">
+            <h3>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              Synthesized Literature Corpus (22 Studies)
+            </h3>
+            <p class="section-desc">
+              Foundational peer-reviewed Springer, IEEE, and Elsevier papers grounding our models.
+            </p>
+          </div>
+        </div>
+        <div id="papers-catalog-grid" class="paper-cards-grid">
+          <!-- Dynamically populated from data.js -->
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ==========================================
+       MODAL 1: Faculty Marks & Attendance Entry
+       ========================================== -->
+  <div id="grade-attendance-modal" class="modal-backdrop">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 id="grade-modal-title">Update Marks & Attendance</h3>
+        <button class="modal-close-btn" onclick="closeGradeModal()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        
+        <!-- Privilege Identity Banner -->
+        <div style="background: var(--bg-surface-subtle); padding: 0.85rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); font-size: 12px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+            <span style="color: var(--text-muted);">Target Student:</span>
+            <strong id="grade-modal-target-student" style="color: var(--text-primary);">Sumith U [R24EA807]</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span style="color: var(--text-muted);">Acting Faculty Identity:</span>
+            <strong id="grade-modal-acting-faculty" style="color: var(--text-primary);">FAC_AIML_01 (Dr. Ramesh Kumar)</strong>
+          </div>
+        </div>
+
+        <!-- Privilege Alert / Error Box (Dynamically shown) -->
+        <div id="grade-privilege-alert" class="privilege-alert-box" style="display: none;"></div>
+
+        <!-- Course Select -->
+        <div class="form-field">
+          <label for="grade-modal-course-select">Course / Subject Code:</label>
+          <select id="grade-modal-course-select" class="form-control">
+            <option value="AIML-401">AIML-401: Machine Learning & Deep Learning Intelligence Systems</option>
+            <option value="AIML-402">AIML-402: Natural Language Processing & Large Language Models</option>
+            <option value="AIML-403">AIML-403: Optimization & Graph Neural Networks</option>
+          </select>
+        </div>
+
+        <!-- Continuous Evaluation Fields -->
+        <div class="form-grid-2col">
+          <div class="form-field">
+            <label for="grade-input-ia1">Internal Assessment 1 (IA-1 / 30):</label>
+            <input type="number" id="grade-input-ia1" class="form-control" min="0" max="30" step="0.5" placeholder="e.g. 28.5">
+          </div>
+          <div class="form-field">
+            <label for="grade-input-ia2">Internal Assessment 2 (IA-2 / 30):</label>
+            <input type="number" id="grade-input-ia2" class="form-control" min="0" max="30" step="0.5" placeholder="e.g. 29.0">
+          </div>
+        </div>
+
+        <div class="form-grid-2col">
+          <div class="form-field">
+            <label for="grade-input-assignment">Assignment Marks (/ 10):</label>
+            <input type="number" id="grade-input-assignment" class="form-control" min="0" max="10" step="0.5" placeholder="e.g. 9.5">
+          </div>
+          <div class="form-field">
+            <label for="grade-input-exam">Semester End Exam Score (/ 100):</label>
+            <input type="number" id="grade-input-exam" class="form-control" min="0" max="100" step="0.5" placeholder="e.g. 92.0">
+          </div>
+        </div>
+
+        <div class="form-grid-2col">
+          <div class="form-field">
+            <label for="grade-input-attendance">Course Attendance Rate (%):</label>
+            <input type="number" id="grade-input-attendance" class="form-control" min="0" max="100" step="0.5" placeholder="e.g. 94.5">
+          </div>
+          <div class="form-field">
+            <label for="grade-input-letter">Overall Letter Grade:</label>
+            <select id="grade-input-letter" class="form-control">
+              <option value="A+">A+ (Outstanding)</option>
+              <option value="A">A (Excellent)</option>
+              <option value="B">B (Good)</option>
+              <option value="C">C (Satisfactory)</option>
+              <option value="D">D (Pass)</option>
+              <option value="F">F (Fail / Backlog)</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-utility" onclick="closeGradeModal()">Cancel</button>
+        <button id="btn-save-grade-record" class="btn-accent" onclick="submitGradeUpdate()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Save & Verify Institutional Privilege
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 2: Student Counseling & Intervention
+       ========================================== -->
+  <div id="intervention-modal" class="modal-backdrop">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 id="modal-student-title">Academic Intervention Logging</h3>
+        <button class="modal-close-btn" onclick="closeModal()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); background: var(--bg-surface-subtle); padding: 0.85rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); font-size: 11.5px; gap: 0.5rem;">
+          <div>
+            <div style="color: var(--text-muted);">Assigned Mentor:</div>
+            <strong id="modal-mentor-name" style="color: var(--text-primary);">Dr. Ramesh Kumar</strong>
+          </div>
+          <div>
+            <div style="color: var(--text-muted);">Risk Category:</div>
+            <strong id="modal-risk-badge" style="color: var(--text-primary);">Low Risk (4%)</strong>
+          </div>
+          <div>
+            <div style="color: var(--text-muted);">Primary Driver:</div>
+            <strong id="modal-primary-factor" style="color: var(--text-primary);">Optimal Engagement</strong>
+          </div>
+        </div>
+
+        <div>
+          <h4 style="font-size: 11.5px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 0.5rem;">
+            Intervention History Trail:
+          </h4>
+          <div id="modal-intervention-log">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="modal-note-input">Log New Mentorship / Remedial Counseling Action:</label>
+          <textarea id="modal-note-input" class="form-control" rows="3" placeholder="Enter counseling details, assigned PACD-RAG prerequisite remedial modules, or review schedule..."></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-utility" onclick="closeModal()">Cancel</button>
+        <button class="btn-accent" onclick="saveInterventionNote()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Save Counseling Record
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       AUTHENTICATION & ROLE LOGIN MODAL
+       ========================================== -->
+  <div id="login-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-card" style="max-width: 480px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <div style="width: 28px; height: 28px; border-radius: 6px; background: var(--bg-surface-subtle); display: flex; align-items: center; justify-content: center;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div>
+            <h3 style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin: 0;">University Portal Authentication</h3>
+            <span style="font-size: 11.5px; color: var(--text-muted);">Sign in with role-based JWT access control</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="closeLoginModal()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div style="margin-bottom: 1rem;">
+          <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">1-Click Instant Test Credentials:</span>
+          <div style="display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.4rem;">
+            <button class="btn-utility" onclick="quickLogin('sumith.u@reva.edu.in', 'password123')" style="justify-content: flex-start; text-align: left; padding: 0.6rem 0.85rem;">
+              <span style="font-size: 14px; margin-right: 6px;">👨‍🎓</span>
+              <div>
+                <strong style="color: var(--text-primary); font-size: 12px;">Student: Sumith U (R24EA807)</strong>
+                <div style="font-size: 10.5px; color: var(--text-muted);">High CGPA (9.42), Safe Standing, AIML Sem 7-B</div>
+              </div>
+            </button>
+            <button class="btn-utility" onclick="quickLogin('vikram.p@reva.edu.in', 'password123')" style="justify-content: flex-start; text-align: left; padding: 0.6rem 0.85rem;">
+              <span style="font-size: 14px; margin-right: 6px;">⚠️</span>
+              <div>
+                <strong style="color: var(--status-risk-text); font-size: 12px;">Student: Vikram Patel (R24EA818)</strong>
+                <div style="font-size: 10.5px; color: var(--text-muted);">At-Risk (Dropout Prob 82%), Weak in Chain Rule & Backprop</div>
+              </div>
+            </button>
+            <button class="btn-utility" onclick="quickLogin('ramesh.kumar@reva.edu.in', 'password123')" style="justify-content: flex-start; text-align: left; padding: 0.6rem 0.85rem;">
+              <span style="font-size: 14px; margin-right: 6px;">👨‍🏫</span>
+              <div>
+                <strong style="color: var(--text-primary); font-size: 12px;">Faculty: Dr. Ramesh Kumar (FAC_AIML_01)</strong>
+                <div style="font-size: 10.5px; color: var(--text-muted);">Course Instructor for AIML-401 & Academic Mentor</div>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin: 1rem 0;">
+          <div style="flex: 1; height: 1px; background: var(--border-light);"></div>
+          <span style="font-size: 10.5px; color: var(--text-muted); text-transform: uppercase;">or enter credentials</span>
+          <div style="flex: 1; height: 1px; background: var(--border-light);"></div>
+        </div>
+
+        <form id="custom-login-form" onsubmit="handleCustomLogin(event)">
+          <div class="form-field" style="margin-bottom: 0.65rem;">
+            <label for="login-email" style="font-size: 11px; font-weight: 600; color: var(--text-secondary);">Institutional Email / SRN / Faculty ID:</label>
+            <input type="text" id="login-email" class="form-control" placeholder="e.g. sumith.u@reva.edu.in" required>
+          </div>
+          <div class="form-field" style="margin-bottom: 1rem;">
+            <label for="login-password" style="font-size: 11px; font-weight: 600; color: var(--text-secondary);">Password:</label>
+            <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn-accent" style="width: 100%; justify-content: center; padding: 0.65rem;">
+            Authenticate & Generate JWT Token
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       STEP 2: STUDENT RISK PREDICTION BENCHMARK MODAL
+       ========================================== -->
+  <div id="benchmark-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-card" style="max-width: 720px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <div style="width: 28px; height: 28px; border-radius: 6px; background: var(--bg-surface-subtle); display: flex; align-items: center; justify-content: center;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          </div>
+          <div>
+            <h3 style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin: 0;">Step 2: Student Risk Prediction Model (Part 2)</h3>
+            <span style="font-size: 11.5px; color: var(--text-muted);">Empirical 4-Algorithm Benchmark on Untouched Holdout Cohort (N = 885)</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="closeBenchmarkModal()">&times;</button>
+      </div>
+
+      <div class="modal-body" style="font-size: 12.5px; line-height: 1.55;">
+        <!-- Research Selection Abstract Quote -->
+        <div style="background: #fffbeb; border-left: 3px solid #d97706; padding: 0.85rem 1rem; border-radius: 4px; margin-bottom: 1rem; color: #78350f;">
+          <strong>Research Finding & Selection Abstract:</strong><br>
+          <em>"We trained and benchmarked 4 different Machine Learning algorithms: Logistic Regression, Random Forest, CatBoost, and XGBoost. We selected Logistic Regression / CatBoost because it gave the best balance: <strong>86.10% accuracy</strong> and <strong>81.69% recall on dropouts</strong> with a <strong>0.9133 ROC-AUC score</strong>. We adjusted the decision threshold to <strong>τ = 0.42</strong> so that we catch at-risk students <strong>4.2 weeks before midterms</strong>."</em>
+        </div>
+
+        <h4 style="font-size: 12px; font-weight: 700; color: var(--text-primary); text-transform: uppercase; margin-bottom: 0.5rem;">
+          4-Algorithm Holdout Test Performance Comparison:
+        </h4>
+        <div class="table-responsive" style="margin-bottom: 1rem;">
+          <table>
+            <thead>
+              <tr>
+                <th>Model Architecture</th>
+                <th>Accuracy</th>
+                <th>Dropout Recall</th>
+                <th>ROC-AUC</th>
+                <th>F1-Score</th>
+                <th>Selection Decision</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background: rgba(16, 185, 129, 0.08); font-weight: 600;">
+                <td><strong>Logistic Regression (Calibrated)</strong></td>
+                <td>86.10%</td>
+                <td><strong style="color: #059669;">81.69%</strong></td>
+                <td><strong style="color: #2563eb;">0.9133</strong></td>
+                <td>0.7932</td>
+                <td><span class="badge badge-safe">★ SELECTED CHAMPION</span></td>
+              </tr>
+              <tr>
+                <td><strong>Random Forest Classifier</strong></td>
+                <td>86.55%</td>
+                <td>78.52%</td>
+                <td>0.9082</td>
+                <td>0.7834</td>
+                <td><span class="badge">Higher Accuracy, Lower Recall</span></td>
+              </tr>
+              <tr>
+                <td><strong>CatBoost Gradient Booster</strong></td>
+                <td>85.88%</td>
+                <td>81.34%</td>
+                <td>0.9124</td>
+                <td>0.7901</td>
+                <td><span class="badge">Co-Champion (TreeSHAP Native)</span></td>
+              </tr>
+              <tr>
+                <td><strong>XGBoost Classifier</strong></td>
+                <td>85.42%</td>
+                <td>79.93%</td>
+                <td>0.9045</td>
+                <td>0.7798</td>
+                <td><span class="badge">Baseline Tree Ensemble</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 0.5rem;">
+          <div style="background: var(--bg-surface-subtle); padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+            <strong style="color: var(--text-primary); font-size: 11.5px;">Threshold Calibration (τ = 0.42):</strong>
+            <p style="font-size: 11px; color: var(--text-secondary); margin: 4px 0 0;">
+              Lowering decision threshold from standard 0.50 to 0.42 shifts sensitivity from 81.69% to 84.51%, catching an extra 8 at-risk students before critical grade lock.
+            </p>
+          </div>
+          <div style="background: var(--bg-surface-subtle); padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+            <strong style="color: var(--text-primary); font-size: 11.5px;">4.2-Week Proactive Lead-Time:</strong>
+            <p style="font-size: 11px; color: var(--text-secondary); margin: 4px 0 0;">
+              Signals trigger 29.4 days before Midterm Examinations, giving faculty mentors sufficient instructional runway for 5-Day PACD-RAG remediation.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-utility" onclick="closeBenchmarkModal()">Close Audit</button>
+        <button class="btn-accent" onclick="runBenchmarkInTerminal()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          Run Terminal Benchmark CLI
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       PIPELINE EXECUTION LOG MODAL
+       ========================================== -->
+  <div id="pipeline-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-card" style="max-width: 650px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <div style="width: 28px; height: 28px; border-radius: 6px; background: var(--bg-surface-subtle); display: flex; align-items: center; justify-content: center;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><line x1="20.49" y1="15" x2="23" y2="10"/></svg>
+          </div>
+          <div>
+            <h3 style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin: 0;">Automated Ingestion Pipeline Execution</h3>
+            <span style="font-size: 11.5px; color: var(--text-muted);" id="pipeline-modal-subtitle">Processing Batch IA Dataset...</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="closePipelineModal()">&times;</button>
+      </div>
+
+      <div class="modal-body" id="pipeline-modal-body">
+        <div style="padding: 2rem; text-align: center; color: var(--text-muted);">
+          Executing 6-stage automated pipeline...
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-accent" onclick="closePipelineModal()">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container"></div>
+
+  <!-- Core Platform Logic -->
+  <script src="js/data.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

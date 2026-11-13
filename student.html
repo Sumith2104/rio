@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Portal — Academic Trajectory &amp; AI-Guided Mastery</title>
+
+  <!-- Modern Clean Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@600;700&display=swap"
+    rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --bg-white: #ffffff;
+      --bg-canvas: #f8fafc;
+      --card-glass: rgba(244, 244, 245, 0.75);
+      --card-border: rgba(228, 228, 231, 0.85);
+      --card-hover-border: #a1a1aa;
+      --text-main: #09090b;
+      --text-muted: #71717a;
+      --btn-black: #000000;
+      --btn-black-hover: #27272a;
+      --btn-text: #ffffff;
+      --shadow-glass: 0 4px 20px 0 rgba(0, 0, 0, 0.03);
+      --blur-val: blur(16px);
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-display: 'Outfit', var(--font-sans);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-white);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ambient Depth Glows */
+    .ambient-glow {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+    }
+
+    .glow-1 {
+      top: -100px;
+      right: 8%;
+      background: #e4e4e7;
+    }
+
+    .glow-2 {
+      bottom: -120px;
+      left: 8%;
+      background: #f4f4f5;
+    }
+
+    /* Top Navigation: Clean, Minimal, No personal names or SRNs */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      width: 100%;
+      height: 64px;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: var(--blur-val);
+      -webkit-backdrop-filter: var(--blur-val);
+      border-bottom: 1px solid rgba(228, 228, 231, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-icon {
+      width: 30px;
+      height: 30px;
+      background: var(--btn-black);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: var(--font-display);
+    }
+
+    .brand-text {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn-nav-outline {
+      padding: 6px 14px;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.8);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-main);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+    }
+
+    .btn-nav-outline:hover {
+      background: #f4f4f5;
+      border-color: #a1a1aa;
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 3rem;
+      z-index: 1;
+    }
+
+    /* -------------------------------------------------------------
+       LOGIN VIEW CONTAINER (Light Frosted Glassmorphism)
+    ------------------------------------------------------------- */
+    #student-login-view {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: calc(100vh - 160px);
+      width: 100%;
+    }
+
+    .login-card {
+      background: var(--card-glass);
+      backdrop-filter: var(--blur-val);
+      -webkit-backdrop-filter: var(--blur-val);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+
+    .login-header-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--btn-black);
+      color: #ffffff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+      font-size: 20px;
+    }
+
+    .login-card h2 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.4rem;
+    }
+
+    .login-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--card-border);
+      border-radius: 9px;
+      font-size: 13.5px;
+      background: #ffffff;
+      color: var(--text-main);
+      font-family: inherit;
+      outline: none;
+      transition: border 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-control:focus {
+      border-color: #000000;
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.06);
+    }
+
+    .btn-black-login {
+      width: 100%;
+      padding: 12px;
+      background: var(--btn-black);
+      color: var(--btn-text);
+      border: none;
+      border-radius: 9px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      transition: background 0.2s ease;
+    }
+
+    .btn-black-login:hover {
+      background: var(--btn-black-hover);
+    }
+
+    .login-presets-title {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 1.75rem 0 0.75rem;
+      position: relative;
+    }
+
+    .quick-preset-chips {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .preset-chip {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 12px;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s ease;
+    }
+
+    .preset-chip:hover {
+      background: #f4f4f5;
+      border-color: #a1a1aa;
+    }
+
+    /* -------------------------------------------------------------
+       AUTHENTICATED DASHBOARD VIEW
+    ------------------------------------------------------------- */
+    #student-dashboard-view {
+      display: none;
+    }
+
+    .profile-strip {
+      background: var(--card-glass);
+      backdrop-filter: var(--blur-val);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      box-shadow: var(--shadow-glass);
+    }
+
+    .profile-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .profile-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--btn-black);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: var(--font-display);
+    }
+
+    .profile-info h2 {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 2px;
+      color: var(--text-main);
+    }
+
+    .profile-info p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .profile-right {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .metric-pill {
+      text-align: right;
+    }
+
+    .metric-pill-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .metric-pill-val {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* KPI Summary Strip */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .kpi-card {
+      background: var(--card-glass);
+      backdrop-filter: var(--blur-val);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-shadow: var(--shadow-glass);
+    }
+
+    .kpi-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .kpi-val {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .kpi-sub {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Glass Panels */
+    .glass-panel {
+      background: var(--card-glass);
+      backdrop-filter: var(--blur-val);
+      -webkit-backdrop-filter: var(--blur-val);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 1.75rem;
+      box-shadow: var(--shadow-glass);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(228, 228, 231, 0.6);
+      padding-bottom: 0.75rem;
+    }
+
+    .panel-header h2 {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .panel-header p {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .btn-black {
+      background: var(--btn-black);
+      color: var(--btn-text);
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-black:hover {
+      background: var(--btn-black-hover);
+      color: #ffffff;
+    }
+
+    .btn-outline {
+      background: #ffffff;
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 12.5px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-outline:hover {
+      background: #f4f4f5;
+      border-color: #a1a1aa;
+    }
+
+    .badge-tag {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      border: 1px solid #d4d4d8;
+      background: #f4f4f5;
+      color: #09090b;
+    }
+
+    /* Tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+      margin-top: 0.5rem;
+    }
+
+    .data-table th {
+      text-align: left;
+      padding: 10px 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-bottom: 1px solid rgba(228, 228, 231, 0.8);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .data-table td {
+      padding: 12px;
+      border-bottom: 1px solid rgba(228, 228, 231, 0.5);
+      color: var(--text-main);
+    }
+
+    .data-table tr:hover td {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    footer {
+      width: 100%;
+      border-top: 1px solid rgba(228, 228, 231, 0.6);
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: var(--blur-val);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      z-index: 10;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 0 1rem;
+      }
+
+      main {
+        padding: 1.5rem 1rem;
+      }
+
+      .profile-strip {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .profile-right {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="css/glassmorphism.css">
+</head>
+
+<body>
+
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <!-- Header: Minimal, Generic, No Names or Raw SRNs -->
+  <header>
+    <a href="student.html" class="nav-brand">
+      <div class="dedicated-logo">
+        <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
+          <path d="M16 6L25 11.2V21.6L16 26.8L7 21.6V11.2L16 6Z" stroke="rgba(255, 255, 255, 0.45)" stroke-width="1.2"/>
+          <circle cx="16" cy="16.4" r="3.2" fill="#6366f1"/>
+          <path d="M16 6V13.2M25 11.2L19.2 14.8M25 21.6L19.2 18M16 26.8V19.6M7 21.6L12.8 18M7 11.2L12.8 14.8" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="brand-text-wrap">
+        <span class="brand-name">PACD-RAG</span>
+        <span class="brand-sub">Student Portal &bull; Academic Copilot</span>
+      </div>
+    </a>
+    <div class="nav-links">
+      <div id="nav-auth-buttons" style="display: none; gap: 0.75rem;">
+        <button class="btn-nav-outline" id="btn-student-logout" onclick="studentSignOut()">
+          <span>Sign Out</span>
+        </button>
+      </div>
+      <a href="faculty.html" class="btn-nav-outline">
+        <span>Faculty Console</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </svg>
+      </a>
+      <a href="index.html" class="btn-nav-outline">Home</a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- 1. STUDENT LOGIN SCREEN (SMTP Nodemailer OTP & Password) -->
+    <div id="student-login-view">
+      <div class="login-card">
+        <div class="login-header-logo">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 6L25 11.2V21.6L16 26.8L7 21.6V11.2L16 6Z" stroke="rgba(255, 255, 255, 0.45)" stroke-width="1.2"/>
+            <circle cx="16" cy="16.4" r="3.2" fill="#6366f1"/>
+            <path d="M16 6V13.2M25 11.2L19.2 14.8M25 21.6L19.2 18M16 26.8V19.6M7 21.6L12.8 18M7 11.2L12.8 14.8" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h2>Student Authentication</h2>
+        <p>Enter your university credentials (SRN & Password) to access your academic dashboard.</p>
+
+        
+        <div id="stu-pwd-mode" style="display: block;">
+          <div id="student-login-error" style="display: none; background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 10px 12px; border-radius: 8px; font-size: 12.5px; margin-bottom: 1rem; text-align: left;"></div>
+          <form id="student-login-form" onsubmit="handleStudentLogin(event)">
+            <div class="form-group">
+              <label for="login-srn">Student ID / SRN</label>
+              <input type="text" id="login-srn" class="form-control" placeholder="e.g. STU-807 or R24EA807" required autocomplete="username" >
+            </div>
+            <div class="form-group">
+              <label for="login-pwd">Password</label>
+              <input type="password" id="login-pwd" class="form-control" placeholder="Enter password (e.g. password123)" required autocomplete="current-password" >
+            </div>
+            <button type="submit" class="btn-black-login">
+              <span>Sign In with Password</span>
+            </button>
+          </form>
+        </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. AUTHENTICATED DASHBOARD (Hidden until authenticated) -->
+    <div id="student-dashboard-view">
+
+      <!-- Real-Time Institutional Notification Banner (SMTP Nodemailer) -->
+      <div id="stu-notification-banner" style="margin-bottom: 1.5rem; background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #2563eb; border-radius: 10px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 36px; height: 36px; border-radius: 8px; background: #0f172a; color: #ffffff; display: flex; align-items: center; justify-content: center;">
+            <svg class="icon-svg standalone" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <div style="font-size: 13.5px; font-weight: 700; color: #0f172a;">
+              SMTP Student Notification Channel &bull; Recipient: <span id="stu-notif-email-display" style="color: #2563eb; font-family: monospace;">sumithu.dev@gmail.com</span>
+            </div>
+            <div id="stu-latest-notif-text" style="font-size: 12px; color: #64748b; margin-top: 2px;">
+              Connected to PostgreSQL Database (STU-807 &bull; R24EA807). Auto-notified when faculty uploads lecture notes, assigns tasks, or updates attendance.
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span class="badge-tag" style="background: #16a34a; color: #ffffff; border-color: #16a34a; font-weight: 600; font-size: 11px;">● SMTP ONLINE</span>
+          <button class="btn-outline" style="font-size: 11.5px; padding: 5px 12px;" onclick="checkStudentNotifications()"><svg class="icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg> Refresh Notices</button>
+        </div>
+      </div>
+
+      <!-- Student Header & Academic Identity -->
+      <div class="profile-strip">
+        <div class="profile-left">
+          <div class="profile-avatar" id="srl-avatar">ST</div>
+          <div class="profile-info">
+            <h2 id="srl-name">Active Student Profile</h2>
+            <p id="srl-srn">ID: STU-807 &bull; B.Tech AIML (Sem 7-B)</p>
+          </div>
+        </div>
+        <div class="profile-right">
+          <div class="metric-pill">
+            <div class="metric-pill-label">Academic Goal</div>
+            <div class="metric-pill-val" id="srl-target-cgpa">Target: 8.5+ SGPA</div>
+          </div>
+          <div class="metric-pill">
+            <div class="metric-pill-label">Assigned Advisor</div>
+            <div class="metric-pill-val">Faculty Advisor 01</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span id="srl-risk-badge" class="badge-tag"
+              style="background: #18181b; color: #ffffff; border-color: #18181b; padding: 4px 12px;">ON TRACK (LOW
+              RISK)</span>
+            
+          </div>
+        </div>
+      </div>
+
+      <!-- Student Metrics Strip -->
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="kpi-label">Class Attendance</div>
+          <div class="kpi-val" id="stu-kpi-att">94.5%</div>
+          <div class="kpi-sub" style="color: #71717a;">Threshold: &ge; 75.0% Mandatory</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Midterm IA-1 Score</div>
+          <div class="kpi-val" id="stu-kpi-ia1">26.0 / 30</div>
+          <div class="kpi-sub" style="color: #71717a;">Normalized Scale: 86.7%</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Predicted Exam Trajectory</div>
+          <div class="kpi-val" id="stu-kpi-pred">Pass (95.8%)</div>
+          <div class="kpi-sub" style="color: #71717a;">CatBoost Ensemble Inference</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Active Remedial Drills</div>
+          <div class="kpi-val" id="stu-kpi-remedial">0 Pending</div>
+          <div class="kpi-sub" style="color: #71717a;">All Prerequisites Mastered</div>
+        </div>
+      </div>
+
+      
+      <!-- SECTION: INTERNAL ASSESSMENT (IA) DIAGNOSTIC PERFORMANCE & PREREQUISITE GAPS -->
+      <div class="glass-panel" style="margin-bottom: 1.5rem;" id="panel-ia-diagnostics">
+        <div class="panel-header">
+          <div>
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+              </svg>
+              Internal Assessment (IA) Diagnostic Performance &amp; Prerequisite Gaps
+            </h2>
+            <p>Section-by-section breakdown of your midterm scores. Click any weak section to diagnose the root prerequisite gap in the Knowledge Graph DAG and start your 5-Day Remedial Action Plan.</p>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <button class="btn-black" id="stu-tab-ia-1" onclick="switchStudentIADiagnostics(1)" style="font-size: 11.5px; padding: 5px 14px; border-radius: 20px;">IA-1 Midterm</button>
+            <button class="btn-outline" id="stu-tab-ia-2" onclick="switchStudentIADiagnostics(2)" style="font-size: 11.5px; padding: 5px 14px; border-radius: 20px;">IA-2 Midterm</button>
+          </div>
+        </div>
+
+        <!-- Student Assessment Diagnostic Summary KPIs -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
+          <div style="background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 16px;">
+            <div style="font-size: 11.5px; color: var(--text-muted); font-weight: 600;">ASSESSMENT SCORE</div>
+            <div id="stu-diag-score-display" style="font-size: 20px; font-weight: 800; color: #000; margin-top: 4px;">Loading...</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 16px;">
+            <div style="font-size: 11.5px; color: var(--text-muted); font-weight: 600;">MASTERY STATUS</div>
+            <div id="stu-diag-status-badge" style="margin-top: 6px;">Loading...</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 16px;">
+            <div style="font-size: 11.5px; color: var(--text-muted); font-weight: 600;">PREREQUISITE GAPS DETECTED</div>
+            <div id="stu-diag-gaps-count" style="font-size: 20px; font-weight: 800; color: #dc2626; margin-top: 4px;">0 Gaps</div>
+          </div>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Question #</th>
+                <th>Topic Domain / Concept</th>
+                <th>Marks Obtained</th>
+                <th>Percentage</th>
+                <th>Status</th>
+                <th>Prerequisite Dependencies</th>
+                <th>Cognitive Diagnostic</th>
+              </tr>
+            </thead>
+            <tbody id="student-ia-diagnostics-body">
+              <tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 1.5rem;">Loading section performance diagnostics...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECTION 1: Course Assignments & Handwritten Photo AI Evaluation -->
+      <div class="glass-panel">
+        <div class="panel-header">
+          <div>
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+              </svg>
+              Course Assignments &amp; AI-Grounded Auto-Grading
+            </h2>
+            <p>Assignments autonomously distributed from curriculum files. Submit solutions by typing or uploading
+              handwritten photos for instant rubric evaluation.</p>
+          </div>
+          <button class="btn-outline" onclick="loadStudentAssignments()">Refresh Tasks</button>
+        </div>
+
+        <div id="student-assignments-container" style="display: flex; flex-direction: column; gap: 1rem;">
+          <div style="text-align: center; color: var(--text-muted); padding: 1.5rem;">Loading assigned coursework...
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 2: What-If Target & Recovery Advisory (DiCE Engine) -->
+      <div class="glass-panel">
+        <div class="panel-header">
+          <div>
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="4" y1="21" x2="4" y2="14" />
+                <line x1="4" y1="10" x2="4" y2="3" />
+                <line x1="12" y1="21" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12" y2="3" />
+                <line x1="20" y1="21" x2="20" y2="16" />
+                <line x1="20" y1="12" x2="20" y2="3" />
+              </svg>
+              Actionable What-If Counterfactual Recourse (DiCE Engine)
+            </h2>
+            <p>Adjust hypothetical study hours to calculate the exact minimal parameter shift needed to clear cutoffs
+              and reach target SGPA goals.</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; align-items: center;">
+          <div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 12.5px;">
+              <span>Simulate Additional Weekly Study Hours:</span>
+              <strong id="sim-slider-val" style="color: var(--text-main); font-weight: 700;">8.0 hrs/week</strong>
+            </div>
+            <input type="range" id="sim-vle-slider" min="2" max="25" step="0.5" value="8"
+              style="width: 100%; cursor: pointer;">
+          </div>
+          <div
+            style="display: flex; gap: 1rem; justify-content: space-around; background: rgba(255, 255, 255, 0.7); border: 1px solid var(--card-border); padding: 1rem; border-radius: 10px;">
+            <div style="text-align: center;">
+              <div style="font-size: 11px; color: var(--text-muted);">Simulated Risk</div>
+              <div id="sim-res-risk" style="font-size: 20px; font-weight: 700; color: #09090b;">18%</div>
+            </div>
+            <div style="text-align: center;">
+              <div style="font-size: 11px; color: var(--text-muted);">Simulated SGPA</div>
+              <div id="sim-res-cgpa" style="font-size: 20px; font-weight: 700; color: #09090b;">8.25</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- SECTION: OmniAssistant RAG + ML + AI Chatbot -->
+      <div class="glass-panel" id="omni-chat-section">
+        <div class="panel-header">
+          <div>
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+              OmniAssistant: AI + ML + RAG Academic Agent
+            </h2>
+            <p>Ask anything: retrieve verbatim lecture notes from ChromaDB, execute live pass/fail predictions, or get
+              target score guidance.</p>
+          </div>
+          <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center;">
+            <button class="btn-black" style="font-size: 11px; padding: 4px 10px;" onclick="executeAgentAction('GEN_PDF')"> Write Notes in PDF</button>
+            <button class="btn-outline" style="font-size: 11px; padding: 4px 10px;" onclick="executeAgentAction('RETRIEVE_FACULTY')"> Faculty Notes</button>
+            <button class="btn-outline" style="font-size: 11px; padding: 4px 10px;" onclick="quickAskOmni('Will I pass the exam with my current marks?')"> Predict Pass/Fail</button>
+            <button class="btn-outline" style="font-size: 11px; padding: 4px 10px;" onclick="quickAskOmni('How many marks do I need to score in IA-2 to get an 8.0 SGPA?')"> Target Marks</button>
+            <button class="btn-outline" style="font-size: 11px; padding: 4px 10px; color: #71717a;" onclick="clearStudentChatHistory()" title="Clear conversation history from account">️ Clear Chat</button>
+          </div>
+        </div>
+
+        <div
+          style="background: rgba(255,255,255,0.7); border: 1px solid var(--card-border); border-radius: 12px; padding: 1.25rem; display: flex; flex-direction: column; gap: 1rem;">
+          <!-- Chat Messages Scrollbox -->
+          <div id="omni-chat-log"
+            style="min-height: 200px; max-height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.85rem; padding-right: 0.5rem;">
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+              <div
+                style="width: 28px; height: 28px; border-radius: 6px; background: #000000; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0;">
+                AI</div>
+              <div
+                style="background: #ffffff; border: 1px solid var(--card-border); border-radius: 10px; padding: 0.75rem 1rem; font-size: 13px; line-height: 1.5; color: #09090b; max-width: 85%;">
+                Hello! I'm your AI academic tutor and copilot for <strong>AIML-401 Deep Learning</strong>. How can I support your studies today? You can ask me to explain lecture concepts, write downloadable PDF revision notes, review faculty slides, or check your exam pass trajectory.
+              </div>
+            </div>
+          </div>
+
+          <!-- Input Bar -->
+          <form onsubmit="handleSendOmniMessage(event)" style="display: flex; gap: 0.5rem; align-items: center;">
+            <input type="text" id="omni-chat-input" class="form-control"
+              placeholder="Ask anything about your syllabus, exam chances, or target marks..." style="flex: 1;" required
+              autocomplete="off">
+            <button type="submit" class="btn-black" id="omni-send-btn">
+              <span>Send Query</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13" />
+                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- SECTION 3: Enrolled Course Curriculum & Performance -->
+      <div class="glass-panel">
+        <div class="panel-header">
+          <div>
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                <line x1="3" y1="9" x2="21" y2="9" />
+                <line x1="9" y1="21" x2="9" y2="9" />
+              </svg>
+              Enrolled Course Curriculum &amp; Standing
+            </h2>
+            <p>Credit distribution, classroom attendance compliance, and internal marks.</p>
+          </div>
+        </div>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Course Code</th>
+              <th>Subject Title</th>
+              <th>Credits</th>
+              <th>Attendance</th>
+              <th>IA-1 Score</th>
+              <th>IA-2 Score</th>
+              <th>Projected Grade</th>
+            </tr>
+          </thead>
+          <tbody id="student-courses-table">
+            <tr>
+              <td><strong style="color: #09090b;">AIML-401</strong></td>
+              <td>Deep Learning &amp; Neural Architectures</td>
+              <td>4</td>
+              <td style="font-weight: 600;">94.5%</td>
+              <td style="color: #52525b;">26.0 / 30</td>
+              <td style="color: #52525b;">27.0 / 30</td>
+              <td><span class="badge-tag" style="background: #18181b; color: #ffffff;">A (Pass)</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color: #09090b;">AIML-402</strong></td>
+              <td>Natural Language Processing</td>
+              <td>4</td>
+              <td style="font-weight: 600;">92.0%</td>
+              <td style="color: #52525b;">25.5 / 30</td>
+              <td style="color: #52525b;">26.0 / 30</td>
+              <td><span class="badge-tag" style="background: #18181b; color: #ffffff;">A (Pass)</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color: #09090b;">AIML-403</strong></td>
+              <td>Machine Learning Operations (MLOps)</td>
+              <td>3</td>
+              <td style="font-weight: 600;">96.0%</td>
+              <td style="color: #52525b;">28.0 / 30</td>
+              <td style="color: #52525b;">29.0 / 30</td>
+              <td><span class="badge-tag" style="background: #000000; color: #ffffff;">A+ (Distinction)</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <span>Student Academic Intelligence Portal &bull; PACD-RAG Framework</span>
+    <span>Autonomous Adaptive Engine Online</span>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/student.js?v=20261102chatbot"></script>
+
+    <!-- MODAL: EXPLAIN WEAK TOPIC & PREREQUISITE ROOT CAUSE -->
+    <div id="modal-explain-weak-topic" class="modal-backdrop" style="display: none;">
+      <div class="glass-modal" style="max-width: 760px; width: 95%; max-height: 90vh; overflow-y: auto;">
+        <div class="modal-header">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: #000; color: #fff; display: flex; align-items: center; justify-content: center;">
+              <svg class="icon-svg standalone" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <div>
+              <h3 id="modal-weak-topic-title" style="margin: 0; font-size: 15px; font-weight: 700;">Question 3: Reverse-Mode Autodiff &amp; Backpropagation</h3>
+              <p id="modal-weak-score-badge" style="margin: 2px 0 0; font-size: 12px; color: var(--text-muted);">Score: 2.5 / 10.0 pts (25.0% - DEFICIT)</p>
+            </div>
+          </div>
+          <button class="btn-close" onclick="closeExplainWeakTopicModal()">&times;</button>
+        </div>
+
+        <div style="padding: 1.25rem 1.5rem;">
+          <!-- 1. Executive Diagnostic Root Cause -->
+          <div style="margin-bottom: 1.25rem; background: #fef2f2; border: 1px solid #fecaca; border-left: 4px solid #dc2626; border-radius: 8px; padding: 12px 16px;">
+            <div style="font-size: 12px; font-weight: 700; color: #991b1b; text-transform: uppercase; margin-bottom: 4px;">
+              Prerequisite Knowledge Graph DAG Diagnostic
+            </div>
+            <div id="modal-weak-root-cause" style="font-size: 13px; color: #7f1d1d; line-height: 1.5;">
+              Analyzing root-cause deficit...
+            </div>
+          </div>
+
+          <!-- 2. Prerequisite Concepts Gaps Trace -->
+          <div style="margin-bottom: 1.25rem;">
+            <h4 style="margin: 0 0 8px; font-size: 13px; font-weight: 700; color: #000;">
+              Prerequisite Dependencies Required for Concept Mastery
+            </h4>
+            <div id="modal-weak-prereqs-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px;">
+            </div>
+          </div>
+
+          <!-- 3. Syllabus Excerpt / Learning Objectives (ChromaDB RAG) -->
+          <div style="margin-bottom: 1.25rem;">
+            <h4 style="margin: 0 0 8px; font-size: 13px; font-weight: 700; color: #000;">
+              Official Syllabus &amp; Course Notes Context (ChromaDB RAG)
+            </h4>
+            <div id="modal-weak-syllabus-box" style="background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 14px; font-size: 12.5px; color: #334155; line-height: 1.5;">
+              Retrieving curriculum excerpts...
+            </div>
+          </div>
+
+          <!-- 4. 5-Day Remedial Action Plan -->
+          <div style="margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <h4 style="margin: 0; font-size: 13px; font-weight: 700; color: #000;">
+                Synthesized 5-Day Remedial Action Plan
+              </h4>
+              <span style="font-size: 11px; background: #000; color: #fff; padding: 2px 8px; border-radius: 12px;">5 Days to Exam Recovery</span>
+            </div>
+            <div id="modal-weak-schedule-container" style="display: flex; flex-direction: column; gap: 8px;">
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 8px; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+            <button class="btn-outline" onclick="closeExplainWeakTopicModal()">Close</button>
+            <button class="btn-black" onclick="triggerWeakTopicChatAssistant()">
+              <svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              Ask AI Copilot about this Topic
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</body>
+
+</html>

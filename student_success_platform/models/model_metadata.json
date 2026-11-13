@@ -1,0 +1,128 @@
+{
+  "project": "AI-Powered Agentic Smart Campus Intelligence & Student Success Platform",
+  "author": "Sumith U (SRN: R24EA807) | REVA University",
+  "part": "Part 2 \u2014 Student Risk Modeling",
+  "prediction_task": "BINARY (Dropout vs Persistent)",
+  "selected_algorithm": "Logistic Regression",
+  "selected_model_parameters": {
+    "C": 1.0,
+    "class_weight": "balanced",
+    "dual": false,
+    "fit_intercept": true,
+    "intercept_scaling": 1,
+    "l1_ratio": 0.0,
+    "max_iter": 1000,
+    "n_jobs": null,
+    "penalty": "deprecated",
+    "random_state": 42,
+    "solver": "lbfgs",
+    "tol": 0.0001,
+    "verbose": 0,
+    "warm_start": false
+  },
+  "train_set_size": 3539,
+  "test_set_size": 885,
+  "num_input_features": 236,
+  "test_metrics": {
+    "accuracy": 0.861,
+    "macro_precision": 0.8382,
+    "macro_recall": 0.8494,
+    "macro_f1": 0.8432,
+    "weighted_f1": 0.8622,
+    "confusion_matrix": [
+      [
+        530,
+        71
+      ],
+      [
+        52,
+        232
+      ]
+    ],
+    "per_class": {
+      "Persistent (0)": {
+        "precision": 0.9107,
+        "recall": 0.8819,
+        "f1": 0.896,
+        "support": 601
+      },
+      "Dropout (1)": {
+        "precision": 0.7657,
+        "recall": 0.8169,
+        "f1": 0.7905,
+        "support": 284
+      }
+    },
+    "roc_auc": 0.9133,
+    "pr_auc": 0.8796,
+    "dropout_recall": 0.8169,
+    "dropout_precision": 0.7657,
+    "false_negatives_count": 52,
+    "false_positives_count": 71,
+    "false_negative_rate": 0.1831,
+    "false_positive_rate": 0.1181
+  },
+  "all_candidates_comparison": [
+    {
+      "Model": "Logistic Regression",
+      "CV Macro F1": 0.8498,
+      "CV Accuracy": 0.8672,
+      "Accuracy": 0.861,
+      "Macro F1": 0.8432,
+      "Weighted F1": 0.8622,
+      "Dropout Recall": 0.8169,
+      "Dropout Precision": 0.7657,
+      "ROC-AUC": 0.9133,
+      "PR-AUC": 0.8796,
+      "False Negatives (Missed)": 52,
+      "False Positives": 71,
+      "Selection_Score": 0.850205
+    },
+    {
+      "Model": "Random Forest",
+      "CV Macro F1": 0.8424,
+      "CV Accuracy": 0.863,
+      "Accuracy": 0.8655,
+      "Macro F1": 0.8453,
+      "Weighted F1": 0.8653,
+      "Dropout Recall": 0.7852,
+      "Dropout Precision": 0.7936,
+      "ROC-AUC": 0.9118,
+      "PR-AUC": 0.8701,
+      "False Negatives (Missed)": 61,
+      "False Positives": 58,
+      "Selection_Score": 0.837885
+    },
+    {
+      "Model": "CatBoost",
+      "CV Macro F1": 0.8545,
+      "CV Accuracy": 0.874,
+      "Accuracy": 0.8588,
+      "Macro F1": 0.8381,
+      "Weighted F1": 0.8588,
+      "Dropout Recall": 0.7817,
+      "Dropout Precision": 0.7789,
+      "ROC-AUC": 0.9174,
+      "PR-AUC": 0.8774,
+      "False Negatives (Missed)": 62,
+      "False Positives": 63,
+      "Selection_Score": 0.8353649999999999
+    },
+    {
+      "Model": "XGBoost",
+      "CV Macro F1": 0.8529,
+      "CV Accuracy": 0.8726,
+      "Accuracy": 0.8497,
+      "Macro F1": 0.8271,
+      "Weighted F1": 0.8495,
+      "Dropout Recall": 0.7606,
+      "Dropout Precision": 0.7687,
+      "ROC-AUC": 0.9114,
+      "PR-AUC": 0.8753,
+      "False Negatives (Missed)": 68,
+      "False Positives": 65,
+      "Selection_Score": 0.821575
+    }
+  ],
+  "selection_justification": "Logistic Regression achieved the optimal trade-off with Dropout Recall=0.8169, Macro-F1=0.8432, and ROC-AUC=0.9133. It minimizes false negatives (missed at-risk students) while maintaining high precision."
+}

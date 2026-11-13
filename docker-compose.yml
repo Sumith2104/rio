@@ -1,0 +1,57 @@
+# =============================================================================
+# DOCKER COMPOSE CONFIGURATION: LOCAL DATABASES & VECTOR STORE
+# AI-Powered Agentic Smart Campus Intelligence & Student Success Platform
+# Author: Sumith U (SRN: R24EA807) | REVA University
+# =============================================================================
+# Services:
+#   1. chroma: ChromaDB vector database for embeddings (Syllabus, Notes, Question Bank)
+#   2. mysql: Relational database for student telemetry, course blueprints & logs
+# =============================================================================
+
+services:
+  # ChromaDB Vector Database for AI-Powered Embeddings (Part 5 RAG & Cognitive Diagnosis)
+  chroma:
+    image: chromadb/chroma:latest
+    container_name: rio_chromadb
+    ports:
+      - "8001:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+    environment:
+      - IS_PERSISTENT=TRUE
+      - ANONYMIZED_TELEMETRY=FALSE
+      - ALLOW_RESET=TRUE
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v2/heartbeat')\" || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # MySQL Relational Store (Student Profiles, Course Blueprints, Question Bank Items)
+  mysql:
+    image: mysql:8
+    container_name: rio_mysql
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=reva_admin_secret
+      - MYSQL_DATABASE=smart_campus_db
+      - MYSQL_USER=reva_student
+      - MYSQL_PASSWORD=reva_campus_pass
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-preva_admin_secret"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  chroma_data:
+    driver: local
+  mysql_data:
+    driver: local
+

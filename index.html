@@ -1,0 +1,2595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Campus Intelligence Platform (PACD-RAG)</title>
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  <!-- style.css removed for clean glassmorphism -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --bg-white: #ffffff;
+      --bg-canvas: #f8fafc;
+      --card-glass: rgba(244, 244, 245, 0.75);
+      --card-border: rgba(228, 228, 231, 0.85);
+      --card-hover-border: #a1a1aa;
+      --text-main: #09090b;
+      --text-muted: #71717a;
+      --btn-black: #000000;
+      --btn-black-hover: #27272a;
+      --btn-text: #ffffff;
+      --shadow-glass: 0 4px 20px 0 rgba(0, 0, 0, 0.03);
+      --blur-val: blur(16px);
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-display: 'Outfit', var(--font-sans);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-white);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ambient Depth Glows */
+    .ambient-glow {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+    }
+
+    .glow-1 {
+      top: -100px;
+      right: 8%;
+      background: #e4e4e7;
+    }
+
+    .glow-2 {
+      bottom: -120px;
+      left: 8%;
+      background: #f4f4f5;
+    }
+
+    /* Top Navigation: Clean, Minimal, No personal names or SRNs */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      width: 100%;
+      height: 64px;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: var(--blur-val);
+      -webkit-backdrop-filter: var(--blur-val);
+      border-bottom: 1px solid rgba(228, 228, 231, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-icon {
+      width: 30px;
+      height: 30px;
+      background: var(--btn-black);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: var(--font-display);
+    }
+
+    .brand-text {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn-nav-outline {
+      padding: 6px 14px;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.8);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-main);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+    }
+
+    .btn-nav-outline:hover {
+      background: #f4f4f5;
+      border-color: #a1a1aa;
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 3rem;
+      z-index: 1;
+    }
+
+    /* -------------------------------------------------------------
+       LOGIN VIEW CONTAINER (Light Frosted Glassmorphism)
+    ------------------------------------------------------------- */
+    #student-login-view {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: calc(100vh - 160px);
+      width: 100%;
+    }
+
+    .login-card {
+      background: var(--card-glass);
+      backdrop-filter: var(--blur-val);
+      -webkit-backdrop-filter: var(--blur-val);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+
+    .login-header-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--btn-black);
+      color: #ffffff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+      font-size: 20px;
+    }
+
+    .login-card h2 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.4rem;
+    }
+
+    .login-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--card-border);
+      border-radius: 9px;
+      font-size: 13.5px;
+      background: #ffffff;
+      color: var(--text-main);
+      font-family: inherit;
+      outline: none;
+      transition: border 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-control:focus {
+      border-color: #000000;
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.06);
+    }
+
+    .btn-black-login {
+      width: 100%;
+      padding: 12px;
+      background: var(--btn-black);
+      color: var(--btn-text);
+      border: none;
+      border-radius: 9px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      transition: background 0.2s ease;
+    }
+
+    .btn-black-login:hover {
+      background: var(--btn-black-hover);
+    }
+
+    .login-presets-title {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 1.75rem 0 0.75rem;
+      position: relative;
+    }
+
+    .quick-preset-chips {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .preset-chip {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 12px;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s ease;
+    }
+
+    .preset-chip:hover {
+      background: #f4f4f5;
+      border-color: #a1a1aa;
+    }
+
+    /* -------------------------------------------------------------
+       AUTHENTICATED DASHBOARD VIEW
+    ------------------------------------------------------------- */
+    #student-dashboard-view {
+      display: none;
+    }
+
+    .profile-strip {
+      background: var(--card-glass);
+      backdrop-filter: var(--blur-val);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      box-shadow: var(--shadow-glass);
+    }
+
+    .profile-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .profile-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--btn-black);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: var(--font-display);
+    }
+
+    .profile-info h2 {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 2px;
+      color: var(--text-main);
+    }
+
+    .profile-info p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .profile-right {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .metric-pill {
+      text-align: right;
+    }
+
+    .metric-pill-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .metric-pill-val {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* KPI Summary Strip */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .kpi-card {
+      background: var(--card-glass);
+      backdrop-filter: var(--blur-val);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-shadow: var(--shadow-glass);
+    }
+
+    .kpi-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .kpi-val {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .kpi-sub {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Glass Panels */
+    .glass-panel {
+      background: var(--card-glass);
+      backdrop-filter: var(--blur-val);
+      -webkit-backdrop-filter: var(--blur-val);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 1.75rem;
+      box-shadow: var(--shadow-glass);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(228, 228, 231, 0.6);
+      padding-bottom: 0.75rem;
+    }
+
+    .panel-header h2 {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .panel-header p {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .btn-black {
+      background: var(--btn-black);
+      color: var(--btn-text);
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-black:hover {
+      background: var(--btn-black-hover);
+      color: #ffffff;
+    }
+
+    .btn-outline {
+      background: #ffffff;
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 12.5px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-outline:hover {
+      background: #f4f4f5;
+      border-color: #a1a1aa;
+    }
+
+    .badge-tag {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      border: 1px solid #d4d4d8;
+      background: #f4f4f5;
+      color: #09090b;
+    }
+
+    /* Tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+      margin-top: 0.5rem;
+    }
+
+    .data-table th {
+      text-align: left;
+      padding: 10px 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-bottom: 1px solid rgba(228, 228, 231, 0.8);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .data-table td {
+      padding: 12px;
+      border-bottom: 1px solid rgba(228, 228, 231, 0.5);
+      color: var(--text-main);
+    }
+
+    .data-table tr:hover td {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    footer {
+      width: 100%;
+      border-top: 1px solid rgba(228, 228, 231, 0.6);
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: var(--blur-val);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      z-index: 10;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 0 1rem;
+      }
+
+      main {
+        padding: 1.5rem 1rem;
+      }
+
+      .profile-strip {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .profile-right {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+    
+    :root {
+      --bg-white: #ffffff;
+      --bg-canvas: #f8fafc;
+      --card-glass: rgba(244, 244, 245, 0.75);
+      --card-border: rgba(228, 228, 231, 0.85);
+      --card-hover-border: #a1a1aa;
+      --text-main: #09090b;
+      --text-muted: #71717a;
+      --btn-black: #000000;
+      --btn-black-hover: #27272a;
+      --btn-text: #ffffff;
+      --shadow-glass: 0 4px 20px 0 rgba(0, 0, 0, 0.03);
+      --blur-val: blur(16px);
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-display: 'Outfit', var(--font-sans);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-white);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ambient Depth Glows */
+    .ambient-glow {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+    }
+    .glow-1 { top: -100px; right: 8%; background: #e4e4e7; }
+    .glow-2 { bottom: -120px; left: 8%; background: #f4f4f5; }
+
+    /* Top Navigation: Clean, Minimal, No personal names or SRNs */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      width: 100%;
+      height: 64px;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: var(--blur-val);
+      -webkit-backdrop-filter: var(--blur-val);
+      border-bottom: 1px solid rgba(228, 228, 231, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-icon {
+      width: 30px;
+      height: 30px;
+      background: var(--btn-black);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: var(--font-display);
+    }
+
+    .brand-text {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .btn-nav-outline {
+      padding: 6px 14px;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.8);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-main);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn-nav-outline:hover {
+      background: #f4f4f5;
+      border-color: #a1a1aa;
+    }
+
+    /* Main Content Container */
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 3rem;
+      z-index: 1;
+    }
+
+    .page-title-wrap {
+      margin-bottom: 2rem;
+    }
+    .page-title-wrap h1 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.25rem;
+    }
+    .page-title-wrap p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* KPI Summary Strip */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .kpi-card {
+      background: var(--card-glass);
+      backdrop-filter: var(--blur-val);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-shadow: var(--shadow-glass);
+    }
+    .kpi-label {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    .kpi-val {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .kpi-sub {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Glass Panels */
+    .glass-panel {
+      background: var(--card-glass);
+      backdrop-filter: var(--blur-val);
+      -webkit-backdrop-filter: var(--blur-val);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 1.75rem;
+      box-shadow: var(--shadow-glass);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(228, 228, 231, 0.6);
+      padding-bottom: 0.75rem;
+    }
+    .panel-header h2 {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .panel-header p {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    /* Upload Box & Trace */
+    .upload-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .dropzone {
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px dashed var(--card-hover-border);
+      border-radius: 10px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dropzone-icon {
+      font-size: 28px;
+      margin-bottom: 0.5rem;
+      color: var(--text-muted);
+    }
+    .dropzone h3 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    .dropzone p {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .btn-black {
+      background: var(--btn-black);
+      color: var(--btn-text);
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background 0.2s ease;
+      text-decoration: none;
+    }
+    .btn-black:hover {
+      background: var(--btn-black-hover);
+    }
+    .btn-black:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .btn-outline {
+      background: #ffffff;
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 12.5px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+    .btn-outline:hover {
+      background: #f4f4f5;
+      border-color: #a1a1aa;
+    }
+
+    /* Console Trace */
+    .trace-box {
+      background: #18181b;
+      color: #f4f4f5;
+      border-radius: 10px;
+      padding: 1rem;
+      font-family: monospace;
+      font-size: 11.5px;
+      line-height: 1.5;
+      max-height: 180px;
+      min-height: 140px;
+      overflow-y: auto;
+    }
+
+    /* Clean Light Gray Tables with High-Contrast Text */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+      margin-top: 0.5rem;
+    }
+    .data-table th {
+      text-align: left;
+      padding: 10px 12px;
+      font-weight: 700 !important;
+      color: #09090b !important;
+      border-bottom: 2px solid #09090b !important;
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .data-table td {
+      padding: 12px;
+      border-bottom: 1px solid rgba(228, 228, 231, 0.8);
+      color: #09090b !important;
+      font-weight: 500;
+    }
+    .data-table tr:hover td {
+      background: rgba(244, 244, 245, 0.8);
+    }
+
+    .badge-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid #d4d4d8;
+      background: #f4f4f5;
+      color: #18181b;
+    }
+
+    /* Modal Styling */
+        .glass-modal {
+      background: #ffffff !important;
+      border: 1px solid rgba(228, 228, 231, 0.9) !important;
+      border-radius: 16px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3) !important;
+      position: relative;
+      overflow: hidden;
+    }
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-window {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      width: 100%;
+      max-width: 480px;
+      padding: 1.5rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .modal-header h3 {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .modal-close-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+    .modal-body {
+      margin-bottom: 1.5rem;
+    }
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+    }
+    .form-control {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-family: inherit;
+    }
+
+    footer {
+      width: 100%;
+      border-top: 1px solid rgba(228, 228, 231, 0.6);
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: var(--blur-val);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      z-index: 10;
+    }
+
+    @media (max-width: 768px) {
+      .upload-grid { grid-template-columns: 1fr; }
+      header { padding: 0 1rem; }
+      main { padding: 1.5rem 1rem; }
+    }
+
+    /* Global Navigation Header */
+    header {
+      height: 64px;
+      border-bottom: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.90);
+      backdrop-filter: var(--blur-val);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-icon {
+      width: 28px;
+      height: 28px;
+      background: var(--btn-black);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    /* Sleek Tab Switcher */
+    .portal-nav-switcher {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: #f4f4f5;
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid #e4e4e7;
+    }
+
+    .nav-tab-btn {
+      padding: 7px 18px;
+      border-radius: 7px;
+      font-size: 12.5px;
+      font-weight: 600;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .nav-tab-btn:hover {
+      color: var(--text-main);
+    }
+
+    .nav-tab-btn.active {
+      background: #ffffff;
+      color: var(--text-main);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .header-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+    }
+
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 1.5rem 2rem;
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      background: #ffffff;
+    }
+
+    @media (max-width: 850px) {
+      header { padding: 0 1rem; }
+      main { padding: 1.5rem 1rem; }
+    }
+  </style>
+  <link rel="stylesheet" href="css/glassmorphism.css">
+</head>
+<body>
+
+  <!-- Ambient Lighting -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <!-- Unified Sticky Header -->
+  <header>
+    <a href="index.html" class="nav-brand">
+      <div class="dedicated-logo">
+        <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
+          <path d="M16 6L25 11.2V21.6L16 26.8L7 21.6V11.2L16 6Z" stroke="rgba(255, 255, 255, 0.45)" stroke-width="1.2"/>
+          <circle cx="16" cy="16.4" r="3.2" fill="#6366f1"/>
+          <path d="M16 6V13.2M25 11.2L19.2 14.8M25 21.6L19.2 18M16 26.8V19.6M7 21.6L12.8 18M7 11.2L12.8 14.8" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="brand-text-wrap">
+        <span class="brand-name">PACD-RAG</span>
+        <span class="brand-sub">Smart Campus Intelligence</span>
+      </div>
+    </a>
+
+    <!-- Role / View Switcher -->
+    <div class="portal-nav-switcher segmented-tabs">
+      <button class="segmented-tab active" id="tab-student-btn" onclick="switchPortalTab('student')">
+        <svg class="icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        <span>Student Portal</span>
+      </button>
+      <button class="segmented-tab" id="tab-faculty-btn" onclick="switchPortalTab('faculty')">
+        <svg class="icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Faculty Console</span>
+      </button>
+    </div>
+
+    <div class="header-status" style="display: flex; align-items: center; gap: 8px;">
+      <span class="status-indicator-dot"></span>
+      <span id="global-status-text" style="font-size: 11.5px; font-weight: 600; color: var(--text-muted);">Online &bull; Dual-Port Active</span>
+    </div>
+  </header>
+
+  <!-- Main View Container -->
+  <main>
+    <!-- VIEW 1: STUDENT PORTAL -->
+    <div id="portal-view-student">
+      <!-- 1. STUDENT LOGIN SCREEN (SMTP Nodemailer OTP & Password) -->
+      <div id="student-login-view">
+        <div class="login-card">
+          <div class="login-header-logo">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 6L25 11.2V21.6L16 26.8L7 21.6V11.2L16 6Z" stroke="rgba(255, 255, 255, 0.45)" stroke-width="1.2"/>
+            <circle cx="16" cy="16.4" r="3.2" fill="#6366f1"/>
+            <path d="M16 6V13.2M25 11.2L19.2 14.8M25 21.6L19.2 18M16 26.8V19.6M7 21.6L12.8 18M7 11.2L12.8 14.8" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+          <h2>Student Authentication</h2>
+          <p>Sign in to your student academic portal via Nodemailer SMTP Protocol.</p>
+
+          <div id="stu-pwd-mode" style="display: block;">
+            <div id="student-login-error" style="display: none; background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 10px 12px; border-radius: 8px; font-size: 12.5px; margin-bottom: 1rem; text-align: left;"></div>
+            <form id="student-login-form" onsubmit="handleStudentLogin(event)">
+              <div class="form-group">
+                <label for="login-srn">Student ID / SRN</label>
+                <input type="text" id="login-srn" class="form-control" placeholder="e.g. STU-807 or R24EA807" required autocomplete="username" >
+              </div>
+              <div class="form-group">
+                <label for="login-pwd">Password</label>
+                <input type="password" id="login-pwd" class="form-control" placeholder="Enter password (e.g. password123)" required autocomplete="current-password" >
+              </div>
+              <button type="submit" class="btn-black-login">
+                <span>Sign In with Password</span>
+              </button>
+            </form>
+          </div>
+
+          </div>
+        </div>
+      </div>
+
+    <!-- 2. AUTHENTICATED DASHBOARD (Hidden until authenticated) -->
+    <div id="student-dashboard-view" style="display: none;">
+
+      <!-- Real-Time Institutional Notification Banner (SMTP Nodemailer) -->
+      <div id="stu-notification-banner" style="margin-bottom: 1.5rem; background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #2563eb; border-radius: 10px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 36px; height: 36px; border-radius: 8px; background: #0f172a; color: #ffffff; display: flex; align-items: center; justify-content: center;">
+            <svg class="icon-svg standalone" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <div style="font-size: 13.5px; font-weight: 700; color: #0f172a;">
+              SMTP Student Notification Channel &bull; Recipient: <span id="stu-notif-email-display" style="color: #2563eb; font-family: monospace;">sumithu.dev@gmail.com</span>
+            </div>
+            <div id="stu-latest-notif-text" style="font-size: 12px; color: #64748b; margin-top: 2px;">
+              Connected to PostgreSQL Database (STU-807 &bull; R24EA807). Auto-notified when faculty uploads lecture notes, assigns tasks, or updates attendance.
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span class="badge-tag" style="background: #16a34a; color: #ffffff; border-color: #16a34a; font-weight: 600; font-size: 11px;">● SMTP ONLINE</span>
+          <button class="btn-outline" style="font-size: 11.5px; padding: 5px 12px;" onclick="checkStudentNotifications()"><svg class="icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg> Refresh Notices</button>
+        </div>
+      </div>
+
+      <!-- Student Header & Academic Identity -->
+      <div class="profile-strip">
+        <div class="profile-left">
+          <div class="profile-avatar" id="srl-avatar">ST</div>
+          <div class="profile-info">
+            <h2 id="srl-name">Active Student Profile</h2>
+            <p id="srl-srn">ID: STU-807 &bull; B.Tech AIML (Sem 7-B)</p>
+          </div>
+        </div>
+        <div class="profile-right">
+          <div class="metric-pill">
+            <div class="metric-pill-label">Academic Goal</div>
+            <div class="metric-pill-val" id="srl-target-cgpa">Target: 8.5+ SGPA</div>
+          </div>
+          <div class="metric-pill">
+            <div class="metric-pill-label">Assigned Advisor</div>
+            <div class="metric-pill-val">Faculty Advisor 01</div>
+          </div>
+          <div>
+            <span id="srl-risk-badge" class="badge-tag"
+              style="background: #18181b; color: #ffffff; border-color: #18181b; padding: 4px 12px;">ON TRACK (LOW
+              RISK)</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Student Metrics Strip -->
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="kpi-label">Class Attendance</div>
+          <div class="kpi-val" id="stu-kpi-att">94.5%</div>
+          <div class="kpi-sub" style="color: #71717a;">Threshold: &ge; 75.0% Mandatory</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Midterm IA-1 Score</div>
+          <div class="kpi-val" id="stu-kpi-ia1">26.0 / 30</div>
+          <div class="kpi-sub" style="color: #71717a;">Normalized Scale: 86.7%</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Predicted Exam Trajectory</div>
+          <div class="kpi-val" id="stu-kpi-pred">Pass (95.8%)</div>
+          <div class="kpi-sub" style="color: #71717a;">CatBoost Ensemble Inference</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Active Remedial Drills</div>
+          <div class="kpi-val" id="stu-kpi-remedial">0 Pending</div>
+          <div class="kpi-sub" style="color: #71717a;">All Prerequisites Mastered</div>
+        </div>
+      </div>
+
+      
+      <!-- SECTION: INTERNAL ASSESSMENT (IA) DIAGNOSTIC PERFORMANCE & PREREQUISITE GAPS -->
+      <div class="glass-panel" style="margin-bottom: 1.5rem;" id="panel-ia-diagnostics">
+        <div class="panel-header">
+          <div>
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+              </svg>
+              Internal Assessment (IA) Diagnostic Performance &amp; Prerequisite Gaps
+            </h2>
+            <p>Section-by-section breakdown of your midterm scores. Click any weak section to diagnose the root prerequisite gap in the Knowledge Graph DAG and start your 5-Day Remedial Action Plan.</p>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <button class="btn-black" id="stu-tab-ia-1" onclick="switchStudentIADiagnostics(1)" style="font-size: 11.5px; padding: 5px 14px; border-radius: 20px;">IA-1 Midterm</button>
+            <button class="btn-outline" id="stu-tab-ia-2" onclick="switchStudentIADiagnostics(2)" style="font-size: 11.5px; padding: 5px 14px; border-radius: 20px;">IA-2 Midterm</button>
+          </div>
+        </div>
+
+        <!-- Student Assessment Diagnostic Summary KPIs -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
+          <div style="background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 16px;">
+            <div style="font-size: 11.5px; color: var(--text-muted); font-weight: 600;">ASSESSMENT SCORE</div>
+            <div id="stu-diag-score-display" style="font-size: 20px; font-weight: 800; color: #000; margin-top: 4px;">Loading...</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 16px;">
+            <div style="font-size: 11.5px; color: var(--text-muted); font-weight: 600;">MASTERY STATUS</div>
+            <div id="stu-diag-status-badge" style="margin-top: 6px;">Loading...</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 16px;">
+            <div style="font-size: 11.5px; color: var(--text-muted); font-weight: 600;">PREREQUISITE GAPS DETECTED</div>
+            <div id="stu-diag-gaps-count" style="font-size: 20px; font-weight: 800; color: #dc2626; margin-top: 4px;">0 Gaps</div>
+          </div>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Question #</th>
+                <th>Topic Domain / Concept</th>
+                <th>Marks Obtained</th>
+                <th>Percentage</th>
+                <th>Status</th>
+                <th>Prerequisite Dependencies</th>
+                <th>Cognitive Diagnostic</th>
+              </tr>
+            </thead>
+            <tbody id="student-ia-diagnostics-body">
+              <tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 1.5rem;">Loading section performance diagnostics...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECTION 1: Course Assignments & Handwritten Photo AI Evaluation -->
+      <div class="glass-panel">
+        <div class="panel-header">
+          <div>
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+              </svg>
+              Course Assignments &amp; AI-Grounded Auto-Grading
+            </h2>
+            <p>Assignments autonomously distributed from curriculum files. Submit solutions by typing or uploading
+              handwritten photos for instant rubric evaluation.</p>
+          </div>
+          <button class="btn-outline" onclick="loadStudentAssignments()">Refresh Tasks</button>
+        </div>
+
+        <div id="student-assignments-container" style="display: flex; flex-direction: column; gap: 1rem;">
+          <div style="text-align: center; color: var(--text-muted); padding: 1.5rem;">Loading assigned coursework...
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 2: What-If Target & Recovery Advisory (DiCE Engine) -->
+      <div class="glass-panel">
+        <div class="panel-header">
+          <div>
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="4" y1="21" x2="4" y2="14" />
+                <line x1="4" y1="10" x2="4" y2="3" />
+                <line x1="12" y1="21" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12" y2="3" />
+                <line x1="20" y1="21" x2="20" y2="16" />
+                <line x1="20" y1="12" x2="20" y2="3" />
+              </svg>
+              Actionable What-If Counterfactual Recourse (DiCE Engine)
+            </h2>
+            <p>Adjust hypothetical study hours to calculate the exact minimal parameter shift needed to clear cutoffs
+              and reach target SGPA goals.</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; align-items: center;">
+          <div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 12.5px;">
+              <span>Simulate Additional Weekly Study Hours:</span>
+              <strong id="sim-slider-val" style="color: var(--text-main); font-weight: 700;">8.0 hrs/week</strong>
+            </div>
+            <input type="range" id="sim-vle-slider" min="2" max="25" step="0.5" value="8"
+              style="width: 100%; cursor: pointer;">
+          </div>
+          <div
+            style="display: flex; gap: 1rem; justify-content: space-around; background: rgba(255, 255, 255, 0.7); border: 1px solid var(--card-border); padding: 1rem; border-radius: 10px;">
+            <div style="text-align: center;">
+              <div style="font-size: 11px; color: var(--text-muted);">Simulated Risk</div>
+              <div id="sim-res-risk" style="font-size: 20px; font-weight: 700; color: #09090b;">18%</div>
+            </div>
+            <div style="text-align: center;">
+              <div style="font-size: 11px; color: var(--text-muted);">Simulated SGPA</div>
+              <div id="sim-res-cgpa" style="font-size: 20px; font-weight: 700; color: #09090b;">8.25</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- SECTION: OmniAssistant RAG + ML + AI Chatbot -->
+      <div class="glass-panel" id="omni-chat-section">
+        <div class="panel-header">
+          <div>
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+              OmniAssistant: AI + ML + RAG Academic Agent
+            </h2>
+            <p>Ask anything: retrieve verbatim lecture notes from ChromaDB, execute live pass/fail predictions, or get
+              target score guidance.</p>
+          </div>
+          <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center;">
+            <button class="btn-black" style="font-size: 11px; padding: 4px 10px;" onclick="executeAgentAction('GEN_PDF')"> Write Notes in PDF</button>
+            <button class="btn-outline" style="font-size: 11px; padding: 4px 10px;" onclick="executeAgentAction('RETRIEVE_FACULTY')"> Faculty Notes</button>
+            <button class="btn-outline" style="font-size: 11px; padding: 4px 10px;" onclick="quickAskOmni('Will I pass the exam with my current marks?')"> Predict Pass/Fail</button>
+            <button class="btn-outline" style="font-size: 11px; padding: 4px 10px;" onclick="quickAskOmni('How many marks do I need to score in IA-2 to get an 8.0 SGPA?')"> Target Marks</button>
+            <button class="btn-outline" style="font-size: 11px; padding: 4px 10px; color: #71717a;" onclick="clearStudentChatHistory()" title="Clear conversation history from account">️ Clear Chat</button>
+          </div>
+        </div>
+
+        <div
+          style="background: rgba(255,255,255,0.7); border: 1px solid var(--card-border); border-radius: 12px; padding: 1.25rem; display: flex; flex-direction: column; gap: 1rem;">
+          <!-- Chat Messages Scrollbox -->
+          <div id="omni-chat-log"
+            style="min-height: 200px; max-height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.85rem; padding-right: 0.5rem;">
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+              <div
+                style="width: 28px; height: 28px; border-radius: 6px; background: #000000; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0;">
+                AI</div>
+              <div
+                style="background: #ffffff; border: 1px solid var(--card-border); border-radius: 10px; padding: 0.75rem 1rem; font-size: 13px; line-height: 1.5; color: #09090b; max-width: 85%;">
+                Hello! I'm your AI academic tutor and copilot for <strong>AIML-401 Deep Learning</strong>. How can I support your studies today? You can ask me to explain lecture concepts, write downloadable PDF revision notes, review faculty slides, or check your exam pass trajectory.
+              </div>
+            </div>
+          </div>
+
+          <!-- Input Bar -->
+          <form onsubmit="handleSendOmniMessage(event)" style="display: flex; gap: 0.5rem; align-items: center;">
+            <input type="text" id="omni-chat-input" class="form-control"
+              placeholder="Ask anything about your syllabus, exam chances, or target marks..." style="flex: 1;" required
+              autocomplete="off">
+            <button type="submit" class="btn-black" id="omni-send-btn">
+              <span>Send Query</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13" />
+                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- SECTION 3: Enrolled Course Curriculum & Performance -->
+      <div class="glass-panel">
+        <div class="panel-header">
+          <div>
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                <line x1="3" y1="9" x2="21" y2="9" />
+                <line x1="9" y1="21" x2="9" y2="9" />
+              </svg>
+              Enrolled Course Curriculum &amp; Standing
+            </h2>
+            <p>Credit distribution, classroom attendance compliance, and internal marks.</p>
+          </div>
+        </div>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Course Code</th>
+              <th>Subject Title</th>
+              <th>Credits</th>
+              <th>Attendance</th>
+              <th>IA-1 Score</th>
+              <th>IA-2 Score</th>
+              <th>Projected Grade</th>
+            </tr>
+          </thead>
+          <tbody id="student-courses-table">
+            <tr>
+              <td><strong style="color: #09090b;">AIML-401</strong></td>
+              <td>Deep Learning &amp; Neural Architectures</td>
+              <td>4</td>
+              <td style="font-weight: 600;">94.5%</td>
+              <td style="color: #52525b;">26.0 / 30</td>
+              <td style="color: #52525b;">27.0 / 30</td>
+              <td><span class="badge-tag" style="background: #18181b; color: #ffffff;">A (Pass)</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color: #09090b;">AIML-402</strong></td>
+              <td>Natural Language Processing</td>
+              <td>4</td>
+              <td style="font-weight: 600;">92.0%</td>
+              <td style="color: #52525b;">25.5 / 30</td>
+              <td style="color: #52525b;">26.0 / 30</td>
+              <td><span class="badge-tag" style="background: #18181b; color: #ffffff;">A (Pass)</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color: #09090b;">AIML-403</strong></td>
+              <td>Machine Learning Operations (MLOps)</td>
+              <td>3</td>
+              <td style="font-weight: 600;">96.0%</td>
+              <td style="color: #52525b;">28.0 / 30</td>
+              <td style="color: #52525b;">29.0 / 30</td>
+              <td><span class="badge-tag" style="background: #000000; color: #ffffff;">A+ (Distinction)</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+      <!-- SECTION 4: Course Learning Materials & Uploaded Faculty Notes -->
+      <div class="glass-panel" style="margin-top: 1.5rem;">
+        <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+          <div>
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              Course Learning Materials &amp; Uploaded Faculty Notes
+            </h2>
+            <p>Official verified lecture notes, syllabus slides, and revision documents indexed in database &amp; ChromaDB.</p>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <span class="badge-tag" style="background: #09090b; color: #ffffff; padding: 4px 10px; font-weight: 600;" id="materials-count-badge">10 Files Indexed</span>
+            <button class="btn-outline" style="font-size: 11.5px; padding: 5px 12px;" onclick="loadUploadedLearningMaterials()"><svg class="icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg> Refresh List</button>
+          </div>
+        </div>
+
+        <div id="student-materials-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 1rem; margin-top: 1rem;">
+          <!-- Dynamically populated by js/student.js -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- VIEW 2: FACULTY CONSOLE -->
+    <div id="portal-view-faculty" style="display: none;">
+
+      <!-- A. FACULTY LOGIN SCREEN (SMTP Nodemailer OTP & Password) -->
+      <div id="faculty-login-view" style="display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 160px); width: 100%;">
+        <div class="login-card">
+          <div class="login-header-logo">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 6L25 11.2V21.6L16 26.8L7 21.6V11.2L16 6Z" stroke="rgba(255, 255, 255, 0.45)" stroke-width="1.2"/>
+            <circle cx="16" cy="16.4" r="3.2" fill="#6366f1"/>
+            <path d="M16 6V13.2M25 11.2L19.2 14.8M25 21.6L19.2 18M16 26.8V19.6M7 21.6L12.8 18M7 11.2L12.8 14.8" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+          <h2>Faculty Authentication</h2>
+          <p>Faculty &amp; Advisor Console secured by Nodemailer SMTP Authentication.</p>
+
+          <!-- Auth Mode Toggle -->
+          <div id="fac-pwd-mode" style="display: block;">
+            <div id="faculty-login-error" style="display: none; background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 10px 12px; border-radius: 8px; font-size: 12.5px; margin-bottom: 1rem; text-align: left;"></div>
+            <form id="faculty-login-form" onsubmit="handleFacultyPasswordLogin(event)">
+              <div class="form-group">
+                <label for="fac-login-id">Faculty ID or Email</label>
+                <input type="text" id="fac-login-id" class="form-control" placeholder="e.g. FAC_AIML_01"  required>
+              </div>
+              <div class="form-group">
+                <label for="fac-login-pwd">Password</label>
+                <input type="password" id="fac-login-pwd" class="form-control" placeholder="Enter password"  required>
+              </div>
+              <button type="submit" class="btn-black-login">
+                <span>Sign In with Password</span>
+              </button>
+            </form>
+          </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- B. AUTHENTICATED FACULTY DASHBOARD VIEW -->
+      <div id="faculty-dashboard-view" style="display: none;">
+
+      <!-- Quick SMTP Student Notification Gateway -->
+      <div style="margin-bottom: 1.5rem; background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #000000; border-radius: 10px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 36px; height: 36px; border-radius: 8px; background: #0f172a; color: #ffffff; display: flex; align-items: center; justify-content: center;">
+            <svg class="icon-svg standalone" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <div style="font-size: 13.5px; font-weight: 700; color: #0f172a;">
+              SMTP Student Notification System (Nodemailer Protocol)
+            </div>
+            <div style="font-size: 12px; color: #64748b; margin-top: 2px;">
+              Target Enrolled Student: <strong>Sumith U (STU-807 / R24EA807)</strong> &bull; Database Email: <code style="color: #0f172a;">sumithu.dev@gmail.com</code>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <button class="btn-black" style="font-size: 11.5px; padding: 6px 14px; background: #7c3aed; border-color: #7c3aed;" onclick="dispatchStudentAssignmentAlert()"><svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Dispatch Assignment Alert</button>
+          <button class="btn-black" style="font-size: 11.5px; padding: 6px 14px; background: #dc2626; border-color: #dc2626;" onclick="dispatchStudentAttendanceAlert('STU-807', 68.0)"><svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg> Dispatch Attendance Warning</button>
+        </div>
+      </div>
+
+        <div class="page-title-wrap" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h1>Curriculum Grounding &amp; Academic Risk Monitoring</h1>
+            <p>Upload course lecture notes and question papers into ChromaDB, monitor cohort performance, and log targeted interventions.</p>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div id="faculty-user-badge" style="font-size: 12px; font-weight: 600; padding: 6px 14px; background: rgba(0,0,0,0.04); border: 1px solid var(--card-border); border-radius: 8px;">
+              ‍ Dr. Ramesh Kumar (FAC_AIML_01)
+            </div>
+            <button class="btn-outline" style="font-size: 12px; padding: 6px 12px; display: inline-flex; align-items: center; gap: 5px;" onclick="facultySignOut()">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sign Out
+            </button>
+          </div>
+        </div>
+
+    <!-- KPI Strip -->
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-label">Monitored Cohort</div>
+        <div class="kpi-val" id="kpi-total">1,420</div>
+        <div class="kpi-sub">B.Tech Active Enrolled</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">At-Risk Identified</div>
+        <div class="kpi-val" id="kpi-risk">68 (4.8%)</div>
+        <div class="kpi-sub">Early Warning Triggered</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Advance Lead-Time</div>
+        <div class="kpi-val">4.2 Weeks</div>
+        <div class="kpi-sub">Prior to End-Semester Exams</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Active Remedial Plans</div>
+        <div class="kpi-val">42 Active</div>
+        <div class="kpi-sub">5-Day Study Drills Issued</div>
+      </div>
+    </div>
+
+    <!-- SECTION 1: Autonomous AI Agent Upload Gateway (Notes / QP / Attendance / Marks) -->
+    <div class="glass-panel">
+      <div class="panel-header">
+        <div>
+          <h2>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Curriculum Notes &amp; Question Paper (QP) Upload Gateway
+          </h2>
+          <p>Upload lecture notes (PDF/PPTX) to vectorize into ChromaDB or Question Papers (QP) to map topic blueprints and track mark deficits.</p>
+        </div>
+      </div>
+
+      <div class="upload-grid">
+        <div class="dropzone">
+          <div class="dropzone-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+          <h3>Select Academic Document</h3>
+          <p>Supports Syllabus PDF, PPTX Lecture Slides, IA Marks Excel, Question Papers</p>
+          <input type="file" id="agent-file-input" style="display: none;" onchange="handleAgentFileSelected(event)">
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn-outline" onclick="document.getElementById('agent-file-input').click()">Browse Local File</button>
+            <button class="btn-black" id="btn-agent-launch" onclick="launchAgentExecution()" disabled>Run Orchestration &rarr;</button>
+          </div>
+          <div id="agent-selected-filename" style="margin-top: 0.75rem; font-size: 11.5px; color: var(--text-muted);">No file selected</div>
+        </div>
+
+        <div style="display: flex; flex-direction: column;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <span style="font-size: 11.5px; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Agent Execution Trace</span>
+            <span id="agent-job-status-pill" class="badge-tag">STANDBY</span>
+          </div>
+          <div id="agent-steps-console" class="trace-box">
+            <span style="color: #71717a;">[STANDBY] Awaiting faculty document upload to commence autonomous workflow...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+      <!-- SECTION: Uploaded Materials Ingestion Repository -->
+      <div class="glass-panel" style="margin-top: 1.5rem;">
+        <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+          <div>
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+              </svg>
+              Course Materials Repository (Active in ChromaDB Vector Store)
+            </h2>
+            <p>All official lecture notes, slide decks, and syllabus files indexed for student RAG copilot.</p>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <span class="badge-tag" style="background: #09090b; color: #ffffff; padding: 4px 10px; font-weight: 600;" id="fac-materials-count-badge">10 Documents</span>
+            <button class="btn-outline" style="font-size: 11.5px; padding: 5px 12px;" onclick="loadFacultyUploadedMaterials()"><svg class="icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg> Refresh Files</button>
+          </div>
+        </div>
+
+        <div id="faculty-materials-table-container" style="margin-top: 1rem; overflow-x: auto;">
+          <!-- Dynamically populated by js/faculty.js -->
+        </div>
+      </div>
+
+      <!-- SECTION 2: Automated Assessment Ingestion & Class Weak Topics -->
+    <div class="glass-panel">
+      <div class="panel-header">
+        <div>
+          <h2>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            Automated Assessment Ingestion &amp; Class Weak Topics
+          </h2>
+          <p>Diagnostic concept performance breakdown across Midterms (IA-1, IA-2) and Course Problem Sets (Assignment 1, 2).</p>
+        </div>
+        <button class="btn-black" onclick="openUploadQPModal()"><svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Upload IA Question Paper &amp; Blueprint</button>
+          <button class="btn-black" onclick="openBatchIAMarksModal()" id="btn-run-batch-pipeline"><svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Batch Ingest IA Marks</button>
+      </div>
+
+      <!-- Assessment Filter Tabs -->
+      <div style="display: flex; gap: 8px; margin-bottom: 1.25rem; flex-wrap: wrap;" id="assessment-filter-tabs">
+        <button class="btn-black" id="tab-asg-all" onclick="filterWeakTopicsAssessment('all')" style="font-size: 11.5px; padding: 6px 14px; border-radius: 20px;">All Assessments</button>
+        <button class="btn-outline" id="tab-asg-ia1" onclick="filterWeakTopicsAssessment('ia1')" style="font-size: 11.5px; padding: 6px 14px; border-radius: 20px;">IA-1 Midterm</button>
+        <button class="btn-outline" id="tab-asg-ia2" onclick="filterWeakTopicsAssessment('ia2')" style="font-size: 11.5px; padding: 6px 14px; border-radius: 20px;">IA-2 Midterm</button>
+        <button class="btn-outline" id="tab-asg-asg1" onclick="filterWeakTopicsAssessment('asg1')" style="font-size: 11.5px; padding: 6px 14px; border-radius: 20px;">Assignment 1</button>
+        <button class="btn-outline" id="tab-asg-asg2" onclick="filterWeakTopicsAssessment('asg2')" style="font-size: 11.5px; padding: 6px 14px; border-radius: 20px;">Assignment 2</button>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Assessment</th>
+              <th>Concept Identifier</th>
+              <th>Topic Domain</th>
+              <th>Struggling Students</th>
+              <th>Total Attempts</th>
+              <th>Failure Rate</th>
+              <th>Avg Score</th>
+              <th>Remedial Action</th>
+            </tr>
+          </thead>
+          <tbody id="weak-topics-table-body">
+            <tr><td colspan="8" style="text-align: center; color: var(--text-muted);">Loading cohort concepts...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- DEDICATED DIV: Cohort Risk Analysis & Explainable AI (XAI) Diagnostics -->
+    <div class="glass-panel" id="cohort-risk-analysis-section">
+      <div class="panel-header">
+        <div>
+          <h2>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+            Cohort Risk Analysis &amp; Explainable AI (XAI) Diagnostics
+          </h2>
+          <p>Multi-modal early warning analytics (decision threshold &tau; = 0.42). Incorporates attendance telemetry, IA performance, and global SHAP attributions.</p>
+        </div>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <span class="badge-tag" style="background: #16a34a; color: #ffffff; border-color: #16a34a; font-weight: 700;"><span class="status-indicator-dot"></span> Model Active (AUC-ROC 0.941)</span>
+          <button class="btn-outline" onclick="loadCohortRiskAnalysis()" title="Refresh Live Risk Engine" style="font-size: 11px; padding: 5px 10px;"><svg class="icon-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg> Refresh Risk</button>
+        </div>
+      </div>
+
+      <!-- KPI Summary Cards for Risk -->
+      <div class="kpi-row" style="margin-bottom: 1.5rem;" id="risk-kpi-cards">
+        <div class="kpi-card" style="border-left: 4px solid #dc2626;">
+          <div class="kpi-label" style="color: #dc2626;">Critical High Risk</div>
+          <div class="kpi-val" style="color: #dc2626;" id="risk-kpi-high-val">40.0% (2)</div>
+          <div class="kpi-sub" id="risk-kpi-high-sub">Sneha Patel (84.2%), Rohan Verma (82.0%)</div>
+        </div>
+        <div class="kpi-card" style="border-left: 4px solid #d97706;">
+          <div class="kpi-label" style="color: #d97706;">Medium Risk (Borderline)</div>
+          <div class="kpi-val" style="color: #d97706;" id="risk-kpi-med-val">20.0% (1)</div>
+          <div class="kpi-sub" id="risk-kpi-med-sub">Priya Nair (42.5% failure probability)</div>
+        </div>
+        <div class="kpi-card" style="border-left: 4px solid #16a34a;">
+          <div class="kpi-label" style="color: #16a34a;">Safe / Low Risk</div>
+          <div class="kpi-val" style="color: #16a34a;" id="risk-kpi-low-val">40.0% (2)</div>
+          <div class="kpi-sub" id="risk-kpi-low-sub">Sumith U (4.2%), Aarav Sharma (8.1%)</div>
+        </div>
+        <div class="kpi-card" style="border-left: 4px solid #0f172a;">
+          <div class="kpi-label">Mean Pass Probability</div>
+          <div class="kpi-val" id="risk-kpi-mean-pass">55.8%</div>
+          <div class="kpi-sub" id="risk-kpi-att-sub">Mean Attendance: 74.5% (3 Below 75% Threshold)</div>
+        </div>
+      </div>
+
+      <!-- Cohort Risk Distribution Bar -->
+      <div style="background: rgba(255, 255, 255, 0.7); border: 1px solid var(--card-border); border-radius: 10px; padding: 1.25rem; margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+          <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;">Cohort Risk Stratification</span>
+          <span style="font-size: 11.5px; color: var(--text-muted);">Calibrated at decision threshold &tau; = 0.42</span>
+        </div>
+        <div style="height: 14px; width: 100%; border-radius: 7px; overflow: hidden; display: flex; background: #e4e4e7;">
+          <div id="risk-bar-high" style="width: 40%; background: #dc2626;" title="High Risk: 40%"></div>
+          <div id="risk-bar-med" style="width: 20%; background: #d97706;" title="Medium Risk: 20%"></div>
+          <div id="risk-bar-low" style="width: 40%; background: #16a34a;" title="Low Risk: 40%"></div>
+        </div>
+        <div style="display: flex; gap: 1.5rem; margin-top: 0.6rem; font-size: 11.5px; flex-wrap: wrap;">
+          <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 10px; height: 10px; border-radius: 2px; background: #dc2626; display: inline-block;"></span> <strong>High Risk (&ge; 60%):</strong> <span id="legend-high">2 Students (40.0%)</span></span>
+          <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 10px; height: 10px; border-radius: 2px; background: #d97706; display: inline-block;"></span> <strong>Medium Risk (30-59%):</strong> <span id="legend-med">1 Student (20.0%)</span></span>
+          <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 10px; height: 10px; border-radius: 2px; background: #16a34a; display: inline-block;"></span> <strong>Low Risk (&lt; 30%):</strong> <span id="legend-low">2 Students (40.0%)</span></span>
+        </div>
+      </div>
+
+      <!-- Two-Column Deep Diagnostic & Prescriptions -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+        <!-- Left: Global SHAP Feature Attributions -->
+        <div style="background: rgba(255, 255, 255, 0.7); border: 1px solid var(--card-border); border-radius: 10px; padding: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <h3 style="font-size: 13.5px; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 6px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              Leading SHAP Risk Drivers
+            </h3>
+            <span class="badge-tag" style="font-size: 10.5px; font-weight: 600;">TreeSHAP XAI</span>
+          </div>
+          <div id="shap-drivers-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Right: Prescriptive Counterfactual Guidance (DiCE Solver) -->
+        <div style="background: rgba(255, 255, 255, 0.7); border: 1px solid var(--card-border); border-radius: 10px; padding: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <h3 style="font-size: 13.5px; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 6px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+              Counterfactual Prescriptive Target (DiCE Solver)
+            </h3>
+            <span class="badge-tag" style="font-size: 10.5px; font-weight: 600; background: #000; color: #fff;">Minimal Action Path</span>
+          </div>
+          <div id="counterfactuals-container" style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 4: Student Cohort Risk & Grade Management -->
+    <div class="glass-panel">
+      <div class="panel-header">
+        <div>
+          <h2>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            Student Cohort Risk &amp; Grade Management
+          </h2>
+          <p>Review comprehensive marks across IA-1, IA-2, Assignment 1 &amp; 2, attendance standing, and trigger institutional SMTP alerts.</p>
+        </div>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Display ID</th>
+              <th>Attendance</th>
+              <th>IA-1 Score</th>
+              <th>IA-2 Score</th>
+              <th>Asg 1 Score</th>
+              <th>Asg 2 Score</th>
+              <th>Pass Probability</th>
+              <th>Calculated Risk</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="cohort-table-body">
+            <tr><td colspan="9" style="text-align: center; color: var(--text-muted);">Loading cohort records...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+  </main>
+
+  <!-- Modals -->
+  <!-- MODAL: Grade Override -->
+  <div id="override-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Override Academic Grade</h3>
+        <button class="modal-close-btn" onclick="closeOverrideModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom: 1rem; font-size: 13px;">
+          <span>Target: </span><strong id="override-modal-student">Student ID</strong>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Adjusted Marks (Max 25):</label>
+          <input type="number" id="override-marks-input" class="form-control" min="0" max="25" step="0.5">
+        </div>
+        <div>
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Audit Note / Justification:</label>
+          <textarea id="override-reason-input" class="form-control" rows="3" placeholder="Provide reason for grade alteration..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" onclick="closeOverrideModal()">Cancel</button>
+        <button class="btn-black" onclick="saveGradeOverride()">Confirm Override</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Log Advising Intervention -->
+  <div id="intervention-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Log Mandatory Remedial / Advising Action</h3>
+        <button class="modal-close-btn" onclick="closeInterventionModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom: 1rem; font-size: 13px;">
+          <span>Target: </span><strong id="interv-modal-target">Student ID</strong>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Intervention Directive:</label>
+          <select id="interv-type-select" class="form-control">
+            <option value="Mandatory Saturday Remedial Class">Mandatory Saturday Remedial Class</option>
+            <option value="PACD-RAG Calculus Remediation Plan">PACD-RAG Calculus Remediation Plan</option>
+            <option value="Attendance Shortage Formal Warning">Attendance Shortage Formal Warning</option>
+            <option value="One-on-One Faculty Mentoring Session">One-on-One Faculty Mentoring Session</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Directives &amp; Action Items:</label>
+          <textarea id="interv-notes" class="form-control" rows="3" placeholder="Enter instructions for student and proctor..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" onclick="closeInterventionModal()">Cancel</button>
+        <button class="btn-black" onclick="saveIntervention()">Commit Record</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+
+  <!-- MODAL: Edit Course Material -->
+  <div id="edit-material-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Edit Course Material Metadata</h3>
+        <button class="modal-close-btn" onclick="closeEditMaterialModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="edit-mat-id">
+        <div style="margin-bottom: 1rem;">
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Document Title:</label>
+          <input type="text" id="edit-mat-title" class="form-control" required>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Curriculum Unit:</label>
+          <input type="text" id="edit-mat-unit" class="form-control" placeholder="e.g. Unit 3: Deep Neural Networks">
+        </div>
+        <div>
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Concept Tag (Optional):</label>
+          <input type="text" id="edit-mat-concept" class="form-control" placeholder="e.g. DL_BACKPROP">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" onclick="closeEditMaterialModal()">Cancel</button>
+        <button class="btn-black" onclick="saveEditMaterial()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Direct Upload Material -->
+  <div id="upload-material-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Upload Course Document / Syllabus</h3>
+        <button class="modal-close-btn" onclick="closeUploadModalDirect()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom: 1rem;">
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Document Title:</label>
+          <input type="text" id="up-mat-title" class="form-control" placeholder="e.g. Lecture 6: Optimization Dynamics" required>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Curriculum Unit:</label>
+          <input type="text" id="up-mat-unit" class="form-control" placeholder="e.g. Unit 4: Optimization & Learning Algorithms" required>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">File Name / Resource:</label>
+          <input type="text" id="up-mat-file" class="form-control" placeholder="e.g. Lecture_06_Optimization.pdf" required>
+        </div>
+        <div>
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Core Content / Summary:</label>
+          <textarea id="up-mat-content" class="form-control" rows="3" placeholder="Enter key topics, learning outcomes, or syllabus excerpt..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" onclick="closeUploadModalDirect()">Cancel</button>
+        <button class="btn-black" onclick="saveUploadMaterialDirect()">Index &amp; Store</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Add Assessment Question Score -->
+  <div id="add-score-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Add Student Assessment Score Record</h3>
+        <button class="modal-close-btn" onclick="closeAddScoreModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Student SRN:</label>
+            <select id="score-srn-select" class="form-control">
+              <option value="R24EA895">R24EA895 (Sneha Patel)</option>
+              <option value="R24EA818">R24EA818 (Rohan Verma)</option>
+              <option value="R24EA842">R24EA842 (Priya Nair)</option>
+              <option value="R24EA801">R24EA801 (Aarav Sharma)</option>
+              <option value="R24EA807">R24EA807 (Sumith U)</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Assessment Milestone:</label>
+            <select id="score-ia-select" class="form-control">
+              <option value="1">IA-1 Midterm</option>
+              <option value="2">IA-2 Midterm</option>
+              <option value="11">Assignment 1</option>
+              <option value="12">Assignment 2</option>
+            </select>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Question Identifier:</label>
+            <input type="text" id="score-qno-input" class="form-control" placeholder="e.g. Q1, Q2, ASG1_T1" required>
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Concept ID:</label>
+            <input type="text" id="score-cid-input" class="form-control" placeholder="e.g. DL_BACKPROP" required>
+          </div>
+        </div>
+        <div style="margin-bottom: 0.75rem;">
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Topic Domain Title:</label>
+          <input type="text" id="score-topic-input" class="form-control" placeholder="e.g. Reverse-Mode Autodiff &amp; Backpropagation" required>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Marks Obtained:</label>
+            <input type="number" id="score-marks-input" class="form-control" step="0.5" min="0" max="30" placeholder="e.g. 7.5" required>
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Max Marks:</label>
+            <input type="number" id="score-max-input" class="form-control" step="1.0" min="1" max="30" value="10.0" required>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" onclick="closeAddScoreModal()">Cancel</button>
+        <button class="btn-black" onclick="saveAddScore()">Commit Score to DB</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Manage Individual Scores Table -->
+  <div id="manage-scores-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-window" style="max-width: 900px; width: 95%;">
+      <div class="modal-header">
+        <h3>Individual Question Scores Diagnostic Manager</h3>
+        <button class="modal-close-btn" onclick="closeManageScoresModal()">&times;</button>
+      </div>
+      <div class="modal-body" style="max-height: 480px; overflow-y: auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 8px;">
+          <div style="font-size: 12px; color: var(--text-muted);">Inspect, adjust marks, or delete question scores across IA-1, IA-2, and Assignments.</div>
+          <button class="btn-black" style="font-size: 11px; padding: 4px 10px;" onclick="closeManageScoresModal(); openAddScoreModal();">+ Add New</button>
+        </div>
+        <div id="manage-scores-table-container">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-black" onclick="closeManageScoresModal()">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Edit Question Score -->
+  <div id="edit-score-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Edit Assessment Score Record</h3>
+        <button class="modal-close-btn" onclick="closeEditScoreModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="edit-score-id">
+        <div style="margin-bottom: 1rem;">
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Topic Title:</label>
+          <input type="text" id="edit-score-title" class="form-control" required>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Marks Obtained:</label>
+            <input type="number" id="edit-score-obtained" class="form-control" step="0.5" min="0" required>
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Max Marks:</label>
+            <input type="number" id="edit-score-max" class="form-control" step="1.0" min="1" required>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" onclick="closeEditScoreModal()">Cancel</button>
+        <button class="btn-black" onclick="saveEditScore()">Save Score</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Enroll New Student -->
+  <div id="enroll-student-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Enroll New Student into Course</h3>
+        <button class="modal-close-btn" onclick="closeEnrollStudentModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Student SRN:</label>
+            <input type="text" id="enroll-srn" class="form-control" placeholder="e.g. R24EA850" required>
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Full Name:</label>
+            <input type="text" id="enroll-name" class="form-control" placeholder="e.g. Vikram Singhania" required>
+          </div>
+        </div>
+        <div style="margin-bottom: 0.75rem;">
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Institutional Email:</label>
+          <input type="email" id="enroll-email" class="form-control" placeholder="e.g. vikram.s@reva.edu.in" required>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Attendance %:</label>
+            <input type="number" id="enroll-att" class="form-control" step="0.5" min="0" max="100" value="82.0" required>
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">IA-1 Score (30):</label>
+            <input type="number" id="enroll-ia1" class="form-control" step="0.5" min="0" max="30" value="22.0">
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">IA-2 Score (30):</label>
+            <input type="number" id="enroll-ia2" class="form-control" step="0.5" min="0" max="30" value="23.5">
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Assignment 1 (10):</label>
+            <input type="number" id="enroll-asg1" class="form-control" step="0.5" min="0" max="10" value="8.0">
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Assignment 2 (10):</label>
+            <input type="number" id="enroll-asg2" class="form-control" step="0.5" min="0" max="10" value="8.5">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" onclick="closeEnrollStudentModal()">Cancel</button>
+        <button class="btn-black" onclick="saveEnrollStudent()">Enroll &amp; Commit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Edit Cohort Student Record -->
+  <div id="edit-student-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Edit Student Academic Record</h3>
+        <button class="modal-close-btn" onclick="closeEditStudentModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="edit-stu-srn">
+        <div style="margin-bottom: 0.75rem;">
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Student Name:</label>
+          <input type="text" id="edit-stu-name" class="form-control" required>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Attendance %:</label>
+            <input type="number" id="edit-stu-att" class="form-control" step="0.5" min="0" max="100" required>
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Grade Override:</label>
+            <select id="edit-stu-grade" class="form-control">
+              <option value="A+">A+ (Outstanding)</option>
+              <option value="A">A (Excellent)</option>
+              <option value="B">B (Good)</option>
+              <option value="C">C (Satisfactory)</option>
+              <option value="D">D (Borderline)</option>
+              <option value="F">F (Failing)</option>
+            </select>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">IA-1 Score (30):</label>
+            <input type="number" id="edit-stu-ia1" class="form-control" step="0.5" min="0" max="30">
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">IA-2 Score (30):</label>
+            <input type="number" id="edit-stu-ia2" class="form-control" step="0.5" min="0" max="30">
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Asg 1 Score (10):</label>
+            <input type="number" id="edit-stu-asg1" class="form-control" step="0.5" min="0" max="10">
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Asg 2 Score (10):</label>
+            <input type="number" id="edit-stu-asg2" class="form-control" step="0.5" min="0" max="10">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" onclick="closeEditStudentModal()">Cancel</button>
+        <button class="btn-black" onclick="saveEditStudent()">Update Student</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Advising Directives History Log -->
+  <div id="advising-history-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-window" style="max-width: 850px; width: 95%;">
+      <div class="modal-header">
+        <h3>Academic Advising &amp; Remedial Directives Log</h3>
+        <button class="modal-close-btn" onclick="closeAdvisingHistoryModal()">&times;</button>
+      </div>
+      <div class="modal-body" style="max-height: 480px; overflow-y: auto;">
+        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 1rem;">
+          Institutional history of formal counseling directives, attendance warnings, and prerequisite remediation plans logged in PostgreSQL.
+        </div>
+        <div id="advising-history-container">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-black" onclick="closeAdvisingHistoryModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Create Assignment -->
+  <div id="create-assignment-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Create Course Assignment</h3>
+        <button class="modal-close-btn" onclick="closeCreateAssignmentModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom: 0.75rem;">
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Assignment Title:</label>
+          <input type="text" id="asg-title-input" class="form-control" placeholder="e.g. Assignment 3: Transformer Multi-Head Self-Attention" required>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Max Marks:</label>
+            <input type="number" id="asg-max-input" class="form-control" value="10" min="1" max="100" required>
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Due Date:</label>
+            <input type="text" id="asg-due-input" class="form-control" value="2026-11-20 23:59" required>
+          </div>
+        </div>
+        <div>
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Problem Statement / Prompt:</label>
+          <textarea id="asg-prob-input" class="form-control" rows="4" placeholder="Enter problem instructions, mathematical formulations, or rubric criteria..." required></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" onclick="closeCreateAssignmentModal()">Cancel</button>
+        <button class="btn-black" onclick="saveCreateAssignment()">Create &amp; Distribute</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Edit Assignment -->
+  <div id="edit-assignment-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Edit Course Assignment</h3>
+        <button class="modal-close-btn" onclick="closeEditAssignmentModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="edit-asg-id">
+        <div style="margin-bottom: 0.75rem;">
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Assignment Title:</label>
+          <input type="text" id="edit-asg-title" class="form-control" required>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Max Marks:</label>
+            <input type="number" id="edit-asg-max" class="form-control" min="1" max="100" required>
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Due Date:</label>
+            <input type="text" id="edit-asg-due" class="form-control" required>
+          </div>
+        </div>
+        <div>
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Problem Statement:</label>
+          <textarea id="edit-asg-prob" class="form-control" rows="4" required></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" onclick="closeEditAssignmentModal()">Cancel</button>
+        <button class="btn-black" onclick="saveEditAssignment()">Save Assignment</button>
+      </div>
+    </div>
+  </div>
+
+  
+    <!-- MODAL: UPLOAD IA QUESTION PAPER & BLUEPRINT -->
+    <div id="upload-qp-modal" class="modal-backdrop" style="display: none;">
+      <div class="glass-modal" style="max-width: 680px; width: 95%;">
+        <div class="modal-header">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: #000; color: #fff; display: flex; align-items: center; justify-content: center;">
+              <svg class="icon-svg standalone" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <div>
+              <h3 style="margin: 0; font-size: 15px; font-weight: 700;">Upload IA Question Paper &amp; Section Blueprint</h3>
+              <p style="margin: 2px 0 0; font-size: 12px; color: var(--text-muted);">Indexes blueprint into ChromaDB and registers exam rubrics in PostgreSQL</p>
+            </div>
+          </div>
+          <button class="btn-close" onclick="closeUploadQPModal()">&times;</button>
+        </div>
+
+        <form id="upload-qp-form" onsubmit="handleUploadQPSubmit(event)" style="padding: 1.25rem 1.5rem;">
+          <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1rem; margin-bottom: 1rem;">
+            <div>
+              <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Assessment</label>
+              <select id="qp-ia-number" class="form-control" onchange="populateDefaultQPBlueprint()" style="font-size: 13px;">
+                <option value="1">IA-1 (Midterm 1)</option>
+                <option value="2">IA-2 (Midterm 2)</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Paper Title</label>
+              <input type="text" id="qp-title" class="form-control" placeholder="e.g. IA-1 Question Paper &amp; Section Blueprint: Deep Learning" required style="font-size: 13px;">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div>
+              <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Curriculum Unit Focus</label>
+              <input type="text" id="qp-unit-name" class="form-control" placeholder="e.g. Unit 1 &amp; Unit 2: Differential Optimization" style="font-size: 13px;">
+            </div>
+            <div>
+              <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">QP Document File Name</label>
+              <input type="text" id="qp-file-name" class="form-control" placeholder="e.g. IA1_Question_Paper_AIML401.pdf" style="font-size: 13px;">
+            </div>
+          </div>
+
+          <div style="margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label style="font-size: 12px; font-weight: 700;">Section-by-Section Assessment Blueprint</label>
+              <span style="font-size: 11.5px; color: var(--text-muted);">Total Exam Weight: 30 pts</span>
+            </div>
+            <div style="background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                <thead>
+                  <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-muted);">
+                    <th style="padding: 6px;">Section / Q#</th>
+                    <th style="padding: 6px;">Concept Identifier</th>
+                    <th style="padding: 6px;">Topic Title</th>
+                    <th style="padding: 6px; text-align: right;">Max Marks</th>
+                  </tr>
+                </thead>
+                <tbody id="qp-sections-table-body">
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 10px 14px; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 10px;">
+            <svg class="icon-svg standalone" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <div style="font-size: 11.5px; color: #166534;">
+              <strong>Student Notification Enabled:</strong> Submitting will index the blueprint into ChromaDB and automatically dispatch email notification to enrolled student: <strong>sumithu.dev@gmail.com</strong>.
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 8px;">
+            <button type="button" class="btn-outline" onclick="closeUploadQPModal()">Cancel</button>
+            <button type="submit" class="btn-black" id="btn-submit-upload-qp">
+              <svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Upload Question Paper &amp; Register Blueprint
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL: BATCH IA MARKS INGESTION BY SECTION -->
+    <div id="batch-ia-marks-modal" class="modal-backdrop" style="display: none;">
+      <div class="glass-modal" style="max-width: 860px; width: 95%;">
+        <div class="modal-header">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: #000; color: #fff; display: flex; align-items: center; justify-content: center;">
+              <svg class="icon-svg standalone" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            </div>
+            <div>
+              <h3 style="margin: 0; font-size: 15px; font-weight: 700;">Batch IA Section Marks Ingestion &amp; Automated Pipeline</h3>
+              <p style="margin: 2px 0 0; font-size: 12px; color: var(--text-muted);">Batch commit question-level marks to ia_question_scores, detect weak topics (&lt; 50%), and calibrate ML risk (tau=0.42)</p>
+            </div>
+          </div>
+          <button class="btn-close" onclick="closeBatchIAMarksModal()">&times;</button>
+        </div>
+
+        <form id="batch-ia-marks-form" onsubmit="handleBatchIAMarksSubmit(event)" style="padding: 1.25rem 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <label style="font-size: 12.5px; font-weight: 600;">Target Assessment:</label>
+              <select id="batch-ia-num" class="form-control" onchange="renderBatchMarksGrid()" style="font-size: 12.5px; width: 160px;">
+                <option value="1">IA-1 Midterm</option>
+                <option value="2">IA-2 Midterm</option>
+              </select>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted);">
+              Course: <strong style="color: #000;">AIML-401</strong> &bull; Weight: <strong>30.0 Max Marks</strong>
+            </div>
+          </div>
+
+          <div style="overflow-x: auto; margin-bottom: 1.25rem; border: 1px solid var(--border-color); border-radius: 8px;">
+            <table class="data-table" style="margin: 0;">
+              <thead>
+                <tr>
+                  <th>Student SRN</th>
+                  <th>Student Name</th>
+                  <th id="th-batch-q1">Q1: Partial Deriv (/10)</th>
+                  <th id="th-batch-q2">Q2: Chain Rule (/10)</th>
+                  <th id="th-batch-q3">Q3: Backpropagation (/10)</th>
+                  <th>Calculated Total</th>
+                  <th>Predicted Risk Tier</th>
+                </tr>
+              </thead>
+              <tbody id="batch-ia-table-body">
+              </tbody>
+            </table>
+          </div>
+
+          <div id="batch-pipeline-telemetry" style="display: none; margin-bottom: 1.25rem; background: #0f172a; color: #fff; padding: 12px 16px; border-radius: 8px; font-family: monospace; font-size: 12px; line-height: 1.6;">
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <div style="font-size: 11.5px; color: var(--text-muted);">
+              &bull; Scores &lt; 5.0/10 (50%) automatically flag <strong style="color: #dc2626;">DEFICIT</strong> and trigger WeakTopicRAGEngine.
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button type="button" class="btn-outline" onclick="closeBatchIAMarksModal()">Cancel</button>
+              <button type="submit" class="btn-black" id="btn-submit-batch-pipeline">
+                <svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                Execute Automated Ingestion Pipeline
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL: EXPLAIN WEAK TOPIC & PREREQUISITE ROOT CAUSE -->
+    <div id="modal-explain-weak-topic" class="modal-backdrop" style="display: none;">
+      <div class="glass-modal" style="max-width: 760px; width: 95%; max-height: 90vh; overflow-y: auto;">
+        <div class="modal-header">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: #000; color: #fff; display: flex; align-items: center; justify-content: center;">
+              <svg class="icon-svg standalone" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <div>
+              <h3 id="modal-weak-topic-title" style="margin: 0; font-size: 15px; font-weight: 700;">Question 3: Reverse-Mode Autodiff &amp; Backpropagation</h3>
+              <p id="modal-weak-score-badge" style="margin: 2px 0 0; font-size: 12px; color: var(--text-muted);">Score: 2.5 / 10.0 pts (25.0% - DEFICIT)</p>
+            </div>
+          </div>
+          <button class="btn-close" onclick="closeExplainWeakTopicModal()">&times;</button>
+        </div>
+
+        <div style="padding: 1.25rem 1.5rem;">
+          <!-- 1. Executive Diagnostic Root Cause -->
+          <div style="margin-bottom: 1.25rem; background: #fef2f2; border: 1px solid #fecaca; border-left: 4px solid #dc2626; border-radius: 8px; padding: 12px 16px;">
+            <div style="font-size: 12px; font-weight: 700; color: #991b1b; text-transform: uppercase; margin-bottom: 4px;">
+              Prerequisite Knowledge Graph DAG Diagnostic
+            </div>
+            <div id="modal-weak-root-cause" style="font-size: 13px; color: #7f1d1d; line-height: 1.5;">
+              Analyzing root-cause deficit...
+            </div>
+          </div>
+
+          <!-- 2. Prerequisite Concepts Gaps Trace -->
+          <div style="margin-bottom: 1.25rem;">
+            <h4 style="margin: 0 0 8px; font-size: 13px; font-weight: 700; color: #000;">
+              Prerequisite Dependencies Required for Concept Mastery
+            </h4>
+            <div id="modal-weak-prereqs-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px;">
+            </div>
+          </div>
+
+          <!-- 3. Syllabus Excerpt / Learning Objectives (ChromaDB RAG) -->
+          <div style="margin-bottom: 1.25rem;">
+            <h4 style="margin: 0 0 8px; font-size: 13px; font-weight: 700; color: #000;">
+              Official Syllabus &amp; Course Notes Context (ChromaDB RAG)
+            </h4>
+            <div id="modal-weak-syllabus-box" style="background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 14px; font-size: 12.5px; color: #334155; line-height: 1.5;">
+              Retrieving curriculum excerpts...
+            </div>
+          </div>
+
+          <!-- 4. 5-Day Remedial Action Plan -->
+          <div style="margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <h4 style="margin: 0; font-size: 13px; font-weight: 700; color: #000;">
+                Synthesized 5-Day Remedial Action Plan
+              </h4>
+              <span style="font-size: 11px; background: #000; color: #fff; padding: 2px 8px; border-radius: 12px;">5 Days to Exam Recovery</span>
+            </div>
+            <div id="modal-weak-schedule-container" style="display: flex; flex-direction: column; gap: 8px;">
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 8px; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+            <button class="btn-outline" onclick="closeExplainWeakTopicModal()">Close</button>
+            <button class="btn-black" onclick="triggerWeakTopicChatAssistant()">
+              <svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              Ask AI Copilot about this Topic
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <footer>
+    <span>PACD-RAG Framework &bull; Smart Campus Academic Platform</span>
+    <span>PostgreSQL + ChromaDB Vector Store Active &bull; Single-Port Full Stack</span>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/student.js?v=20261102unified"></script>
+  <script src="js/faculty.js?v=20261102unified"></script>
+
+  <script>
+    // Tab Switching Logic
+    function switchPortalTab(tab) {
+      const vStudent = document.getElementById("portal-view-student");
+      const vFaculty = document.getElementById("portal-view-faculty");
+      const btnStudent = document.getElementById("tab-student-btn");
+      const btnFaculty = document.getElementById("tab-faculty-btn");
+
+      if (tab === "faculty") {
+        if (vStudent) vStudent.style.display = "none";
+        if (vFaculty) vFaculty.style.display = "block";
+        if (btnStudent) btnStudent.classList.remove("active");
+        if (btnFaculty) btnFaculty.classList.add("active");
+        window.location.hash = "faculty";
+
+        if (typeof checkFacultyAuth === "function") {
+          checkFacultyAuth();
+        }
+      } else {
+        if (vFaculty) vFaculty.style.display = "none";
+        if (vStudent) vStudent.style.display = "block";
+        if (btnFaculty) btnFaculty.classList.remove("active");
+        if (btnStudent) btnStudent.classList.add("active");
+        window.location.hash = "student";
+
+        if (typeof checkStudentAuth === "function") {
+          checkStudentAuth();
+        }
+      }
+    }
+
+    // Initial setup on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      // Check URL hash for direct tab routing (#faculty or #student)
+      if (window.location.hash === "#faculty") {
+        switchPortalTab("faculty");
+      } else {
+        switchPortalTab("student");
+      }
+    });
+
+    // Also support browser back/forward buttons
+    window.addEventListener("hashchange", () => {
+      if (window.location.hash === "#faculty") {
+        switchPortalTab("faculty");
+      } else {
+        switchPortalTab("student");
+      }
+    });
+  </script>
+</body>
+</html>

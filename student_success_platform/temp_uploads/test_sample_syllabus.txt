@@ -1,0 +1,11 @@
+Course: AIML-401 Deep Learning & Neural Architectures
+Unit 1: Foundations of Deep Learning and Neural Gradients
+Prerequisites: Linear Algebra, Multivariate Calculus, Chain Rule
+Topics:
+- Forward propagation matrix products
+- Error loss formulations: Cross-Entropy and Mean Squared Error
+- Backpropagation algorithm and Multivariate Chain Rule
+- Optimization: Gradient Descent, Adam, Momentum
+Assignment Brief:
+Implement backpropagation error gradient derivation using chain rule.
+

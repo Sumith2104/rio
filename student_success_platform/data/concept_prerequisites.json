@@ -1,0 +1,1904 @@
+{
+  "@context": "https://w3id.org/okf/v1",
+  "course_metadata": {
+    "course_code": "AIML-401",
+    "course_title": "Machine Learning & Deep Learning Intelligence Systems",
+    "department": "School of Computing & Information Technology",
+    "institution": "REVA University, Bengaluru",
+    "academic_year": "2026-2027",
+    "version": "2.0-PROD-TOP-LEVEL",
+    "authors": [
+      {
+        "name": "Sumith U",
+        "srn": "R24EA807",
+        "role": "Lead Architect & AI Systems Researcher"
+      },
+      {
+        "name": "Shreehari",
+        "srn": "R23EA116",
+        "role": "Co-Investigator & ML Engineer"
+      }
+    ],
+    "faculty_guide": "Dr Sailaja Thota",
+    "total_concepts": 68,
+    "total_prerequisite_edges": 112,
+    "description": "Comprehensive, ontology-validated Open Knowledge Format (OKF) academic curriculum graph covering Mathematical Foundations, Classical ML & Ensembles, Deep Neural Architectures, and Explainable AI Systems.",
+    "graph_convention": "Directed edges indicate: source (prerequisite) -> target (dependent concept)"
+  },
+  "concepts": [
+    {
+      "id": "MATH_LIN_ALG",
+      "name": "Linear Algebra & Vector Spaces",
+      "unit": "Unit 1: Mathematical Foundations & Optimization",
+      "level": "Foundational",
+      "bloom_taxonomy": "Understand",
+      "competencies": [
+        "Understand vector space axioms and linear independence",
+        "Perform basis transformations and coordinate changes",
+        "Formulate engineering problems in matrix-vector notation"
+      ],
+      "primary_formula": "V = \\text{span}\\{v_1, v_2, \\dots, v_n\\}, \\quad \\sum_{i=1}^n c_i v_i = 0 \\implies c_i = 0",
+      "syllabus_slide_ref": "Unit-01-Slide-03",
+      "estimated_study_minutes": 60,
+      "description": "Foundational vector spaces, linear combinations, basis vectors, and coordinate transformations essential for high-dimensional data representation."
+    },
+    {
+      "id": "MATH_VEC_PROJ",
+      "name": "Vector Projections & Dot Products",
+      "unit": "Unit 1: Mathematical Foundations & Optimization",
+      "level": "Foundational",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Calculate Euclidean dot products and vector norms",
+        "Project feature vectors onto hyperplanes",
+        "Compute cosine similarity for geometric text and embedding alignment"
+      ],
+      "primary_formula": "u \\cdot v = \\|u\\| \\|v\\| \\cos(\\theta), \\quad \\text{proj}_v(u) = \\frac{u \\cdot v}{\\|v\\|^2} v",
+      "syllabus_slide_ref": "Unit-01-Slide-07",
+      "estimated_study_minutes": 45,
+      "description": "Inner product geometry, vector projections, Euclidean metrics, and cosine similarity underlying support vector margins and neural dot products."
+    },
+    {
+      "id": "MATH_MAT_MUL",
+      "name": "Matrix Transformations & Rank",
+      "unit": "Unit 1: Mathematical Foundations & Optimization",
+      "level": "Foundational",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Compute matrix-vector and matrix-matrix products efficiently",
+        "Determine matrix rank and invertibility conditions",
+        "Analyze linear mappings between Euclidean spaces"
+      ],
+      "primary_formula": "C_{ij} = \\sum_{k=1}^m A_{ik} B_{kj}, \\quad \\text{rank}(A) = \\dim(\\text{col}(A))",
+      "syllabus_slide_ref": "Unit-01-Slide-11",
+      "estimated_study_minutes": 50,
+      "description": "Matrix operations, linear mappings, matrix rank, null space, and matrix inversions underpinning dense neural network layers and linear regression."
+    },
+    {
+      "id": "MATH_EIGEN",
+      "name": "Eigenvalues & Eigenvector Decomposition",
+      "unit": "Unit 1: Mathematical Foundations & Optimization",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Formulate and solve characteristic polynomial equations det(A - lambda I) = 0",
+        "Diagonalize symmetric matrices via orthogonal eigenvectors",
+        "Relate principal axes of variation to covariance matrix eigenvectors"
+      ],
+      "primary_formula": "A v = \\lambda v, \\quad \\det(A - \\lambda I) = 0, \\quad A = Q \\Lambda Q^T",
+      "syllabus_slide_ref": "Unit-01-Slide-16",
+      "estimated_study_minutes": 65,
+      "description": "Spectral decomposition, characteristic equations, and invariant coordinate axes fundamental to Principal Component Analysis and stability analysis."
+    },
+    {
+      "id": "MATH_SVD",
+      "name": "Singular Value Decomposition (SVD)",
+      "unit": "Unit 1: Mathematical Foundations & Optimization",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Decompose arbitrary rectangular matrices into U Sigma V^T",
+        "Compute low-rank matrix approximations (Eckart-Young-Mirsky theorem)",
+        "Apply SVD to dimensionality reduction and latent semantic analysis"
+      ],
+      "primary_formula": "A = U \\Sigma V^T = \\sum_{i=1}^r \\sigma_i u_i v_i^T",
+      "syllabus_slide_ref": "Unit-01-Slide-21",
+      "estimated_study_minutes": 70,
+      "description": "Singular value factorization of rectangular matrices, pseudoinverses, and optimal low-rank matrix approximation for data compression."
+    },
+    {
+      "id": "MATH_PROB_DIST",
+      "name": "Probability Distributions & Densities",
+      "unit": "Unit 1: Mathematical Foundations & Optimization",
+      "level": "Foundational",
+      "bloom_taxonomy": "Understand",
+      "competencies": [
+        "Distinguish discrete and continuous random variables",
+        "Analyze Gaussian, Bernoulli, and multinomial probability densities",
+        "Compute expectations, variances, and covariances"
+      ],
+      "primary_formula": "\\mathcal{N}(x; \\mu, \\Sigma) = \\frac{1}{(2\\pi)^{d/2} |\\Sigma|^{1/2}} \\exp\\left(-\\frac{1}{2}(x-\\mu)^T \\Sigma^{-1} (x-\\mu)\\right)",
+      "syllabus_slide_ref": "Unit-01-Slide-26",
+      "estimated_study_minutes": 55,
+      "description": "Probability mass and density functions, Gaussian distributions, multivariate expectations, and variance metrics for modeling uncertainty."
+    },
+    {
+      "id": "MATH_BAYES",
+      "name": "Bayes Theorem & Conditional Independence",
+      "unit": "Unit 1: Mathematical Foundations & Optimization",
+      "level": "Foundational",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Apply Bayes Rule to compute posterior class probabilities",
+        "Formulate prior, likelihood, and evidence relationships",
+        "Evaluate conditional independence assumptions"
+      ],
+      "primary_formula": "P(Y=c|X) = \\frac{P(X|Y=c) P(Y=c)}{\\sum_{k} P(X|Y=k) P(Y=k)}",
+      "syllabus_slide_ref": "Unit-01-Slide-30",
+      "estimated_study_minutes": 50,
+      "description": "Bayesian probability theory, posterior updating, conditional independence, and prior beliefs essential for probabilistic classifiers."
+    },
+    {
+      "id": "MATH_MLE",
+      "name": "Maximum Likelihood Estimation (MLE)",
+      "unit": "Unit 1: Mathematical Foundations & Optimization",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Construct likelihood and log-likelihood objective functions",
+        "Derive analytical MLE estimators for model parameters",
+        "Connect negative log-likelihood minimization to cross-entropy loss"
+      ],
+      "primary_formula": "\\theta_{\\text{MLE}} = \\arg\\max_\\theta \\sum_{i=1}^N \\log P(x_i; \\theta)",
+      "syllabus_slide_ref": "Unit-01-Slide-35",
+      "estimated_study_minutes": 60,
+      "description": "Statistical parameter estimation through likelihood maximization, proving that minimizing cross-entropy is equivalent to maximizing data likelihood."
+    },
+    {
+      "id": "MATH_DERIV",
+      "name": "Partial Derivatives & Multivariable Gradients",
+      "unit": "Unit 1: Mathematical Foundations & Optimization",
+      "level": "Foundational",
+      "bloom_taxonomy": "Understand",
+      "competencies": [
+        "Compute first-order partial derivatives of multivariable scalar functions",
+        "Assemble partial derivatives into the gradient vector nabla f(x)",
+        "Interpret the gradient as the direction of steepest ascent"
+      ],
+      "primary_formula": "\\nabla f(x) = \\left[ \\frac{\\partial f}{\\partial x_1}, \\frac{\\partial f}{\\partial x_2}, \\dots, \\frac{\\partial f}{\\partial x_d} \\right]^T",
+      "syllabus_slide_ref": "Unit-01-Slide-40",
+      "estimated_study_minutes": 55,
+      "description": "Multivariable differential calculus, partial derivatives, and gradient vectors defining the local slope of multi-dimensional loss surfaces."
+    },
+    {
+      "id": "MATH_CHAIN_RULE",
+      "name": "Multivariable Calculus Chain Rule",
+      "unit": "Unit 1: Mathematical Foundations & Optimization",
+      "level": "Foundational",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Apply chain rule to composite functions f(g(x))",
+        "Trace derivative propagation along intermediate computational paths",
+        "Derive gradient formulas for nested scalar-vector functions"
+      ],
+      "primary_formula": "\\frac{df}{dt} = \\sum_{i=1}^n \\frac{\\partial f}{\\partial u_i} \\frac{\\partial u_i}{\\partial t}, \\quad \\frac{\\partial L}{\\partial w_j} = \\frac{\\partial L}{\\partial \\hat{y}} \\frac{\\partial \\hat{y}}{\\partial z} \\frac{\\partial z}{\\partial w_j}",
+      "syllabus_slide_ref": "Unit-01-Slide-45",
+      "estimated_study_minutes": 60,
+      "description": "Calculus principle for computing the derivative of composite multivariable functions, forming the mathematical backbone of backpropagation."
+    },
+    {
+      "id": "MATH_JACOBIAN",
+      "name": "Jacobian & Hessian Matrices",
+      "unit": "Unit 1: Mathematical Foundations & Optimization",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Compute the Jacobian matrix of vector-valued functions",
+        "Construct the second-order Hessian curvature matrix H",
+        "Determine local extrema using eigenvalues of the Hessian"
+      ],
+      "primary_formula": "J_{ij} = \\frac{\\partial f_i}{\\partial x_j}, \\quad H_{ij} = \\frac{\\partial^2 f}{\\partial x_i \\partial x_j}",
+      "syllabus_slide_ref": "Unit-01-Slide-50",
+      "estimated_study_minutes": 65,
+      "description": "First-order vector derivative matrices (Jacobians) and second-order curvature matrices (Hessians) governing multi-dimensional optimization dynamics."
+    },
+    {
+      "id": "MATH_TAYLOR",
+      "name": "Taylor Series Approximation",
+      "unit": "Unit 1: Mathematical Foundations & Optimization",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Expand scalar and vector functions into first- and second-order Taylor approximations",
+        "Analyze quadratic approximations around optimization points",
+        "Relate second-order Taylor terms to Newton-Raphson and XGBoost objectives"
+      ],
+      "primary_formula": "f(x + \\Delta x) \\approx f(x) + \\nabla f(x)^T \\Delta x + \\frac{1}{2} \\Delta x^T H(x) \\Delta x",
+      "syllabus_slide_ref": "Unit-01-Slide-55",
+      "estimated_study_minutes": 55,
+      "description": "Polynomial approximation of non-linear functions using local derivatives, essential for second-order optimization and tree boosting objectives."
+    },
+    {
+      "id": "MATH_CONVEXITY",
+      "name": "Convex Sets & Convex Functions",
+      "unit": "Unit 1: Mathematical Foundations & Optimization",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Understand",
+      "competencies": [
+        "Identify convex sets and verify convexity conditions for loss functions",
+        "Prove convexity via positive semi-definite Hessian matrices H >= 0",
+        "Explain why local minima are global minima in convex optimization"
+      ],
+      "primary_formula": "f(\\alpha x + (1-\\alpha) y) \\le \\alpha f(x) + (1-\\alpha) f(y), \\quad \\forall \\alpha \\in [0, 1]",
+      "syllabus_slide_ref": "Unit-01-Slide-60",
+      "estimated_study_minutes": 50,
+      "description": "Convex geometry and optimization theory guaranteeing that any local minimum of a convex objective is a global minimum."
+    },
+    {
+      "id": "MATH_GRAD_DESC",
+      "name": "Gradient Descent Optimization",
+      "unit": "Unit 1: Mathematical Foundations & Optimization",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Formulate the gradient descent weight update rule",
+        "Analyze the impact of learning rate alpha on convergence vs divergence",
+        "Implement batch gradient descent on continuous loss functions"
+      ],
+      "primary_formula": "\\theta^{(t+1)} = \\theta^{(t)} - \\alpha \\nabla_{\\theta} J(\\theta^{(t)})",
+      "syllabus_slide_ref": "Unit-01-Slide-65",
+      "estimated_study_minutes": 60,
+      "description": "Iterative optimization stepping parameters in the negative gradient direction to find stationary points of loss surfaces."
+    },
+    {
+      "id": "MATH_SGD_MOMENTUM",
+      "name": "Stochastic Gradient Descent & Momentum",
+      "unit": "Unit 1: Mathematical Foundations & Optimization",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Implement mini-batch and stochastic gradient updates",
+        "Analyze velocity vectors and Polyak momentum accumulation",
+        "Dampen oscillations in ravines and accelerate saddle point escape"
+      ],
+      "primary_formula": "v^{(t+1)} = \\gamma v^{(t)} + \\alpha \\nabla J(\\theta^{(t)}), \\quad \\theta^{(t+1)} = \\theta^{(t)} - v^{(t+1)}",
+      "syllabus_slide_ref": "Unit-01-Slide-70",
+      "estimated_study_minutes": 55,
+      "description": "Stochastic gradient estimation on data subsets and physical momentum accumulation to accelerate convergence across ill-conditioned ravines."
+    },
+    {
+      "id": "MATH_ADAM_OPT",
+      "name": "Adaptive Optimizers (RMSprop & Adam)",
+      "unit": "Unit 1: Mathematical Foundations & Optimization",
+      "level": "Advanced",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Compute exponentially decaying first (mean) and second (uncentered variance) moment estimates",
+        "Apply bias corrections for initial zero-moment distortion",
+        "Tune hyper-parameters beta_1, beta_2, and epsilon for stable deep learning convergence"
+      ],
+      "primary_formula": "m_t = \\beta_1 m_{t-1} + (1-\\beta_1) g_t, \\quad v_t = \\beta_2 v_{t-1} + (1-\\beta_2) g_t^2, \\quad \\theta_t = \\theta_{t-1} - \\frac{\\alpha}{\\sqrt{\\hat{v}_t} + \\epsilon} \\hat{m}_t",
+      "syllabus_slide_ref": "Unit-01-Slide-75",
+      "estimated_study_minutes": 65,
+      "description": "State-of-the-art adaptive learning rate optimization combining momentum and root mean square propagation for robust neural network convergence."
+    },
+    {
+      "id": "ML_LOSS_FUNC",
+      "name": "Loss & Cost Functions (MSE, Cross-Entropy)",
+      "unit": "Unit 2: Classical Machine Learning & Ensembles",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Understand",
+      "competencies": [
+        "Formulate Mean Squared Error (MSE) for regression tasks",
+        "Formulate Binary and Categorical Cross-Entropy Loss for classification",
+        "Analyze loss gradients with respect to predicted model outputs"
+      ],
+      "primary_formula": "J_{\\text{BCE}} = -\\frac{1}{N} \\sum_{i=1}^N \\left[ y_i \\log(\\hat{y}_i) + (1-y_i) \\log(1-\\hat{y}_i) \\right]",
+      "syllabus_slide_ref": "Unit-02-Slide-04",
+      "estimated_study_minutes": 50,
+      "description": "Objective loss formulations quantifying discrepancy between ground truth targets and model predictions across regression and classification."
+    },
+    {
+      "id": "ML_LIN_REG",
+      "name": "Ordinary Least Squares Linear Regression",
+      "unit": "Unit 2: Classical Machine Learning & Ensembles",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Derive the closed-form normal equations (X^T X)^-1 X^T y",
+        "Fit multivariate linear models using gradient descent",
+        "Interpret regression coefficients and residuals"
+      ],
+      "primary_formula": "\\hat{y} = X \\theta, \\quad \\theta^* = (X^T X)^{-1} X^T y",
+      "syllabus_slide_ref": "Unit-02-Slide-08",
+      "estimated_study_minutes": 60,
+      "description": "Continuous target estimation via linear parameter combinations, solved analytically through normal equations or iteratively via gradient descent."
+    },
+    {
+      "id": "ML_REGULARIZATION",
+      "name": "L1/L2 Regularization (Lasso, Ridge)",
+      "unit": "Unit 2: Classical Machine Learning & Ensembles",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Formulate L2 Ridge penalty (weight decay) and L1 Lasso penalty",
+        "Explain why L1 regularization induces sparse feature selection",
+        "Tune hyper-parameter lambda to mitigate model overfitting"
+      ],
+      "primary_formula": "J_{\\text{Ridge}} = \\text{Loss} + \\lambda \\|w\\|_2^2, \\quad J_{\\text{Lasso}} = \\text{Loss} + \\lambda \\|w\\|_1",
+      "syllabus_slide_ref": "Unit-02-Slide-13",
+      "estimated_study_minutes": 55,
+      "description": "Shrinkage methods adding norm penalties to objective functions to constrain model complexity and eliminate multi-collinearity."
+    },
+    {
+      "id": "ML_LOG_REG",
+      "name": "Logistic Regression & Sigmoid Classification",
+      "unit": "Unit 2: Classical Machine Learning & Ensembles",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Map linear score z = w^T x + b to probabilities via sigmoid function",
+        "Derive decision boundaries and log-odds (logit) formulation",
+        "Optimize weights using maximum likelihood gradient descent"
+      ],
+      "primary_formula": "P(Y=1|x) = \\sigma(w^T x + b) = \\frac{1}{1 + e^{-(w^T x + b)}}",
+      "syllabus_slide_ref": "Unit-02-Slide-18",
+      "estimated_study_minutes": 60,
+      "description": "Sigmoid-activated probabilistic binary classification model establishing linear decision boundaries via log-loss minimization."
+    },
+    {
+      "id": "ML_EVAL_METRICS",
+      "name": "Model Evaluation (Precision, Recall, ROC-AUC)",
+      "unit": "Unit 2: Classical Machine Learning & Ensembles",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Evaluate",
+      "competencies": [
+        "Calculate Precision, Recall, and Macro/Micro F1-Scores",
+        "Generate Receiver Operating Characteristic (ROC) curves and compute AUC",
+        "Select optimal decision thresholds tau for imbalanced cohorts"
+      ],
+      "primary_formula": "\\text{Precision} = \\frac{TP}{TP+FP}, \\quad \\text{Recall} = \\frac{TP}{TP+FN}, \\quad F_1 = \\frac{2 \\cdot P \\cdot R}{P + R}",
+      "syllabus_slide_ref": "Unit-02-Slide-22",
+      "estimated_study_minutes": 55,
+      "description": "Quantitative performance metrics evaluating discrimination thresholds, class imbalance sensitivity, and classification tradeoffs."
+    },
+    {
+      "id": "ML_CONF_MATRIX",
+      "name": "Confusion Matrix & Error Type Analysis",
+      "unit": "Unit 2: Classical Machine Learning & Ensembles",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Structure 2x2 and multi-class confusion contingency matrices",
+        "Distinguish Type I (false positive) and Type II (false negative) costs",
+        "Formulate cost-sensitive decision rules for critical academic interventions"
+      ],
+      "primary_formula": "C = \\begin{bmatrix} TN & FP \\\\ FN & TP \\end{bmatrix}, \\quad \\text{Cost} = c_{FP} \\cdot FP + c_{FN} \\cdot FN",
+      "syllabus_slide_ref": "Unit-02-Slide-27",
+      "estimated_study_minutes": 45,
+      "description": "Contingency table decomposition of predictions against actual ground truths, isolating specific operational failure modes."
+    },
+    {
+      "id": "ML_BIAS_VARIANCE",
+      "name": "Bias-Variance Tradeoff",
+      "unit": "Unit 2: Classical Machine Learning & Ensembles",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Decompose expected generalization error into bias^2, variance, and noise",
+        "Diagnose underfitting vs overfitting from learning curves",
+        "Select appropriate model complexity to minimize total error"
+      ],
+      "primary_formula": "\\mathbb{E}[(y - \\hat{f}(x))^2] = \\text{Bias}^2[\\hat{f}(x)] + \\text{Var}[\\hat{f}(x)] + \\sigma_\\epsilon^2",
+      "syllabus_slide_ref": "Unit-02-Slide-32",
+      "estimated_study_minutes": 55,
+      "description": "Fundamental machine learning tradeoff balancing systematic estimation error (bias) against sensitivity to training sample fluctuations (variance)."
+    },
+    {
+      "id": "ML_DEC_TREE",
+      "name": "Decision Trees & Recursive Splitting",
+      "unit": "Unit 2: Classical Machine Learning & Ensembles",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Execute greedy top-down recursive binary splitting (CART / ID3)",
+        "Identify optimal split feature and threshold values",
+        "Construct non-parametric axis-aligned decision partitions"
+      ],
+      "primary_formula": "\\arg\\max_{j, s} \\left[ I(D) - \\left( \\frac{|D_L|}{|D|} I(D_L) + \\frac{|D_R|}{|D|} I(D_R) \\right) \\right]",
+      "syllabus_slide_ref": "Unit-02-Slide-37",
+      "estimated_study_minutes": 60,
+      "description": "Hierarchical non-parametric models recursively partitioning feature space into orthogonal hyper-rectangles based on impurity reduction."
+    },
+    {
+      "id": "ML_ENTROPY_GINI",
+      "name": "Entropy, Information Gain & Gini Impurity",
+      "unit": "Unit 2: Classical Machine Learning & Ensembles",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Calculate Shannon entropy H(S) = - sum p_i log_2(p_i)",
+        "Compute Gini impurity metric G = 1 - sum p_i^2",
+        "Determine information gain for candidate split attributes"
+      ],
+      "primary_formula": "H(S) = -\\sum_{i=1}^C p_i \\log_2(p_i), \\quad \\text{Gini}(S) = 1 - \\sum_{i=1}^C p_i^2",
+      "syllabus_slide_ref": "Unit-02-Slide-41",
+      "estimated_study_minutes": 50,
+      "description": "Information-theoretic and probabilistic criteria measuring statistical node impurity for optimal decision tree split selection."
+    },
+    {
+      "id": "ML_TREE_PRUNING",
+      "name": "Cost-Complexity Tree Pruning",
+      "unit": "Unit 2: Classical Machine Learning & Ensembles",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Implement pre-pruning stopping conditions (max depth, min leaf samples)",
+        "Execute post-pruning via minimal cost-complexity pruning (ccp_alpha)",
+        "Prevent full-depth tree memorization and catastrophic overfitting"
+      ],
+      "primary_formula": "R_\\alpha(T) = R(T) + \\alpha |T|",
+      "syllabus_slide_ref": "Unit-02-Slide-46",
+      "estimated_study_minutes": 50,
+      "description": "Regularization technique collapsing subtrees that provide negligible predictive improvement to achieve optimal tree generalization."
+    },
+    {
+      "id": "ML_KNN",
+      "name": "K-Nearest Neighbors & Metric Distance",
+      "unit": "Unit 2: Classical Machine Learning & Ensembles",
+      "level": "Foundational",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Compute Euclidean, Manhattan, and Minkowski distance metrics",
+        "Apply majority voting and distance-weighted voting across k neighbors",
+        "Analyze curse of dimensionality effects on local neighborhood density"
+      ],
+      "primary_formula": "d(x, x') = \\left( \\sum_{j=1}^d |x_j - x'_j|^p \\right)^{1/p}, \\quad \\hat{y} = \\text{mode}(\\{y_i : x_i \\in N_k(x)\\})",
+      "syllabus_slide_ref": "Unit-02-Slide-50",
+      "estimated_study_minutes": 45,
+      "description": "Instance-based lazy learning classifying queries through majority consensus of nearest training instances in metric space."
+    },
+    {
+      "id": "ML_SVM_LINEAR",
+      "name": "Support Vector Machines (Linear Margins)",
+      "unit": "Unit 2: Classical Machine Learning & Ensembles",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Formulate maximum margin hyperplane geometry 2/||w||",
+        "Construct the soft-margin objective with slack variables xi",
+        "Identify active support vectors defining the decision boundary"
+      ],
+      "primary_formula": "\\min_{w, b} \\frac{1}{2} \\|w\\|^2 + C \\sum_{i=1}^N \\xi_i \\quad \\text{s.t.} \\quad y_i(w^T x_i + b) \\ge 1 - \\xi_i",
+      "syllabus_slide_ref": "Unit-02-Slide-55",
+      "estimated_study_minutes": 65,
+      "description": "Convex quadratic optimization finding the separating hyperplane that maximizes the geometric distance to the closest training points."
+    },
+    {
+      "id": "ML_SVM_KERNEL",
+      "name": "Non-Linear SVM & Kernel Trick (RBF)",
+      "unit": "Unit 2: Classical Machine Learning & Ensembles",
+      "level": "Advanced",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Apply Mercer's theorem to implicit inner products K(x, x') = phi(x)^T phi(x')",
+        "Formulate Radial Basis Function (RBF) Gaussian kernels",
+        "Tune hyper-parameters C and gamma for non-linear boundary separation"
+      ],
+      "primary_formula": "K(x, x') = \\exp(-\\gamma \\|x - x'\\|^2), \\quad f(x) = \\text{sign}\\left( \\sum_{i=1}^N \\alpha_i y_i K(x_i, x) + b \\right)",
+      "syllabus_slide_ref": "Unit-02-Slide-60",
+      "estimated_study_minutes": 65,
+      "description": "Implicit mapping of input features into infinite-dimensional Hilbert spaces using kernel inner products without explicit coordinate calculation."
+    },
+    {
+      "id": "ML_ENSEMBLE_BASE",
+      "name": "Ensemble Principles & Voting Classifiers",
+      "unit": "Unit 2: Classical Machine Learning & Ensembles",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Understand",
+      "competencies": [
+        "Explain Condorcet's Jury Theorem and independent error cancellation",
+        "Implement hard voting and soft probability-weighted voting ensembles",
+        "Analyze diversity requirements for effective ensemble reduction of variance"
+      ],
+      "primary_formula": "P_{\\text{ensemble error}} = \\sum_{k=\\lceil M/2 \\rceil}^M \\binom{M}{k} p^k (1-p)^{M-k} < p",
+      "syllabus_slide_ref": "Unit-02-Slide-65",
+      "estimated_study_minutes": 50,
+      "description": "Foundational meta-learning paradigms combining multiple diverse base estimators to achieve predictive superiority over any individual model."
+    },
+    {
+      "id": "ML_BAGGING_RF",
+      "name": "Bagging & Random Forest Classifier",
+      "unit": "Unit 2: Classical Machine Learning & Ensembles",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Implement bootstrap aggregation with replacement",
+        "Inject random feature subspace sampling at each node split (sqrt(d))",
+        "Compute Out-of-Bag (OOB) error estimates and tree variance reduction"
+      ],
+      "primary_formula": "\\hat{f}_{\\text{rf}}(x) = \\frac{1}{B} \\sum_{b=1}^B T_b(x; \\Theta_b), \\quad \\text{Var}_{\\text{RF}} = \\rho \\sigma^2 + \\frac{1-\\rho}{B} \\sigma^2",
+      "syllabus_slide_ref": "Unit-02-Slide-70",
+      "estimated_study_minutes": 60,
+      "description": "Ensemble method averaging decorrelated, deep decision trees trained on bootstrap samples with random feature subsets to eliminate model variance."
+    },
+    {
+      "id": "ML_BOOSTING_GBDT",
+      "name": "Gradient Boosted Decision Trees (GBDT)",
+      "unit": "Unit 2: Classical Machine Learning & Ensembles",
+      "level": "Advanced",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Formulate sequential additive model expansion F_m(x) = F_{m-1}(x) + gamma_m h_m(x)",
+        "Fit regression trees to negative pseudo-residual loss gradients",
+        "Apply shrinkage learning rate eta to control boosting convergence"
+      ],
+      "primary_formula": "r_{im} = -\\left[ \\frac{\\partial L(y_i, F(x_i))}{\\partial F(x_i)} \\right]_{F=F_{m-1}}, \\quad F_m(x) = F_{m-1}(x) + \\eta \\sum_j \\gamma_{jm} \\mathbf{1}_{x \\in R_{jm}}",
+      "syllabus_slide_ref": "Unit-02-Slide-75",
+      "estimated_study_minutes": 70,
+      "description": "Sequential ensemble boosting fitting shallow trees to functional gradients of the loss function, aggressively driving down model bias."
+    },
+    {
+      "id": "ML_XGBOOST",
+      "name": "Extreme Gradient Boosting (XGBoost)",
+      "unit": "Unit 2: Classical Machine Learning & Ensembles",
+      "level": "Advanced",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Derive second-order Taylor expansion objective with gradients g_i and hessians h_i",
+        "Calculate optimal tree leaf weights w_j^* and split gain metrics",
+        "Apply column subsampling, sparsity-aware split finding, and L1/L2 tree shrinkage"
+      ],
+      "primary_formula": "\\mathcal{L}^{(t)} \\approx \\sum_{i=1}^n \\left[ g_i f_t(x_i) + \\frac{1}{2} h_i f_t^2(x_i) \\right] + \\gamma T + \\frac{1}{2} \\lambda \\sum_{j=1}^T w_j^2",
+      "syllabus_slide_ref": "Unit-02-Slide-80",
+      "estimated_study_minutes": 75,
+      "description": "Scalable, hardware-optimized gradient tree boosting leveraging second-order Taylor approximations, exact greedy splits, and explicit tree regularization."
+    },
+    {
+      "id": "ML_CATBOOST",
+      "name": "Categorical Gradient Boosting (CatBoost)",
+      "unit": "Unit 2: Classical Machine Learning & Ensembles",
+      "level": "Advanced",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Implement ordered target encoding with online permutation updating",
+        "Construct symmetric oblivious decision trees for fast CPU inference",
+        "Eliminate target leakage and prediction shift during training"
+      ],
+      "primary_formula": "\\hat{x}_k^i = \\frac{\\sum_{j \\in \\sigma_k : j < i} [x_j = x_i] y_j + a \\cdot p}{\\sum_{j \\in \\sigma_k : j < i} [x_j = x_i] + a}",
+      "syllabus_slide_ref": "Unit-02-Slide-85",
+      "estimated_study_minutes": 70,
+      "description": "Gradient boosting framework handling categorical features natively through ordered statistics and oblivious trees, preventing prediction shift."
+    },
+    {
+      "id": "DL_BIO_NEURON",
+      "name": "Biological Foundations & MCP Artificial Neuron",
+      "unit": "Unit 3: Deep Neural Architectures",
+      "level": "Foundational",
+      "bloom_taxonomy": "Understand",
+      "competencies": [
+        "Map biological dendrites, soma, and axon to artificial weighted inputs",
+        "Formulate the McCulloch-Pitts threshold firing model",
+        "Analyze linear decision hyperplanes implemented by threshold neurons"
+      ],
+      "primary_formula": "y = \\Theta\\left(\\sum_{i=1}^n w_i x_i - \\theta\\right), \\quad \\Theta(z) = \\begin{cases} 1 & z \\ge 0 \\\\ 0 & z < 0 \\end{cases}",
+      "syllabus_slide_ref": "Unit-03-Slide-03",
+      "estimated_study_minutes": 45,
+      "description": "Historical and mathematical genesis of artificial neurons modeling synaptic inputs, summation bodies, and threshold action potentials."
+    },
+    {
+      "id": "DL_PERCEPTRON",
+      "name": "Perceptron Learning Algorithm & Linear Separability",
+      "unit": "Unit 3: Deep Neural Architectures",
+      "level": "Foundational",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Implement Rosenblatt's perceptron update rule for misclassified instances",
+        "Prove the Perceptron Convergence Theorem for linearly separable data",
+        "Explain the XOR non-linear separability limitation (Minsky & Papert)"
+      ],
+      "primary_formula": "w^{(t+1)} = w^{(t)} + \\eta (y_i - \\hat{y}_i) x_i, \\quad \\hat{y}_i = \\text{sign}(w^T x_i)",
+      "syllabus_slide_ref": "Unit-03-Slide-08",
+      "estimated_study_minutes": 55,
+      "description": "Linear classifier learning rule guaranteeing convergence on linearly separable data, highlighting historical non-linear limitations."
+    },
+    {
+      "id": "DL_ACTIVATION",
+      "name": "Non-Linear Activation Functions (Sigmoid, Tanh, ReLU, GELU)",
+      "unit": "Unit 3: Deep Neural Architectures",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Evaluate mathematical definitions and derivatives of Sigmoid, Tanh, ReLU, LeakyReLU, and GELU",
+        "Analyze activation saturation regions and gradient quenching",
+        "Select optimal activations for hidden vs output network layers"
+      ],
+      "primary_formula": "\\text{ReLU}(z) = \\max(0, z), \\quad \\text{GELU}(z) = x \\Phi(x) = x P(X \\le x), \\quad \\sigma'(z) = \\sigma(z)(1-\\sigma(z))",
+      "syllabus_slide_ref": "Unit-03-Slide-14",
+      "estimated_study_minutes": 60,
+      "description": "Non-linear transformation functions enabling deep neural networks to learn arbitrary continuous decision boundaries and avoid collapse to linear mappings."
+    },
+    {
+      "id": "DL_FEEDFORWARD",
+      "name": "Multi-Layer Feedforward Perceptrons (MLP)",
+      "unit": "Unit 3: Deep Neural Architectures",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Formulate forward propagation through multiple hidden layers via matrix transformations",
+        "Apply the Universal Approximation Theorem (Cybenko / Hornik)",
+        "Structure layer dimensions, bias vectors, and activation cascades"
+      ],
+      "primary_formula": "a^{[l]} = g^{[l]}(z^{[l]}), \\quad z^{[l]} = W^{[l]} a^{[l-1]} + b^{[l]}, \\quad a^{[0]} = x",
+      "syllabus_slide_ref": "Unit-03-Slide-20",
+      "estimated_study_minutes": 60,
+      "description": "Dense fully-connected layer architectures cascading affine transformations and non-linearities from input features to output targets."
+    },
+    {
+      "id": "DL_COMP_GRAPH",
+      "name": "Computational Graphs & Automatic Differentiation",
+      "unit": "Unit 3: Deep Neural Architectures",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Decompose complex algebraic equations into directed computational graphs",
+        "Trace forward evaluation and backward adjoint sensitivity passes",
+        "Differentiate reverse-mode automatic differentiation from numerical differentiation"
+      ],
+      "primary_formula": "\\bar{v}_i = \\frac{\\partial L}{\\partial v_i} = \\sum_{j \\in \\text{children}(i)} \\bar{v}_j \\frac{\\partial v_j}{\\partial v_i}",
+      "syllabus_slide_ref": "Unit-03-Slide-26",
+      "estimated_study_minutes": 65,
+      "description": "Directed graph representations of mathematical expressions enabling exact reverse-mode automatic differentiation in PyTorch and TensorFlow."
+    },
+    {
+      "id": "DL_BACKPROP",
+      "name": "Backpropagation Algorithm & Reverse-Mode Autodiff",
+      "unit": "Unit 3: Deep Neural Architectures",
+      "level": "Advanced",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Derive error delta vectors delta^[l] = (W^[l+1]T delta^[l+1]) * g'^[l](z^[l])",
+        "Compute weight gradient matrices dL/dW^[l] = delta^[l] (a^[l-1])^T",
+        "Implement end-to-end backpropagation from scratch in vectorized Python/NumPy"
+      ],
+      "primary_formula": "\\delta^{[l]} = \\left( (W^{[l+1]})^T \\delta^{[l+1]} \\right) \\odot g'^{[l]}(z^{[l]}), \\quad \\frac{\\partial L}{\\partial W^{[l]}} = \\delta^{[l]} (a^{[l-1]})^T, \\quad \\frac{\\partial L}{\\partial b^{[l]}} = \\delta^{[l]}",
+      "syllabus_slide_ref": "Unit-03-Slide-32",
+      "estimated_study_minutes": 75,
+      "description": "Core algorithm recursively applying multivariable calculus chain rules across hidden layers to compute exact parameter gradients for network optimization."
+    },
+    {
+      "id": "DL_VANISHING_GRAD",
+      "name": "Vanishing & Exploding Gradient Dynamics",
+      "unit": "Unit 3: Deep Neural Architectures",
+      "level": "Advanced",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Analyze gradient magnitude decay across deep network layers product(W^[l] diag(g'))",
+        "Diagnose vanishing gradients caused by saturating sigmoid activations",
+        "Implement gradient clipping to stabilize exploding gradient norms"
+      ],
+      "primary_formula": "\\frac{\\partial L}{\\partial a^{[1]}} = \\frac{\\partial L}{\\partial a^{[L]}} \\prod_{k=1}^{L-1} W^{[k+1]} \\text{diag}(g'(z^{[k]})), \\quad g = \\min\\left(1, \\frac{c}{\\|g\\|}\\right) g",
+      "syllabus_slide_ref": "Unit-03-Slide-38",
+      "estimated_study_minutes": 65,
+      "description": "Pathological gradient instability in deep architectures where backpropagated signals shrink exponentially to zero or explode uncontrollably."
+    },
+    {
+      "id": "DL_WEIGHT_INIT",
+      "name": "Weight Initialization (Xavier Glorot & He Kaiming)",
+      "unit": "Unit 3: Deep Neural Architectures",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Derive variance preservation constraints Var(z^[l]) = Var(z^[l-1])",
+        "Apply Xavier/Glorot initialization for symmetric activations (Tanh/Sigmoid)",
+        "Apply He (Kaiming) initialization for rectified activations (ReLU)"
+      ],
+      "primary_formula": "W_{\\text{Xavier}} \\sim \\mathcal{N}\\left(0, \\frac{2}{n_{\\text{in}} + n_{\\text{out}}}\\right), \\quad W_{\\text{He}} \\sim \\mathcal{N}\\left(0, \\frac{2}{n_{\\text{in}}}\\right)",
+      "syllabus_slide_ref": "Unit-03-Slide-44",
+      "estimated_study_minutes": 55,
+      "description": "Theoretical parameter initialization preserving activation and gradient variance across forward and backward passes to enable deep learning."
+    },
+    {
+      "id": "DL_BATCH_NORM",
+      "name": "Batch Normalization & Internal Covariate Shift",
+      "unit": "Unit 3: Deep Neural Architectures",
+      "level": "Advanced",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Normalize mini-batch activations to zero mean and unit variance",
+        "Apply learnable affine scale gamma and shift beta parameters",
+        "Maintain exponential moving averages for robust inference testing"
+      ],
+      "primary_formula": "\\hat{x}_i = \\frac{x_i - \\mu_B}{\\sqrt{\\sigma_B^2 + \\epsilon}}, \\quad y_i = \\gamma \\hat{x}_i + \\beta",
+      "syllabus_slide_ref": "Unit-03-Slide-50",
+      "estimated_study_minutes": 65,
+      "description": "Layer normalization technique smoothing loss landscapes, mitigating internal covariate shift, and allowing substantially higher learning rates."
+    },
+    {
+      "id": "DL_DROPOUT",
+      "name": "Dropout Regularization & Inverted Dropout",
+      "unit": "Unit 3: Deep Neural Architectures",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Sample Bernoulli retention masks during training passes",
+        "Implement inverted dropout scaling 1/(1-p) during training to preserve test pass scale",
+        "Analyze dropout as implicit geometric averaging of an exponential ensemble of sub-networks"
+      ],
+      "primary_formula": "r_j \\sim \\text{Bernoulli}(1-p), \\quad \\tilde{a} = \\frac{r \\odot a}{1-p}",
+      "syllabus_slide_ref": "Unit-03-Slide-55",
+      "estimated_study_minutes": 50,
+      "description": "Stochastic regularization technique randomly deactivating neurons with probability p to prevent co-adaptation of features."
+    },
+    {
+      "id": "DL_NN_TRAIN",
+      "name": "End-to-End Training Loop & Epoch Dynamics",
+      "unit": "Unit 3: Deep Neural Architectures",
+      "level": "Advanced",
+      "bloom_taxonomy": "Create",
+      "competencies": [
+        "Assemble training step: mini-batch extraction, forward pass, loss calculation, backward pass, optimizer step",
+        "Implement validation loops, learning rate schedulers, and early stopping checkpoints",
+        "Monitor loss curves and diagnose convergence anomalies in real time"
+      ],
+      "primary_formula": "\\text{For epoch } 1\\dots E: \\quad \\theta \\leftarrow \\theta - \\alpha \\cdot \\text{Optimizer}\\left( \\nabla_\\theta \\frac{1}{B} \\sum_{i=1}^B L(f(x_i; \\theta), y_i) \\right)",
+      "syllabus_slide_ref": "Unit-03-Slide-60",
+      "estimated_study_minutes": 75,
+      "description": "Holistic training orchestrator combining forward inference, backpropagation, optimizer updates, validation checks, and checkpointing."
+    },
+    {
+      "id": "DL_CONV2D",
+      "name": "2D Convolutional Operations & Receptive Fields",
+      "unit": "Unit 3: Deep Neural Architectures",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Execute 2D cross-correlation and spatial kernel convolution",
+        "Calculate output spatial dimensions given kernel size K, padding P, and stride S",
+        "Trace cumulative effective receptive field (ERF) growth across convolutional layers"
+      ],
+      "primary_formula": "S(i, j) = (I * K)(i, j) = \\sum_m \\sum_n I(i-m, j-n) K(m, n), \\quad O = \\left\\lfloor \\frac{W - K + 2P}{S} \\right\\rfloor + 1",
+      "syllabus_slide_ref": "Unit-03-Slide-65",
+      "estimated_study_minutes": 65,
+      "description": "Discrete spatial convolution operations preserving 2D spatial locality and translation equivariance while drastically sharing parameters."
+    },
+    {
+      "id": "DL_CNN_ARCH",
+      "name": "CNN Feature Maps, Pooling & Stride Dynamics",
+      "unit": "Unit 3: Deep Neural Architectures",
+      "level": "Advanced",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Apply Max-Pooling and Average-Pooling spatial subsampling",
+        "Analyze feature hierarchy from low-level edges to high-level semantic motifs",
+        "Structure modern CNN backbones (ResNet residual skip connections, VGG, MobileNet)"
+      ],
+      "primary_formula": "x_{l+1} = \\mathcal{F}(x_l, \\{W_l\\}) + x_l, \\quad y = \\text{MaxPool}_{k\\times k}(x)",
+      "syllabus_slide_ref": "Unit-03-Slide-70",
+      "estimated_study_minutes": 70,
+      "description": "Convolutional neural network architectures leveraging feature maps, spatial downsampling, and residual skip connections for computer vision."
+    },
+    {
+      "id": "DL_RNN_BASE",
+      "name": "Recurrent Neural Networks & Temporal Unrolling",
+      "unit": "Unit 3: Deep Neural Architectures",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Formulate recurrent hidden state transitions h_t = tanh(W_hh h_{t-1} + W_xh x_t + b)",
+        "Unroll recurrence over variable-length sequence timestamps",
+        "Execute Backpropagation Through Time (BPTT)"
+      ],
+      "primary_formula": "h_t = \\tanh(W_{hh} h_{t-1} + W_{xh} x_t + b_h), \\quad y_t = \\text{softmax}(W_{hy} h_t + b_y)",
+      "syllabus_slide_ref": "Unit-03-Slide-75",
+      "estimated_study_minutes": 65,
+      "description": "Sequential neural models maintaining hidden state memory across time steps for temporal sequence modeling."
+    },
+    {
+      "id": "DL_LSTM_GRU",
+      "name": "Long Short-Term Memory (LSTM) & GRU Gating",
+      "unit": "Unit 3: Deep Neural Architectures",
+      "level": "Advanced",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Formulate Forget Gate f_t, Input Gate i_t, Candidate Cell c_t, and Output Gate o_t",
+        "Trace additive cell state gradient flow avoiding vanishing gradients",
+        "Compare Gated Recurrent Unit (GRU) reset and update gate parameters"
+      ],
+      "primary_formula": "f_t = \\sigma(W_f [h_{t-1}, x_t] + b_f), \\quad C_t = f_t \\odot C_{t-1} + i_t \\odot \\tilde{C}_t, \\quad h_t = o_t \\odot \\tanh(C_t)",
+      "syllabus_slide_ref": "Unit-03-Slide-80",
+      "estimated_study_minutes": 75,
+      "description": "Gated recurrent architectures establishing constant error carousels through additive cell state updates to solve long-range temporal dependencies."
+    },
+    {
+      "id": "DL_ATTENTION_MECH",
+      "name": "Sequence Attention Mechanism (Bahdanau & Luong)",
+      "unit": "Unit 3: Deep Neural Architectures",
+      "level": "Advanced",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Compute dynamic alignment scores e_{ij} between decoder query and encoder hidden states",
+        "Apply softmax normalization to generate attention probability distribution alpha_{ij}",
+        "Synthesize dynamic context vectors c_i = sum alpha_{ij} h_j to eliminate the bottleneck of fixed-size vectors"
+      ],
+      "primary_formula": "e_{ij} = v_a^T \\tanh(W_a s_{i-1} + U_a h_j), \\quad \\alpha_{ij} = \\frac{\\exp(e_{ij})}{\\sum_k \\exp(e_{ik})}, \\quad c_i = \\sum_j \\alpha_{ij} h_j",
+      "syllabus_slide_ref": "Unit-03-Slide-85",
+      "estimated_study_minutes": 70,
+      "description": "Soft alignment mechanism allowing models to dynamically attend to relevant encoder tokens, breaking the fixed-size vector representation bottleneck."
+    },
+    {
+      "id": "DL_SELF_ATTENTION",
+      "name": "Scaled Dot-Product Self-Attention",
+      "unit": "Unit 3: Deep Neural Architectures",
+      "level": "Advanced",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Project tokens into Query Q, Key K, and Value V linear subspaces",
+        "Compute scaled dot-product attention matrix with scaling factor 1/sqrt(d_k)",
+        "Implement multi-head attention projecting across h parallel heads"
+      ],
+      "primary_formula": "\\text{Attention}(Q, K, V) = \\text{softmax}\\left( \\frac{Q K^T}{\\sqrt{d_k}} \\right) V, \\quad \\text{MultiHead}(Q, K, V) = \\text{Concat}(\\text{head}_1, \\dots, \\text{head}_h) W^O",
+      "syllabus_slide_ref": "Unit-03-Slide-90",
+      "estimated_study_minutes": 75,
+      "description": "Intra-sequence attention computing all-to-all token interactions in constant sequential operations O(1) path length."
+    },
+    {
+      "id": "DL_TRANSFORMER",
+      "name": "Transformer Encoder-Decoder Architecture",
+      "unit": "Unit 3: Deep Neural Architectures",
+      "level": "Advanced",
+      "bloom_taxonomy": "Create",
+      "competencies": [
+        "Assemble transformer encoder and decoder blocks with residual skip connections and LayerNorm",
+        "Incorporate sinusoidal and learned positional encodings",
+        "Apply causal look-ahead masking for auto-regressive decoding"
+      ],
+      "primary_formula": "\\text{LayerNorm}(x + \\text{Sublayer}(x)), \\quad PE_{(pos, 2i)} = \\sin\\left( \\frac{pos}{10000^{2i/d_{\\text{model}}}} \\right)",
+      "syllabus_slide_ref": "Unit-03-Slide-95",
+      "estimated_study_minutes": 80,
+      "description": "Foundational foundation model architecture replacing recurrence entirely with parallel multi-head self-attention and position-wise feedforward networks."
+    },
+    {
+      "id": "XAI_INTERPRETABILITY",
+      "name": "Black-Box Problem & Model Interpretability",
+      "unit": "Unit 4: Explainable AI & Diagnostic Calibration",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Understand",
+      "competencies": [
+        "Formulate the trade-off between predictive accuracy and model transparency",
+        "Analyze institutional requirements for explainable AI in higher education and medicine",
+        "Differentiate intrinsic interpretability from post-hoc interpretability"
+      ],
+      "primary_formula": "\\text{Transparency}(f) \\quad \\text{vs} \\quad \\text{Generalization}(f), \\quad f_{\\text{interpretable}} \\subset \\mathcal{F}",
+      "syllabus_slide_ref": "Unit-04-Slide-03",
+      "estimated_study_minutes": 50,
+      "description": "The fundamental dilemma of opaque high-capacity statistical models and the regulatory, pedagogical, and ethical requirements for post-hoc transparency."
+    },
+    {
+      "id": "XAI_GLOBAL_VS_LOCAL",
+      "name": "Global Model Explanations vs Local Sample Explanations",
+      "unit": "Unit 4: Explainable AI & Diagnostic Calibration",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Distinguish global feature importance rankings from local instance attributions",
+        "Analyze non-monotonic relationships and feature interactions globally",
+        "Synthesize patient/student-specific local diagnostic reports"
+      ],
+      "primary_formula": "g_{\\text{global}} = \\mathbb{E}_{x \\sim P}[\\phi(x)], \\quad g_{\\text{local}}(x_0) = \\arg\\min_{g \\in G} \\mathcal{L}(f, g, \\pi_{x_0}) + \\Omega(g)",
+      "syllabus_slide_ref": "Unit-04-Slide-08",
+      "estimated_study_minutes": 55,
+      "description": "Taxonomy of model interpretability distinguishing overarching population-level feature dynamics from individual instance predictions."
+    },
+    {
+      "id": "XAI_PERM_IMPORTANCE",
+      "name": "Permutation Feature Importance & Drop-Column Analysis",
+      "unit": "Unit 4: Explainable AI & Diagnostic Calibration",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Shuffle feature values column-wise to break feature-target relationship",
+        "Compute empirical drop in metric Delta L = L(X_shuffled) - L(X_baseline)",
+        "Identify multi-collinearity pitfalls in permutation importance"
+      ],
+      "primary_formula": "I(f_j) = L(X^{\\text{perm-}(j)}, y) - L(X, y)",
+      "syllabus_slide_ref": "Unit-04-Slide-13",
+      "estimated_study_minutes": 50,
+      "description": "Model-agnostic global feature attribution evaluating metric degradation when individual feature associations are destroyed via permutation."
+    },
+    {
+      "id": "XAI_GAME_THEORY",
+      "name": "Cooperative Game Theory & Axiomatic Fairness",
+      "unit": "Unit 4: Explainable AI & Diagnostic Calibration",
+      "level": "Advanced",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Formulate cooperative n-player coalitional games with characteristic function v(S)",
+        "Prove the 4 Shapley axioms: Efficiency, Symmetry, Dummy Player, and Additivity",
+        "Explain why Shapley values are the unique attribution satisfying all 4 axioms"
+      ],
+      "primary_formula": "\\phi_i(v) = \\sum_{S \\subseteq N \\setminus \\{i\\}} \\frac{|S|! (|N| - |S| - 1)!}{|N|!} [v(S \\cup \\{i\\}) - v(S)]",
+      "syllabus_slide_ref": "Unit-04-Slide-18",
+      "estimated_study_minutes": 65,
+      "description": "Axiomatic game theory formalizing fair payout distributions among cooperating players based on marginal contributions across all coalitions."
+    },
+    {
+      "id": "XAI_SHAP",
+      "name": "Shapley Additive Explanations (SHAP)",
+      "unit": "Unit 4: Explainable AI & Diagnostic Calibration",
+      "level": "Advanced",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Formulate local additive feature attribution f(x) = phi_0 + sum phi_i",
+        "Interpret SHAP waterfall plots, force plots, and summary beeswarm plots",
+        "Compute baseline expected value phi_0 = E[f(x)]"
+      ],
+      "primary_formula": "f(x) = \\phi_0 + \\sum_{i=1}^M \\phi_i(x), \\quad \\phi_i(x) = \\text{attribution of feature } i",
+      "syllabus_slide_ref": "Unit-04-Slide-24",
+      "estimated_study_minutes": 70,
+      "description": "Unified framework connecting cooperative game theory to additive feature attribution, delivering provably fair local and global explanations."
+    },
+    {
+      "id": "XAI_TREESHAP",
+      "name": "Fast TreeSHAP for Tree Ensembles",
+      "unit": "Unit 4: Explainable AI & Diagnostic Calibration",
+      "level": "Advanced",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Execute Lundberg's polynomial-time tree traversal algorithm O(T L D^2)",
+        "Calculate exact conditional expectations E[f(x)|x_S] across tree leaves",
+        "Extract SHAP interaction values phi_{i,j} for tree ensembles (XGBoost, CatBoost)"
+      ],
+      "primary_formula": "\\mathbb{E}[f(x)|x_S] = \\sum_{j=1}^L w_j \\cdot v_j, \\quad \\text{Complexity: } O(T L D^2) \\ll O(2^M)",
+      "syllabus_slide_ref": "Unit-04-Slide-30",
+      "estimated_study_minutes": 70,
+      "description": "Exact polynomial-time algorithm computing Shapley values for gradient boosted trees and random forests by tracking conditional leaf weights."
+    },
+    {
+      "id": "XAI_KERNELSHAP",
+      "name": "Model-Agnostic KernelSHAP",
+      "unit": "Unit 4: Explainable AI & Diagnostic Calibration",
+      "level": "Advanced",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Formulate weighted linear surrogate model on binary coalition vectors z' in {0, 1}^M",
+        "Compute Shapley kernel weighting pi_{x'}(z')",
+        "Solve weighted least squares regression to extract Shapley coefficients"
+      ],
+      "primary_formula": "\\pi_{x'}(z') = \\frac{M - 1}{\\binom{M}{|z'|} |z'| (M - |z'|)}, \\quad \\arg\\min_{\\phi_0, \\phi} \\sum_{z'} \\left[ f(h_x(z')) - \\left(\\phi_0 + \\sum \\phi_i z'_i\\right) \\right]^2 \\pi_{x'}(z')",
+      "syllabus_slide_ref": "Unit-04-Slide-36",
+      "estimated_study_minutes": 65,
+      "description": "Model-agnostic estimation of Shapley values using weighted linear regression with a specialized Shapley kernel."
+    },
+    {
+      "id": "XAI_LIME",
+      "name": "Local Interpretable Model-agnostic Explanations (LIME)",
+      "unit": "Unit 4: Explainable AI & Diagnostic Calibration",
+      "level": "Advanced",
+      "bloom_taxonomy": "Apply",
+      "competencies": [
+        "Generate perturbed samples around local point of interest x",
+        "Weight perturbations by exponential distance kernel pi_x(z) = exp(-d(x, z)^2 / sigma^2)",
+        "Fit sparse linear explanation model g to explain local decision boundary"
+      ],
+      "primary_formula": "\\xi(x) = \\arg\\min_{g \\in G} \\mathcal{L}(f, g, \\pi_x) + \\Omega(g), \\quad \\pi_x(z) = \\exp\\left(-\\frac{D(x, z)^2}{\\sigma^2}\\right)",
+      "syllabus_slide_ref": "Unit-04-Slide-42",
+      "estimated_study_minutes": 65,
+      "description": "Surrogate explanation technique learning an interpretable linear model locally in the perturbation neighborhood of a specific instance."
+    },
+    {
+      "id": "XAI_COUNTERFACTUAL",
+      "name": "Counterfactual Explanations & Recourse Recommendations",
+      "unit": "Unit 4: Explainable AI & Diagnostic Calibration",
+      "level": "Advanced",
+      "bloom_taxonomy": "Evaluate",
+      "competencies": [
+        "Formulate counterfactual optimization balancing prediction shift and feature distance",
+        "Enforce actionability constraints (immutable demographic attributes vs mutable study hours)",
+        "Generate personalized prescriptive study recourse recommendations"
+      ],
+      "primary_formula": "x^* = \\arg\\min_{x'} d(x, x') + \\lambda (f(x') - y^*)^2 \\quad \\text{s.t.} \\quad x' \\in \\mathcal{A}(x)",
+      "syllabus_slide_ref": "Unit-04-Slide-48",
+      "estimated_study_minutes": 70,
+      "description": "Prescriptive explanations identifying minimal, actionable modifications to input features required to flip an adverse prediction to a favorable outcome."
+    },
+    {
+      "id": "XAI_MULTI_MODEL_RISK",
+      "name": "Multi-Model Risk Calibration & Discrepancy Analysis",
+      "unit": "Unit 4: Explainable AI & Diagnostic Calibration",
+      "level": "Advanced",
+      "bloom_taxonomy": "Evaluate",
+      "competencies": [
+        "Combine predictions from specialist CatBoost, XGBoost, and Random Forest models",
+        "Calculate model discrepancy and epistemic uncertainty across ensemble members",
+        "Apply alert threshold tau = 0.42 for proactive 4.2-week advance warning"
+      ],
+      "primary_formula": "\\hat{P}_{\\text{risk}}(x) = \\sum_{k=1}^K w_k \\hat{P}_k(x), \\quad \\sigma_{\\text{ensemble}}^2(x) = \\frac{1}{K} \\sum_{k=1}^K (\\hat{P}_k(x) - \\bar{P}(x))^2",
+      "syllabus_slide_ref": "Unit-04-Slide-54",
+      "estimated_study_minutes": 65,
+      "description": "Ensemble predictive risk architecture fusing tabular gradient boosting and tree baselines with epistemic uncertainty quantification."
+    },
+    {
+      "id": "XAI_PROB_CALIBRATION",
+      "name": "Platt Scaling, Isotonic Regression & Expected Calibration Error (ECE)",
+      "unit": "Unit 4: Explainable AI & Diagnostic Calibration",
+      "level": "Advanced",
+      "bloom_taxonomy": "Evaluate",
+      "competencies": [
+        "Fit logistic sigmoid transform (Platt scaling) on uncalibrated model logits",
+        "Fit non-parametric piecewise constant Isotonic Regression",
+        "Compute Expected Calibration Error (ECE) across M confidence bins"
+      ],
+      "primary_formula": "P(Y=1|f) = \\frac{1}{1 + \\exp(A f + B)}, \\quad \\text{ECE} = \\sum_{m=1}^M \\frac{|B_m|}{N} |\\text{acc}(B_m) - \\text{conf}(B_m)|",
+      "syllabus_slide_ref": "Unit-04-Slide-60",
+      "estimated_study_minutes": 65,
+      "description": "Post-processing transformations ensuring that predicted probabilities accurately match empirical empirical event frequencies."
+    },
+    {
+      "id": "XAI_RELIABILITY_DIAG",
+      "name": "Reliability Diagrams & Prediction Confidence",
+      "unit": "Unit 4: Explainable AI & Diagnostic Calibration",
+      "level": "Intermediate",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Construct binned reliability plots comparing mean confidence against observed accuracy",
+        "Identify overconfident vs underconfident prediction regimes",
+        "Verify calibration improvement post-Platt scaling"
+      ],
+      "primary_formula": "\\text{acc}(B_m) = \\frac{1}{|B_m|} \\sum_{i \\in B_m} \\mathbf{1}_{y_i = \\hat{y}_i}, \\quad \\text{conf}(B_m) = \\frac{1}{|B_m|} \\sum_{i \\in B_m} \\hat{p}_i",
+      "syllabus_slide_ref": "Unit-04-Slide-66",
+      "estimated_study_minutes": 55,
+      "description": "Visual diagnostic tool plotting expected accuracy against model confidence bins to evaluate statistical trustworthiness."
+    },
+    {
+      "id": "OKF_CONCEPT_DAG",
+      "name": "Ontological Prerequisite DAG Representation",
+      "unit": "Unit 4: Explainable AI & Diagnostic Calibration",
+      "level": "Advanced",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Formulate curriculum concepts and prerequisite constraints as a directed acyclic graph G = (V, E)",
+        "Verify DAG acyclicity using Kahn's algorithm and Tarjan's strongly connected components",
+        "Compute topological learning sequences consistent with prerequisite requirements"
+      ],
+      "primary_formula": "G = (V, E), \\quad e_{ij} = (v_i \\to v_j) \\implies \\text{Mastery}(v_i) \\prec \\text{Study}(v_j), \\quad \\text{Cycles}(G) = \\emptyset",
+      "syllabus_slide_ref": "Unit-04-Slide-72",
+      "estimated_study_minutes": 70,
+      "description": "Formal ontological curriculum representation enforcing strict prerequisite dependencies and guaranteeing pedagogically valid learning progressions."
+    },
+    {
+      "id": "OKF_PREREQ_GAP_SCORE",
+      "name": "Prerequisite Gap Scoring (PGS) Formulation",
+      "unit": "Unit 4: Explainable AI & Diagnostic Calibration",
+      "level": "Advanced",
+      "bloom_taxonomy": "Analyze",
+      "competencies": [
+        "Compute depth-weighted prerequisite penalty score across all ancestral concepts",
+        "Incorporate formative quiz, assignment, and exam scores into concept mastery vectors",
+        "Rank concepts by cognitive vulnerability index"
+      ],
+      "primary_formula": "\\text{PGS}(c) = \\sum_{a \\in \\text{Ancestors}(c)} \\frac{1}{\\text{depth}(a, c) + 1} \\times (1.0 - \\text{Mastery}(a))",
+      "syllabus_slide_ref": "Unit-04-Slide-78",
+      "estimated_study_minutes": 70,
+      "description": "Quantitative diagnostic metric accumulating mastery deficits across upstream prerequisite ancestors weighted inversely by graph topological distance."
+    },
+    {
+      "id": "OKF_ROOT_CAUSE_TRACE",
+      "name": "Upstream Root-Cause Deficit Backtracking",
+      "unit": "Unit 4: Explainable AI & Diagnostic Calibration",
+      "level": "Advanced",
+      "bloom_taxonomy": "Evaluate",
+      "competencies": [
+        "Traverse ancestral paths of failed concepts to isolate root foundational bottlenecks",
+        "Filter out unrelated weak topics that do not lie on the target concept's prerequisite spine",
+        "Order remediation milestones in strict topological dependency order"
+      ],
+      "primary_formula": "R^*(c) = \\arg\\max_{a \\in \\text{Ancestors}(c)} \\left\\{ (1 - \\text{Mastery}(a)) \\cdot |\\text{Descendants}(a) \\cap \\mathcal{W}| \\right\\}",
+      "syllabus_slide_ref": "Unit-04-Slide-84",
+      "estimated_study_minutes": 75,
+      "description": "Graph traversal algorithm isolating the precise upstream unmastered concept that blocks the greatest number of downstream learning objectives."
+    },
+    {
+      "id": "RAG_PEDAGOGICAL_REPAIR",
+      "name": "Prerequisite-Aware Scaffolding & 5-Day Remedial Synthesis",
+      "unit": "Unit 4: Explainable AI & Diagnostic Calibration",
+      "level": "Advanced",
+      "bloom_taxonomy": "Create",
+      "competencies": [
+        "Inject upstream prerequisite concept contexts prior to target concept slides in vector retrieval",
+        "Apply Reciprocal Rank Fusion (RRF) across dense and sparse syllabus indices",
+        "Synthesize a day-by-day 5-day structured remedial plan with verifiable citations"
+      ],
+      "primary_formula": "\\text{RRF}(d) = \\frac{1}{60 + r_{\\text{dense}}(d)} + \\frac{1}{60 + r_{\\text{sparse}}(d)}, \\quad \\text{Plan} = \\mathcal{M}_{\\text{LLM}}(\\text{Context}_{\\text{prereq}} \\cup \\text{Context}_{\\text{target}})",
+      "syllabus_slide_ref": "Unit-04-Slide-90",
+      "estimated_study_minutes": 80,
+      "description": "Intelligent cognitive scaffolding engine retrieving foundational prerequisite lecture materials to remediate diagnosed learning gaps with grounded citations."
+    }
+  ],
+  "prerequisites": [
+    {
+      "source": "MATH_LIN_ALG",
+      "target": "MATH_VEC_PROJ",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "Understanding vector spaces and components is required before computing vector projections and dot products."
+    },
+    {
+      "source": "MATH_LIN_ALG",
+      "target": "MATH_MAT_MUL",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "Matrix transformations represent coordinate mappings across vector spaces."
+    },
+    {
+      "source": "MATH_MAT_MUL",
+      "target": "MATH_EIGEN",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Eigenvalue decomposition operates on square transformation matrices to identify invariant axes."
+    },
+    {
+      "source": "MATH_MAT_MUL",
+      "target": "MATH_SVD",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Singular value decomposition factors general rectangular transformation matrices."
+    },
+    {
+      "source": "MATH_EIGEN",
+      "target": "MATH_SVD",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "SVD singular values correspond to square roots of eigenvalues of A^T A."
+    },
+    {
+      "source": "MATH_PROB_DIST",
+      "target": "MATH_BAYES",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "Bayes rule updates conditional and marginal distributions over random variables."
+    },
+    {
+      "source": "MATH_PROB_DIST",
+      "target": "MATH_MLE",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Likelihood functions are parameterized probability density products over observed samples."
+    },
+    {
+      "source": "MATH_BAYES",
+      "target": "MATH_MLE",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.8,
+      "pedagogical_justification": "Maximum likelihood is a special case of Maximum A Posteriori (MAP) estimation under uniform prior."
+    },
+    {
+      "source": "MATH_DERIV",
+      "target": "MATH_CHAIN_RULE",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "Chain rule requires multivariable partial differentiation of composite functions."
+    },
+    {
+      "source": "MATH_DERIV",
+      "target": "MATH_JACOBIAN",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Jacobian matrices compile first-order partial derivatives of vector-valued mappings."
+    },
+    {
+      "source": "MATH_DERIV",
+      "target": "MATH_TAYLOR",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Taylor series expansion constructs polynomial approximations using successive derivative orders."
+    },
+    {
+      "source": "MATH_JACOBIAN",
+      "target": "MATH_CONVEXITY",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Hessian matrix positive semi-definiteness confirms function convexity."
+    },
+    {
+      "source": "MATH_DERIV",
+      "target": "MATH_GRAD_DESC",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "Gradient descent updates parameter vectors using computed first-order partial derivative vectors."
+    },
+    {
+      "source": "MATH_CONVEXITY",
+      "target": "MATH_GRAD_DESC",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.8,
+      "pedagogical_justification": "Convexity ensures gradient descent converges to global rather than sub-optimal local minima."
+    },
+    {
+      "source": "MATH_GRAD_DESC",
+      "target": "MATH_SGD_MOMENTUM",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Momentum enhances standard gradient descent by adding velocity accumulation."
+    },
+    {
+      "source": "MATH_SGD_MOMENTUM",
+      "target": "MATH_ADAM_OPT",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Adam incorporates first-moment momentum with second-moment adaptive learning rates."
+    },
+    {
+      "source": "MATH_MLE",
+      "target": "ML_LOSS_FUNC",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Cross-entropy loss and squared error are negative log-likelihoods of Bernoulli and Gaussian distributions."
+    },
+    {
+      "source": "MATH_MAT_MUL",
+      "target": "ML_LIN_REG",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Ordinary least squares normal equations require matrix inversion and matrix-vector multiplication."
+    },
+    {
+      "source": "ML_LOSS_FUNC",
+      "target": "ML_LIN_REG",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Linear regression optimizes the Mean Squared Error (MSE) objective function."
+    },
+    {
+      "source": "ML_LIN_REG",
+      "target": "ML_REGULARIZATION",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Ridge and Lasso penalize the magnitude of linear regression parameter coefficients."
+    },
+    {
+      "source": "MATH_BAYES",
+      "target": "ML_LOG_REG",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Logistic sigmoid calculates posterior class probabilities under Gaussian class-conditional assumptions."
+    },
+    {
+      "source": "ML_LOSS_FUNC",
+      "target": "ML_LOG_REG",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Logistic regression is trained by minimizing the binary cross-entropy (log-loss) objective."
+    },
+    {
+      "source": "MATH_GRAD_DESC",
+      "target": "ML_LOG_REG",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Because log-loss has no closed-form solution, it is solved using gradient descent optimization."
+    },
+    {
+      "source": "ML_LOG_REG",
+      "target": "ML_EVAL_METRICS",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Probabilistic binary classification predictions are evaluated via Precision, Recall, and ROC-AUC."
+    },
+    {
+      "source": "ML_EVAL_METRICS",
+      "target": "ML_CONF_MATRIX",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "Precision and recall are derived directly from the counts in the contingency confusion matrix."
+    },
+    {
+      "source": "ML_EVAL_METRICS",
+      "target": "ML_BIAS_VARIANCE",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Training vs validation metric gaps diagnose whether error stems from bias or variance."
+    },
+    {
+      "source": "MATH_VEC_PROJ",
+      "target": "ML_KNN",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Nearest neighbor searching relies on vector distance metrics in Euclidean feature space."
+    },
+    {
+      "source": "ML_BIAS_VARIANCE",
+      "target": "ML_KNN",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.8,
+      "pedagogical_justification": "Choice of k governs bias-variance trade-off (small k = high variance, large k = high bias)."
+    },
+    {
+      "source": "MATH_PROB_DIST",
+      "target": "ML_ENTROPY_GINI",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Shannon entropy is an expectation over discrete probability distribution states."
+    },
+    {
+      "source": "ML_ENTROPY_GINI",
+      "target": "ML_DEC_TREE",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "Decision trees choose feature splits that maximize information gain or minimize Gini impurity."
+    },
+    {
+      "source": "ML_DEC_TREE",
+      "target": "ML_TREE_PRUNING",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Cost-complexity pruning collapses overfitted subtrees in fully grown decision trees."
+    },
+    {
+      "source": "ML_BIAS_VARIANCE",
+      "target": "ML_TREE_PRUNING",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Tree pruning deliberately increases training bias slightly to achieve substantial variance reduction."
+    },
+    {
+      "source": "MATH_VEC_PROJ",
+      "target": "ML_SVM_LINEAR",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "SVM margin distance 2/||w|| is derived from projecting data vectors onto normal vectors."
+    },
+    {
+      "source": "MATH_CONVEXITY",
+      "target": "ML_SVM_LINEAR",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "SVM optimization is a convex quadratic programming problem with linear inequality constraints."
+    },
+    {
+      "source": "ML_SVM_LINEAR",
+      "target": "ML_SVM_KERNEL",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "Kernel SVM generalizes linear support vector optimization to non-linear spaces via Mercer kernels."
+    },
+    {
+      "source": "ML_DEC_TREE",
+      "target": "ML_ENSEMBLE_BASE",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Decision trees provide ideal low-bias, high-variance base learners for ensemble methods."
+    },
+    {
+      "source": "ML_BIAS_VARIANCE",
+      "target": "ML_ENSEMBLE_BASE",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Ensembles systematically target either variance reduction (bagging) or bias reduction (boosting)."
+    },
+    {
+      "source": "ML_ENSEMBLE_BASE",
+      "target": "ML_BAGGING_RF",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Random Forest implements bootstrap aggregation across an ensemble of decorrelated decision trees."
+    },
+    {
+      "source": "ML_DEC_TREE",
+      "target": "ML_BAGGING_RF",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Random forests construct multiple high-depth decision trees split on random feature subsets."
+    },
+    {
+      "source": "ML_ENSEMBLE_BASE",
+      "target": "ML_BOOSTING_GBDT",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Gradient boosting fits an ensemble of shallow trees sequentially to pseudo-residuals."
+    },
+    {
+      "source": "MATH_GRAD_DESC",
+      "target": "ML_BOOSTING_GBDT",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "GBDT treats functional boosting steps as gradient descent steps in prediction function space."
+    },
+    {
+      "source": "ML_BOOSTING_GBDT",
+      "target": "ML_XGBOOST",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "XGBoost accelerates standard GBDT with exact second-order Taylor approximations and regularized trees."
+    },
+    {
+      "source": "MATH_TAYLOR",
+      "target": "ML_XGBOOST",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "XGBoost objective expansion relies directly on first-order (g_i) and second-order (h_i) Taylor coefficients."
+    },
+    {
+      "source": "ML_BOOSTING_GBDT",
+      "target": "ML_CATBOOST",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "CatBoost improves gradient boosting using ordered target encoding and symmetric oblivious trees."
+    },
+    {
+      "source": "DL_BIO_NEURON",
+      "target": "DL_PERCEPTRON",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Rosenblatt's perceptron is the mathematical realization of biological threshold neurons."
+    },
+    {
+      "source": "MATH_VEC_PROJ",
+      "target": "DL_PERCEPTRON",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Perceptron linear score computation is a dot product between weight vector w and input vector x."
+    },
+    {
+      "source": "ML_LOG_REG",
+      "target": "DL_PERCEPTRON",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "A logistic unit is equivalent to a perceptron with a smooth non-linear sigmoid activation function."
+    },
+    {
+      "source": "DL_PERCEPTRON",
+      "target": "DL_ACTIVATION",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Non-linear activations replace rigid step functions to allow differentiability and non-linear boundaries."
+    },
+    {
+      "source": "MATH_MAT_MUL",
+      "target": "DL_FEEDFORWARD",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "Dense neural network layer propagation computes matrix-vector products W x + b."
+    },
+    {
+      "source": "DL_ACTIVATION",
+      "target": "DL_FEEDFORWARD",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "Multi-layer perceptrons interleave dense affine transformations with non-linear activation functions."
+    },
+    {
+      "source": "DL_FEEDFORWARD",
+      "target": "DL_COMP_GRAPH",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Nested operations across feedforward layers define a directed computational execution graph."
+    },
+    {
+      "source": "MATH_CHAIN_RULE",
+      "target": "DL_COMP_GRAPH",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "Automatic differentiation along computational graphs propagates adjoints via the multivariable chain rule."
+    },
+    {
+      "source": "DL_COMP_GRAPH",
+      "target": "DL_BACKPROP",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "Backpropagation traverses the computational graph in reverse topological order to compute gradients."
+    },
+    {
+      "source": "MATH_JACOBIAN",
+      "target": "DL_BACKPROP",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Layer-to-layer error propagation requires multiplying Jacobian matrices of layer transformations."
+    },
+    {
+      "source": "ML_LOSS_FUNC",
+      "target": "DL_BACKPROP",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "Backpropagation begins at the terminal gradient of the scalar loss function dL/d(y_hat)."
+    },
+    {
+      "source": "DL_BACKPROP",
+      "target": "DL_VANISHING_GRAD",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Chaining layer Jacobians during backpropagation causes exponential gradient vanishing in deep networks."
+    },
+    {
+      "source": "DL_ACTIVATION",
+      "target": "DL_VANISHING_GRAD",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Saturating activations (Sigmoid max derivative 0.25) exacerbate vanishing gradients across depth."
+    },
+    {
+      "source": "DL_VANISHING_GRAD",
+      "target": "DL_WEIGHT_INIT",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Xavier and He initialization tune weight variances to prevent signals vanishing during propagation."
+    },
+    {
+      "source": "DL_VANISHING_GRAD",
+      "target": "DL_BATCH_NORM",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Batch normalization standardizes intermediate layer distributions to avoid vanishing gradient regimes."
+    },
+    {
+      "source": "DL_FEEDFORWARD",
+      "target": "DL_DROPOUT",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Dropout stochastically masks activations during forward passes of feedforward layers."
+    },
+    {
+      "source": "ML_REGULARIZATION",
+      "target": "DL_DROPOUT",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Dropout acts as an implicit ensemble regularizer preventing neuron co-adaptation."
+    },
+    {
+      "source": "DL_BACKPROP",
+      "target": "DL_NN_TRAIN",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "The training loop relies on backpropagation to compute parameter gradients for every mini-batch."
+    },
+    {
+      "source": "MATH_ADAM_OPT",
+      "target": "DL_NN_TRAIN",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Adam optimizer updates network weights at each training step using computed gradients."
+    },
+    {
+      "source": "DL_WEIGHT_INIT",
+      "target": "DL_NN_TRAIN",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Networks must be properly initialized before training to ensure stable loss convergence."
+    },
+    {
+      "source": "DL_BATCH_NORM",
+      "target": "DL_NN_TRAIN",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Normalization layers update running statistics during training and switch behavior during inference."
+    },
+    {
+      "source": "DL_DROPOUT",
+      "target": "DL_NN_TRAIN",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Dropout is active during the forward-backward training pass and bypassed during evaluation."
+    },
+    {
+      "source": "MATH_MAT_MUL",
+      "target": "DL_CONV2D",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "2D convolutions can be formulated as sparse Toeplitz matrix multiplications (im2col)."
+    },
+    {
+      "source": "DL_CONV2D",
+      "target": "DL_CNN_ARCH",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "CNN architectures stack 2D convolution filters, pooling layers, and strides."
+    },
+    {
+      "source": "DL_ACTIVATION",
+      "target": "DL_CNN_ARCH",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Non-linear activations (ReLU) are applied to feature maps after convolutional filtering."
+    },
+    {
+      "source": "DL_FEEDFORWARD",
+      "target": "DL_RNN_BASE",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Recurrent neural networks extend feedforward layers with feedback connections across time steps."
+    },
+    {
+      "source": "DL_BACKPROP",
+      "target": "DL_RNN_BASE",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Training recurrent networks requires unrolling computational graphs via Backpropagation Through Time."
+    },
+    {
+      "source": "DL_VANISHING_GRAD",
+      "target": "DL_LSTM_GRU",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "LSTM and GRU gating mechanisms were invented specifically to overcome RNN vanishing gradients."
+    },
+    {
+      "source": "DL_RNN_BASE",
+      "target": "DL_LSTM_GRU",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "LSTMs replace simple RNN recurrent neurons with constant error carousel memory cells."
+    },
+    {
+      "source": "DL_LSTM_GRU",
+      "target": "DL_ATTENTION_MECH",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Attention mechanisms dynamically focus on relevant hidden states across long LSTM sequences."
+    },
+    {
+      "source": "DL_ATTENTION_MECH",
+      "target": "DL_SELF_ATTENTION",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "Self-attention computes cross-token attention within the same sequence without recurrence."
+    },
+    {
+      "source": "MATH_MAT_MUL",
+      "target": "DL_SELF_ATTENTION",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Scaled dot-product attention computes matrix multiplications Q K^T and softmax(.) V."
+    },
+    {
+      "source": "DL_SELF_ATTENTION",
+      "target": "DL_TRANSFORMER",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "Transformers stack multi-head self-attention and position-wise feedforward blocks."
+    },
+    {
+      "source": "DL_BATCH_NORM",
+      "target": "DL_TRANSFORMER",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.8,
+      "pedagogical_justification": "LayerNorm in transformers is a direct adaptation of normalization principles to token dimensions."
+    },
+    {
+      "source": "ML_EVAL_METRICS",
+      "target": "XAI_INTERPRETABILITY",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Aggregate test metrics fail to reveal whether models rely on spurious correlations or real features."
+    },
+    {
+      "source": "ML_ENSEMBLE_BASE",
+      "target": "XAI_INTERPRETABILITY",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Ensemble combinations of hundreds of trees produce black-box models necessitating post-hoc explainers."
+    },
+    {
+      "source": "DL_FEEDFORWARD",
+      "target": "XAI_INTERPRETABILITY",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Deep multi-layer parameter transformations obscure intuitive feature reasoning for humans."
+    },
+    {
+      "source": "XAI_INTERPRETABILITY",
+      "target": "XAI_GLOBAL_VS_LOCAL",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Explainability frameworks must distinguish overall dataset trends from individual case explanations."
+    },
+    {
+      "source": "ML_CONF_MATRIX",
+      "target": "XAI_GLOBAL_VS_LOCAL",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.8,
+      "pedagogical_justification": "Local explanations unpack why a specific sample became a False Positive or False Negative."
+    },
+    {
+      "source": "ML_EVAL_METRICS",
+      "target": "XAI_PERM_IMPORTANCE",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Permutation importance measures the drop in evaluation metric when a feature is shuffled."
+    },
+    {
+      "source": "XAI_GLOBAL_VS_LOCAL",
+      "target": "XAI_PERM_IMPORTANCE",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Permutation feature importance provides an archetype of global model interpretability."
+    },
+    {
+      "source": "MATH_PROB_DIST",
+      "target": "XAI_GAME_THEORY",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Marginal expectations in game-theoretic attributions integrate over feature probability distributions."
+    },
+    {
+      "source": "XAI_GAME_THEORY",
+      "target": "XAI_SHAP",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "SHAP directly applies Shapley values from cooperative game theory to feature attribution."
+    },
+    {
+      "source": "XAI_GLOBAL_VS_LOCAL",
+      "target": "XAI_SHAP",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "SHAP unifies local instance attributions with global summary beeswarm plots."
+    },
+    {
+      "source": "ML_DEC_TREE",
+      "target": "XAI_TREESHAP",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "TreeSHAP exploits the recursive structure of decision tree nodes for fast computation."
+    },
+    {
+      "source": "ML_XGBOOST",
+      "target": "XAI_TREESHAP",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "TreeSHAP is the primary explainability tool for extracting feature attributions from XGBoost ensembles."
+    },
+    {
+      "source": "XAI_SHAP",
+      "target": "XAI_TREESHAP",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "TreeSHAP is an exact, specialized algorithm for computing Shapley values on tree models."
+    },
+    {
+      "source": "XAI_SHAP",
+      "target": "XAI_KERNELSHAP",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "KernelSHAP provides a model-agnostic formulation of Shapley values via weighted linear regression."
+    },
+    {
+      "source": "ML_LIN_REG",
+      "target": "XAI_LIME",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "LIME fits a sparse linear regression model to explain predictions in the local neighborhood."
+    },
+    {
+      "source": "XAI_GLOBAL_VS_LOCAL",
+      "target": "XAI_LIME",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "LIME operates strictly as a local surrogate explainer around individual instances."
+    },
+    {
+      "source": "ML_DEC_TREE",
+      "target": "XAI_COUNTERFACTUAL",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.8,
+      "pedagogical_justification": "Counterfactuals find paths across decision tree split boundaries that change output classes."
+    },
+    {
+      "source": "XAI_SHAP",
+      "target": "XAI_COUNTERFACTUAL",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "High negative SHAP attributions pinpoint which specific features counterfactual recourse should adjust."
+    },
+    {
+      "source": "ML_XGBOOST",
+      "target": "XAI_MULTI_MODEL_RISK",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "XGBoost serves as a high-performance specialist model in the predictive academic risk ensemble."
+    },
+    {
+      "source": "ML_CATBOOST",
+      "target": "XAI_MULTI_MODEL_RISK",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "CatBoost provides robust categorical handling in the predictive risk multi-model ensemble."
+    },
+    {
+      "source": "ML_BAGGING_RF",
+      "target": "XAI_MULTI_MODEL_RISK",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Random forest provides stable low-variance baseline risk probability estimates."
+    },
+    {
+      "source": "ML_LOG_REG",
+      "target": "XAI_PROB_CALIBRATION",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Platt scaling trains a univariate logistic regression model on classifier decision values."
+    },
+    {
+      "source": "XAI_MULTI_MODEL_RISK",
+      "target": "XAI_PROB_CALIBRATION",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Ensemble risk outputs must be calibrated to ensure predicted risks reflect true failure probabilities."
+    },
+    {
+      "source": "XAI_PROB_CALIBRATION",
+      "target": "XAI_RELIABILITY_DIAG",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "Reliability diagrams visually measure the empirical calibration error (ECE) of probabilities."
+    },
+    {
+      "source": "ML_CONF_MATRIX",
+      "target": "XAI_RELIABILITY_DIAG",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.8,
+      "pedagogical_justification": "Bin-wise true positive rates in reliability diagrams correspond to localized confusion matrix precision."
+    },
+    {
+      "source": "XAI_INTERPRETABILITY",
+      "target": "OKF_CONCEPT_DAG",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Course concepts and prerequisites are formalized into an ontological directed acyclic graph."
+    },
+    {
+      "source": "OKF_CONCEPT_DAG",
+      "target": "OKF_PREREQ_GAP_SCORE",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "Prerequisite gap scoring traverses the concept DAG to accumulate ancestral deficit weights."
+    },
+    {
+      "source": "ML_EVAL_METRICS",
+      "target": "OKF_PREREQ_GAP_SCORE",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Student question-level IA scores directly provide the empirical mastery scores for concept nodes."
+    },
+    {
+      "source": "OKF_PREREQ_GAP_SCORE",
+      "target": "OKF_ROOT_CAUSE_TRACE",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "Depth-weighted gap scores rank upstream ancestor concepts to identify root-cause deficits."
+    },
+    {
+      "source": "OKF_CONCEPT_DAG",
+      "target": "OKF_ROOT_CAUSE_TRACE",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "Root-cause tracing backtracks along topological prerequisite edges in the curriculum graph."
+    },
+    {
+      "source": "OKF_ROOT_CAUSE_TRACE",
+      "target": "RAG_PEDAGOGICAL_REPAIR",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.95,
+      "pedagogical_justification": "Remedial RAG queries prioritize the diagnosed root-cause prerequisite concepts before target slides."
+    },
+    {
+      "source": "DL_NN_TRAIN",
+      "target": "RAG_PEDAGOGICAL_REPAIR",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.8,
+      "pedagogical_justification": "Deep learning lecture materials are retrieved into the pedagogical study plan context."
+    },
+    {
+      "source": "XAI_COUNTERFACTUAL",
+      "target": "RAG_PEDAGOGICAL_REPAIR",
+      "relationship_type": "conceptual_bridge",
+      "cognitive_weight": 0.85,
+      "pedagogical_justification": "Prescriptive counterfactual study targets are embedded into the 5-day remedial action milestones."
+    },
+    {
+      "source": "XAI_MULTI_MODEL_RISK",
+      "target": "RAG_PEDAGOGICAL_REPAIR",
+      "relationship_type": "hard_prerequisite",
+      "cognitive_weight": 0.9,
+      "pedagogical_justification": "Multi-model advance risk warnings trigger automated generation of personalized 5-day remedial plans."
+    }
+  ]
+}

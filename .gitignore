@@ -1,0 +1,66 @@
+# Environment variables & secrets (CRITICAL: Never commit credentials)
+.env
+.env.*
+!.env.example
+
+# Node.js dependencies
+node_modules/
+package-lock.json
+
+# Python cache & virtual environments
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+
+# ML models training logs & cache
+catboost_info/
+*.log
+
+# ChromaDB local persistence vectors
+student_success_platform/data/chroma_local/
+data/chroma_local/
+
+# Temporary test images & visual regression screenshots
+check_*.png
+thumb_*.png
+test_*.png
+verified_*.png
+diff_*.png
+page_*.png
+report_final_page_*.png
+footer_crop.png
+*.png.bak
+
+# Test documents and temporary variations
+test_*.docx
+test_*.pdf
+PACD_RAG_Major_Project_Report_Phase1_1794475989.docx
+PACD_RAG_Major_Project_Report_Phase1_OpenKnowledgeFormat.docx
+PACD_RAG_Major_Project_Report_Phase1_Updated.docx
+redesign_report_backup.py
+redesign_report_restored.py
+
+# Ephemeral scratch scripts
+test_*.py
+inspect_*.py
+patch_*.py
+find_*.py
+fix_*.py
+
+# Microsoft Office lock files & temporary auto-saves
+~$*.docx
+~$*.pptx
+~$*.xlsx
+
+# Local scratch & archives
+scratch/
+archive/
+archive_old_scripts/
+
+# OS metadata
+.DS_Store
+Thumbs.db
