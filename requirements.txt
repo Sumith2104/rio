@@ -36,3 +36,4 @@ pypdf>=3.17.0
 
 # Testing & Evaluation
 pytest>=7.4.0
+

@@ -39,3 +39,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
 
 # Start the master unified runner
 CMD ["python", "app.py"]
+
